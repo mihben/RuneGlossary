@@ -17,10 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Client.WASM", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Test.Unit", "RuneGlossary.Resurrected.Test.Unit\RuneGlossary.Resurrected.Test.Unit.csproj", "{37C5F225-6EB7-451F-8344-C4DFA4A95E29}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{22DC455D-5511-4883-A91B-050C4EF2B0E9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Test.Integration", "RuneGlossary.Resurrected.Test.Integration\RuneGlossary.Resurrected.Test.Integration.csproj", "{E3595132-840D-4B5F-86D5-4010C05B54A6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected", "RuneGlossary.Resurrected\RuneGlossary.Resurrected.csproj", "{44D43118-9012-44D1-9051-666D7EC38E78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Api", "RuneGlossary.Api\RuneGlossary.Api.csproj", "{C5F7D2A2-8292-41A9-B753-D972203BEEFF}"
@@ -28,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Application", "RuneGlossary.Application\RuneGlossary.Application.csproj", "{90FF727D-3C56-4DDB-BE51-AE5612166621}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary", "RuneGlossary\RuneGlossary.csproj", "{F14D1082-027A-43D0-88CB-B9CF6B20C9DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Test.Unit", "RuneGlossary.Test.Unit\RuneGlossary.Test.Unit.csproj", "{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +57,6 @@ Global
 		{37C5F225-6EB7-451F-8344-C4DFA4A95E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C5F225-6EB7-451F-8344-C4DFA4A95E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C5F225-6EB7-451F-8344-C4DFA4A95E29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3595132-840D-4B5F-86D5-4010C05B54A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3595132-840D-4B5F-86D5-4010C05B54A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3595132-840D-4B5F-86D5-4010C05B54A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3595132-840D-4B5F-86D5-4010C05B54A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44D43118-9012-44D1-9051-666D7EC38E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44D43118-9012-44D1-9051-666D7EC38E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44D43118-9012-44D1-9051-666D7EC38E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -79,6 +73,10 @@ Global
 		{F14D1082-027A-43D0-88CB-B9CF6B20C9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F14D1082-027A-43D0-88CB-B9CF6B20C9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F14D1082-027A-43D0-88CB-B9CF6B20C9DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,9 +86,7 @@ Global
 		{61645BA8-F324-4E9B-B52E-8D9CF7D61A36} = {56F80B67-C945-4E09-B96C-0C030A2F29EA}
 		{D366940E-DC09-442E-BA4E-60B2E3C6BD31} = {56F80B67-C945-4E09-B96C-0C030A2F29EA}
 		{3E2158EE-778B-4747-9A55-2C8237635E0D} = {56F80B67-C945-4E09-B96C-0C030A2F29EA}
-		{37C5F225-6EB7-451F-8344-C4DFA4A95E29} = {22DC455D-5511-4883-A91B-050C4EF2B0E9}
-		{22DC455D-5511-4883-A91B-050C4EF2B0E9} = {56F80B67-C945-4E09-B96C-0C030A2F29EA}
-		{E3595132-840D-4B5F-86D5-4010C05B54A6} = {22DC455D-5511-4883-A91B-050C4EF2B0E9}
+		{37C5F225-6EB7-451F-8344-C4DFA4A95E29} = {56F80B67-C945-4E09-B96C-0C030A2F29EA}
 		{44D43118-9012-44D1-9051-666D7EC38E78} = {56F80B67-C945-4E09-B96C-0C030A2F29EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
