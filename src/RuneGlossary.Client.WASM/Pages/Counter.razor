@@ -1,4 +1,8 @@
 ﻿@page "/counter"
+@using RuneGlossary.Api
+@using STrain
+
+@inject IRequestSender RequestSender
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,10 +13,11 @@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-    private int currentCount = 0;
+    private string currentCount;
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
-        currentCount++;
+        currentCount = await RequestSender.GetAsync<TestQuery, string>(new TestQuery(), default);
+        StateHasChanged();
     }
 }

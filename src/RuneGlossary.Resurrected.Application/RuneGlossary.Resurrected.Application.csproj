@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="STrain.CQS" Version="1.0.0-rc.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuneGlossary.Resurrected.Api\RuneGlossary.Resurrected.Api.csproj" />
+  </ItemGroup>
+
 </Project>
