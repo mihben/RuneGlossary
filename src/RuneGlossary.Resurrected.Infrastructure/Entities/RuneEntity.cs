@@ -1,0 +1,13 @@
+﻿namespace RuneGlossary.Resurrected.Infrastructure.Entities
+{
+    public class RuneEntity
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? Level { get; set; }
+        public string InWeapon { get; set; }
+        public string InHelmet { get; set; }
+        public string InBodyArmor { get; set; }
+        public string InShield { get; set; }
+    }
+}

@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using RuneGlossary.Resurrected.Application.Handlers;
+using RuneGlossary.Resurrected.Infrastructure;
 using Serilog;
 using STrain.CQS.NetCore;
 using STrain.CQS.NetCore.Builders;
@@ -23,6 +25,8 @@ builder.AddCQS(builder =>
         .UseFluentRequestValidator(builder => { });
 });
 
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(builder.Configuration["Database"]));
+
 var app = builder.Build();
 
 app.UseDefaultExceptionHandler();
@@ -32,5 +36,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGenericRequestController();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
