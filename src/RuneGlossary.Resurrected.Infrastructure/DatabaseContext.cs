@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RuneGlossary.Resurrected.Infrastructure.Entities;
+using System.Runtime.CompilerServices;
 
 namespace RuneGlossary.Resurrected.Infrastructure
 {
@@ -24,6 +25,8 @@ namespace RuneGlossary.Resurrected.Infrastructure
             modelBuilder.Entity<ClassEntity>()
                 .Build();
             modelBuilder.Entity<ItemTypeEntity>()
+                .Build();
+            modelBuilder.Entity<SkillEntity>()
                 .Build();
         }
     }
@@ -81,6 +84,24 @@ namespace RuneGlossary.Resurrected.Infrastructure
                 .IsRequired();
             builder.Property(e => e.InShield)
                 .HasColumnName("in_shield")
+                .IsRequired();
+        }
+
+        public string void Build(this EntityTypeBuilder<SkillEntity> builder)
+        {
+            builder.ToTable("skills")
+                .HasKey(e => e.Id);
+
+            builder.Property(e => e.Id)
+                .HasColumnName("id");
+            builder.Property(e => e.Name)
+                .HasColumnName("name")
+                .IsRequired();
+            builder.Property(e => e.Description)
+                .HasColumnName("description")
+                .IsRequired();
+            builder.Property(e => e.Url)
+                .HasColumnName("url")
                 .IsRequired();
         }
     }
