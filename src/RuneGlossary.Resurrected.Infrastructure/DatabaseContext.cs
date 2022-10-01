@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RuneGlossary.Resurrected.Infrastructure.Entities;
-using System.Runtime.CompilerServices;
 
 namespace RuneGlossary.Resurrected.Infrastructure
 {
@@ -87,7 +86,7 @@ namespace RuneGlossary.Resurrected.Infrastructure
                 .IsRequired();
         }
 
-        public string void Build(this EntityTypeBuilder<SkillEntity> builder)
+        public static void Build(this EntityTypeBuilder<SkillEntity> builder)
         {
             builder.ToTable("skills")
                 .HasKey(e => e.Id);
