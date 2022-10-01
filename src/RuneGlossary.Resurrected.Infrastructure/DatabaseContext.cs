@@ -11,6 +11,7 @@ namespace RuneGlossary.Resurrected.Infrastructure
         public DbSet<ClassEntity> Classes { get; set; }
         public DbSet<ItemTypeEntity> ItemtTypes { get; set; }
         public DbSet<RuneEntity> Runes { get; set; }
+        public DbSet<RuneWordEntity> RuneWords { get; set; }
 
         public DatabaseContext(DbContextOptions options)
             : base(options)
@@ -26,6 +27,10 @@ namespace RuneGlossary.Resurrected.Infrastructure
             modelBuilder.Entity<ItemTypeEntity>()
                 .Build();
             modelBuilder.Entity<SkillEntity>()
+                .Build();
+            modelBuilder.Entity<StatisticEntity>()
+                .Build();
+            modelBuilder.Entity<RuneWordEntity>()
                 .Build();
         }
     }
@@ -88,7 +93,7 @@ namespace RuneGlossary.Resurrected.Infrastructure
 
         public static void Build(this EntityTypeBuilder<SkillEntity> builder)
         {
-            builder.ToTable("skills")
+            builder.ToTable("skills", schema: "resurrected")
                 .HasKey(e => e.Id);
 
             builder.Property(e => e.Id)
@@ -102,6 +107,76 @@ namespace RuneGlossary.Resurrected.Infrastructure
             builder.Property(e => e.Url)
                 .HasColumnName("url")
                 .IsRequired();
+        }
+
+        public static void Build(this EntityTypeBuilder<StatisticEntity> builder)
+        {
+            builder.ToTable("statistics", schema: "resurrected")
+                .HasIndex(s => s.Id);
+
+            builder.Property(s => s.Id)
+                .HasColumnName("id");
+            builder.Property(s => s.Name)
+                .HasColumnName("name")
+                .IsRequired();
+        }
+
+        public static void Build(this EntityTypeBuilder<RuneWordEntity> builder)
+        {
+            builder.ToTable("rune_words", schema: "resurrected");
+
+            builder.Property(rw => rw.Id)
+                .HasColumnName("id");
+            builder.Property(rw => rw.Name)
+                .HasColumnName("name")
+                .IsRequired();
+            builder.Property(rw => rw.Level)
+                .HasColumnName("level")
+                .IsRequired();
+            builder.Property(rw => rw.Url)
+                .HasColumnName("url")
+                .IsRequired();
+            builder.HasMany(rw => rw.Statistics)
+                .WithOne()
+                .HasForeignKey("rune_word_id")
+                .HasConstraintName("FK_rune_word_statistics");
+            builder.HasMany(rw => rw.Runes)
+                .WithMany(r => r.RuneWords)
+                .UsingEntity<RuneRuneWordSwitchEntity>(s => s.HasOne(rrws => rrws.Rune)
+                                                                                .WithMany(r => r.RuneWordSwitch)
+                                                                                .HasConstraintName("FK_runes_rune_words")
+                                                                                .HasForeignKey("rune_id")
+                                                                                .IsRequired()
+                                                                                .OnDelete(DeleteBehavior.Cascade),
+                                                       s => s.HasOne(rrws => rrws.RuneWord)
+                                                                            .WithMany(r => r.RuneSwitch)
+                                                                            .HasConstraintName("FK_rune_words_runes")
+                                                                            .HasForeignKey("rune_word_id")
+                                                                            .IsRequired()
+                                                                            .OnDelete(DeleteBehavior.Cascade),
+                                                       s =>
+                                                       {
+                                                           s.ToTable("rune_words_runes_switch", "resurrected");
+                                                       });
+
+            builder.HasMany(rw => rw.ItemTypes)
+                .WithMany(it => it.RuneWords)
+                .UsingEntity<RuneWordItemTypeSwitchEntity>(s => s.HasOne(rwits => rwits.ItemType)
+                                                                                    .WithMany(it => it.ItemTypeSwitch)
+                                                                                    .HasConstraintName("FK_item_types_rune_words")
+                                                                                    .HasForeignKey("item_type_id")
+                                                                                    .IsRequired()
+                                                                                    .OnDelete(DeleteBehavior.Cascade),
+                                                           s => s.HasOne(rwits => rwits.RuneWord)
+                                                                    .WithMany(rw => rw.ItemTypeSwitch)
+                                                                    .HasConstraintName("FK_rune_words_item_types")
+                                                                    .HasForeignKey("rune_word_id")
+                                                                    .IsRequired()
+                                                                    .OnDelete(DeleteBehavior.Cascade),
+                                                           s =>
+                                                           {
+                                                               s.ToTable("rune_words_item_types_switch", "resurrected");
+                                                           });
         }
     }
 

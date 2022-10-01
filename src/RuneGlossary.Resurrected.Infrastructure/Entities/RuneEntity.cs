@@ -9,5 +9,8 @@
         public string InHelmet { get; set; }
         public string InBodyArmor { get; set; }
         public string InShield { get; set; }
+
+        public List<RuneWordEntity> RuneWords { get; set; }
+        public List<RuneRuneWordSwitchEntity> RuneWordSwitch { get; set; }
     }
 }

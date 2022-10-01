@@ -108,6 +108,35 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                 b.ToTable("runes", schema: "resurrected");
             });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.SkillEntity", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasColumnName("id");
+
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("name");
+
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("description");
+
+                b.Property<string>("Url")
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("url");
+
+                b.HasKey("Id");
+
+                b.ToTable("skills", schema: "resurrected");
+            });
 #pragma warning restore 612, 618
         }
     }
