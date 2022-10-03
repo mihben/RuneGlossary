@@ -1,4 +1,4 @@
-using RuneGlossary.Application.Performers;
+using RuneGlossary.Application.Performers.Queries;
 using Serilog;
 using STrain.CQS.NetCore;
 using STrain.CQS.NetCore.Builders;
@@ -15,7 +15,7 @@ builder.AddCQS(builder =>
 {
     builder.AddGenericRequestHandler();
 
-    builder.AddPerformerFrom<TestQueryPerformer>();
+    builder.AddPerformerFrom<GetRunesQueryPerformer>();
 
     builder.AddMvcRequestReceiver()
         .UseLogger()
@@ -35,7 +35,6 @@ builder.Services.AddCors(options =>
         builder.SetIsOriginAllowed(origin => origin.Equals("http://localhost:5000"));
     });
 });
-
 
 var app = builder.Build();
 

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RuneGlossary.Resurrected.Api\RuneGlossary.Resurrected.Api.csproj" />
+    <ProjectReference Include="..\RuneGlossary.Resurrected.Infrastructure\RuneGlossary.Resurrected.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

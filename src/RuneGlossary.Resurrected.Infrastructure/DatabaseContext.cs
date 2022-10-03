@@ -26,6 +26,8 @@ namespace RuneGlossary.Resurrected.Infrastructure
                 .Build();
             modelBuilder.Entity<ItemTypeEntity>()
                 .Build();
+            modelBuilder.Entity<RuneEntity>()
+                .Build();
             modelBuilder.Entity<SkillEntity>()
                 .Build();
             modelBuilder.Entity<StatisticEntity>()

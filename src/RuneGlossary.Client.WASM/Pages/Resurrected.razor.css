@@ -1,0 +1,13 @@
+﻿panel {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 5px;
+
+    height: stretch;
+    width: 25%;
+}
+
+main {
+
+}

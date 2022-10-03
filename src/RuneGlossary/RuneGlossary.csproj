@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RuneGlossary.Api\RuneGlossary.Api.csproj" />
     <ProjectReference Include="..\RuneGlossary.Application\RuneGlossary.Application.csproj" />
+    <ProjectReference Include="..\RuneGlossary.Resurrected.Application\RuneGlossary.Resurrected.Application.csproj" />
   </ItemGroup>
 
 </Project>
