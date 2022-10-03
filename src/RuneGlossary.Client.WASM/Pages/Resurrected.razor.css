@@ -1,13 +1,44 @@
-﻿panel {
+﻿.panel {
+    display: block;
+
+    background-color: lightsteelblue;
+
+    height: 100%;
+    width: 100%;
+
+    color: white;
+}
+
+.main {
+
+}
+
+.character {
+    background-color: deepskyblue;
+
+    border-color: darkblue;
     border-style: solid;
-    border-color: black;
     border-width: 1px;
     border-radius: 5px;
 
-    height: stretch;
-    width: 25%;
+    width: 33%;
+
 }
 
-main {
+.character-data {
+    background-color: black;
 
+    margin: 4px;
+
+    height: 45%;
+    width: auto;
+}
+
+.rune-list {
+    background-color: black;
+
+    margin: 4px;
+
+    height: 45%;
+    width: auto;
 }
