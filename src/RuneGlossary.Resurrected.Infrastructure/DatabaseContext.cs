@@ -112,9 +112,10 @@ namespace RuneGlossary.Resurrected.Infrastructure
         public static void Build(this EntityTypeBuilder<StatisticEntity> builder)
         {
             builder.ToTable("statistics", schema: "resurrected")
-                .HasIndex(s => s.Id);
+                .HasKey(s => s.Id);
 
             builder.Property(s => s.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id");
             builder.Property(s => s.Name)
                 .HasColumnName("name")
@@ -123,7 +124,8 @@ namespace RuneGlossary.Resurrected.Infrastructure
 
         public static void Build(this EntityTypeBuilder<RuneWordEntity> builder)
         {
-            builder.ToTable("rune_words", schema: "resurrected");
+            builder.ToTable("rune_words", schema: "resurrected")
+                .HasKey(rw => rw.Id);
 
             builder.Property(rw => rw.Id)
                 .HasColumnName("id");
@@ -139,7 +141,8 @@ namespace RuneGlossary.Resurrected.Infrastructure
             builder.HasMany(rw => rw.Statistics)
                 .WithOne()
                 .HasForeignKey("rune_word_id")
-                .HasConstraintName("FK_rune_word_statistics");
+                .HasConstraintName("FK_rune_word_statistics")
+                .IsRequired();
             builder.HasMany(rw => rw.Runes)
                 .WithMany(r => r.RuneWords)
                 .UsingEntity<RuneRuneWordSwitchEntity>(s => s.HasOne(rrws => rrws.Rune)
@@ -157,6 +160,10 @@ namespace RuneGlossary.Resurrected.Infrastructure
                                                        s =>
                                                        {
                                                            s.ToTable("rune_words_runes_switch", "resurrected");
+
+                                                           s.Property(rrws => rrws.Order)
+                                                                    .HasColumnName("order")
+                                                                    .IsRequired();
                                                        });
 
             builder.HasMany(rw => rw.ItemTypes)

@@ -113,7 +113,7 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                     b.HasIndex("rune_word_id");
 
-                    b.ToTable("rune_words_runes_switch", (string)null);
+                    b.ToTable("rune_words_runes_switch", "resurrected");
                 });
 
             modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", b =>
@@ -136,13 +136,12 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("url");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id");
-
-                    b.ToTable("rune_words", (string)null);
+                    b.ToTable("rune_words", "resurrected");
                 });
 
             modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordItemTypeSwitchEntity", b =>
@@ -157,7 +156,7 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                     b.HasIndex("rune_word_id");
 
-                    b.ToTable("rune_words_item_types_switch", (string)null);
+                    b.ToTable("rune_words_item_types_switch", "resurrected");
                 });
 
             modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.SkillEntity", b =>
@@ -186,25 +185,31 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("skills", (string)null);
+                    b.ToTable("skills", "resurrected");
                 });
 
             modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.StatisticEntity", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
 
+                    b.Property<int>("rune_word_id")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("rune_word_id");
 
-                    b.ToTable("statistics", (string)null);
+                    b.ToTable("statistics", "resurrected");
                 });
 
             modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneRuneWordSwitchEntity", b =>
@@ -253,7 +258,7 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                 {
                     b.HasOne("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", null)
                         .WithMany("Statistics")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("rune_word_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_rune_word_statistics");
