@@ -1,6 +1,8 @@
 ﻿@page "/"
 
 @using RuneGlossary.Api
+@using RuneGlossary.Client.WASM.Components
+@using RuneGlossary.Client.WASM.Models
 @using STrain
 
 @inject IRequestSender RequestSender;
@@ -13,17 +15,21 @@
         <div class="panel rune-list">
             @foreach (var rune in Runes)
             {
-                @rune.Name;  
+                <div class="selector">
+                    <input type="checkbox" @value="rune.Selected"/>
+                    <Rune Model="@rune.Rune"/>
+                </div>
             }
         </div>
     </div>
 </div>
 
 @code {
-    public IEnumerable<GetRunesQuery.Rune> Runes{ get; set; }
+    public IEnumerable<RuneSelector> Runes { get; set; } = new List<RuneSelector>();
 
     protected override async Task OnInitializedAsync()
     {
-        Runes = await RequestSender.GetAsync<GetRunesQuery, IEnumerable<GetRunesQuery.Rune>>(new GetRunesQuery(), default) ?? new List<GetRunesQuery.Rune>();
+        Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<GetRunesQuery.Rune>>(new GetRunesQuery(), default) ?? new List<GetRunesQuery.Rune>())
+                    .Select(r => new RuneSelector(r));
     }
 }

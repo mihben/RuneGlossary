@@ -1,0 +1,11 @@
+﻿@using RuneGlossary.Api
+
+<div>
+    <img src="assets/runes/@(Model.Name.ToLower()).webp"/>
+    <span>@Model.Name</span>
+</div>
+
+@code {
+    [Parameter]
+    public GetRunesQuery.Rune Model { get; set; }
+}

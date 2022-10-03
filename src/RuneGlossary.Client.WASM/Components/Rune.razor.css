@@ -1,0 +1,16 @@
+﻿div {
+    display: flex;
+}
+
+img {
+    height: 1.5em;
+    width: 1.5em;
+
+    margin-right: 4px;
+
+    align-self: center;
+}
+
+span {
+    align-self: center;
+}
