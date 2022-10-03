@@ -1,0 +1,7 @@
+<RunSettings>
+	<RunConfiguration>
+		<TestCaseFilter>Category!=blocked</TestCaseFilter>
+		<DataCollector friendlyName="XPlat Code Coverage">
+		</DataCollector>
+	</RunConfiguration>
+</RunSettings>
