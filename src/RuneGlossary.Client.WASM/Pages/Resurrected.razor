@@ -17,7 +17,7 @@
             {
                 <div class="selector">
                     <input type="checkbox" @value="rune.Selected"/>
-                    <Rune Model="@rune.Rune"/>
+                    <Rune Model="rune.Value"/>
                 </div>
             }
         </div>
@@ -25,11 +25,11 @@
 </div>
 
 @code {
-    public IEnumerable<RuneSelector> Runes { get; set; } = new List<RuneSelector>();
+    public IEnumerable<Selector<Api.Rune>> Runes { get; set; } = Enumerable.Empty<Selector<Api.Rune>>();
 
     protected override async Task OnInitializedAsync()
     {
-        Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<GetRunesQuery.Rune>>(new GetRunesQuery(), default) ?? new List<GetRunesQuery.Rune>())
-                    .Select(r => new RuneSelector(r));
+        Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
+                    .Select(r => new Selector<Api.Rune>(r));
     }
 }

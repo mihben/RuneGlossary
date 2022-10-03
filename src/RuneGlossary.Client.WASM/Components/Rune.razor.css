@@ -14,3 +14,45 @@ img {
 span {
     align-self: center;
 }
+
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-wrapper:hover div.tooltip-content {
+    visibility: visible;
+}
+
+div.tooltip-content {
+    visibility: hidden;
+    position: absolute;
+    width: max-content;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    background-color: #363636;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    z-index: 1;
+    height: fit-content;
+
+    padding: 8px;
+
+    justify-content: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+span.name {
+    font-weight: bold;
+
+    margin-bottom: 16px;
+}
+
+span.statistic {
+    font-size: 14px;
+}
