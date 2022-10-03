@@ -73,7 +73,15 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("InArmor")
+                    b.Property<string>("InBodyArmor")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("InHelmet")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("InShield")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -91,6 +99,188 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Runes");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneRuneWordSwitchEntity", b =>
+                {
+                    b.Property<int>("rune_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("rune_word_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("rune_id", "rune_word_id");
+
+                    b.HasIndex("rune_word_id");
+
+                    b.ToTable("rune_words_runes_switch", "resurrected");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Level")
+                        .HasColumnType("integer")
+                        .HasColumnName("level");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("rune_words", "resurrected");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordItemTypeSwitchEntity", b =>
+                {
+                    b.Property<int>("item_type_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("rune_word_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("item_type_id", "rune_word_id");
+
+                    b.HasIndex("rune_word_id");
+
+                    b.ToTable("rune_words_item_types_switch", "resurrected");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.SkillEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("skills", "resurrected");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.StatisticEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("rune_word_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("rune_word_id");
+
+                    b.ToTable("statistics", "resurrected");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneRuneWordSwitchEntity", b =>
+                {
+                    b.HasOne("RuneGlossary.Resurrected.Infrastructure.Entities.RuneEntity", "Rune")
+                        .WithMany("RuneWordSwitch")
+                        .HasForeignKey("rune_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_runes_rune_words");
+
+                    b.HasOne("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", "RuneWord")
+                        .WithMany("RuneSwitch")
+                        .HasForeignKey("rune_word_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_rune_words_runes");
+
+                    b.Navigation("Rune");
+
+                    b.Navigation("RuneWord");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordItemTypeSwitchEntity", b =>
+                {
+                    b.HasOne("RuneGlossary.Resurrected.Infrastructure.Entities.ItemTypeEntity", "ItemType")
+                        .WithMany("ItemTypeSwitch")
+                        .HasForeignKey("item_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_item_types_rune_words");
+
+                    b.HasOne("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", "RuneWord")
+                        .WithMany("ItemTypeSwitch")
+                        .HasForeignKey("rune_word_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_rune_words_item_types");
+
+                    b.Navigation("ItemType");
+
+                    b.Navigation("RuneWord");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.StatisticEntity", b =>
+                {
+                    b.HasOne("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", null)
+                        .WithMany("Statistics")
+                        .HasForeignKey("rune_word_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_rune_word_statistics");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.ItemTypeEntity", b =>
+                {
+                    b.Navigation("ItemTypeSwitch");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneEntity", b =>
+                {
+                    b.Navigation("RuneWordSwitch");
+                });
+
+            modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.RuneWordEntity", b =>
+                {
+                    b.Navigation("ItemTypeSwitch");
+
+                    b.Navigation("RuneSwitch");
+
+                    b.Navigation("Statistics");
                 });
 #pragma warning restore 612, 618
         }

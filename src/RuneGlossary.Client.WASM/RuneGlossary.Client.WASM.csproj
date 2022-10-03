@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
-    <PackageReference Include="STrain.CQS.Blazor.Lightinject" Version="1.0.0-rc.1" />
+    <PackageReference Include="STrain.CQS.Blazor.Lightinject" Version="1.0.0-rc.2" />
   </ItemGroup>
 
   <ItemGroup>
