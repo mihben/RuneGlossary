@@ -5,27 +5,27 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resurrected", "Resurrected", "{56F80B67-C945-4E09-B96C-0C030A2F29EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Api", "RuneGlossary.Resurrected.Api\RuneGlossary.Resurrected.Api.csproj", "{4E9507BA-6D29-4D94-8FBA-9C28E106BD38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Resurrected.Api", "RuneGlossary.Resurrected.Api\RuneGlossary.Resurrected.Api.csproj", "{4E9507BA-6D29-4D94-8FBA-9C28E106BD38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Domain", "RuneGlossary.Resurrected.Domain\RuneGlossary.Resurrected.Domain.csproj", "{61645BA8-F324-4E9B-B52E-8D9CF7D61A36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Resurrected.Domain", "RuneGlossary.Resurrected.Domain\RuneGlossary.Resurrected.Domain.csproj", "{61645BA8-F324-4E9B-B52E-8D9CF7D61A36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Application", "RuneGlossary.Resurrected.Application\RuneGlossary.Resurrected.Application.csproj", "{D366940E-DC09-442E-BA4E-60B2E3C6BD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Resurrected.Application", "RuneGlossary.Resurrected.Application\RuneGlossary.Resurrected.Application.csproj", "{D366940E-DC09-442E-BA4E-60B2E3C6BD31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Infrastructure", "RuneGlossary.Resurrected.Infrastructure\RuneGlossary.Resurrected.Infrastructure.csproj", "{3E2158EE-778B-4747-9A55-2C8237635E0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Resurrected.Infrastructure", "RuneGlossary.Resurrected.Infrastructure\RuneGlossary.Resurrected.Infrastructure.csproj", "{3E2158EE-778B-4747-9A55-2C8237635E0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Client.WASM", "RuneGlossary.Client.WASM\RuneGlossary.Client.WASM.csproj", "{075FFEED-BA6B-48FE-8E93-0AAC5FDE9BF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Client.WASM", "RuneGlossary.Client.WASM\RuneGlossary.Client.WASM.csproj", "{075FFEED-BA6B-48FE-8E93-0AAC5FDE9BF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected.Test.Unit", "RuneGlossary.Resurrected.Test.Unit\RuneGlossary.Resurrected.Test.Unit.csproj", "{37C5F225-6EB7-451F-8344-C4DFA4A95E29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Resurrected.Test.Unit", "RuneGlossary.Resurrected.Test.Unit\RuneGlossary.Resurrected.Test.Unit.csproj", "{37C5F225-6EB7-451F-8344-C4DFA4A95E29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Resurrected", "RuneGlossary.Resurrected\RuneGlossary.Resurrected.csproj", "{44D43118-9012-44D1-9051-666D7EC38E78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Resurrected", "RuneGlossary.Resurrected\RuneGlossary.Resurrected.csproj", "{44D43118-9012-44D1-9051-666D7EC38E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Api", "RuneGlossary.Api\RuneGlossary.Api.csproj", "{C5F7D2A2-8292-41A9-B753-D972203BEEFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Api", "RuneGlossary.Api\RuneGlossary.Api.csproj", "{C5F7D2A2-8292-41A9-B753-D972203BEEFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Application", "RuneGlossary.Application\RuneGlossary.Application.csproj", "{90FF727D-3C56-4DDB-BE51-AE5612166621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Application", "RuneGlossary.Application\RuneGlossary.Application.csproj", "{90FF727D-3C56-4DDB-BE51-AE5612166621}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary", "RuneGlossary\RuneGlossary.csproj", "{F14D1082-027A-43D0-88CB-B9CF6B20C9DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary", "RuneGlossary\RuneGlossary.csproj", "{F14D1082-027A-43D0-88CB-B9CF6B20C9DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneGlossary.Test.Unit", "RuneGlossary.Test.Unit\RuneGlossary.Test.Unit.csproj", "{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuneGlossary.Test.Unit", "RuneGlossary.Test.Unit\RuneGlossary.Test.Unit.csproj", "{7BB5B44F-FB9D-41BE-92DD-7E4A6D7CB324}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

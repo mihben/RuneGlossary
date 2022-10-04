@@ -1,0 +1,20 @@
+﻿@using RuneGlossary.Api
+
+<div class="tooltip-wrapper">
+    <div class="tooltip-content">
+        <span class="name">@Model.Name</span>
+        <span class="statistic">Helmet: @Model.InHelmet</span>
+        <span class="statistic">Body Armor: @Model.InBodyArmor</span>
+        <span class=" statistic">Shield: @Model.InShield</span>
+        <span class="statistic">Weapon: @Model.InWeapon</span>
+    </div>
+    <div>
+        <img src="assets/runes/@(Model.Name.ToLower()).webp"/>
+        <span>@Model.Name</span>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Api.Rune Model { get; set; } = null!;
+}

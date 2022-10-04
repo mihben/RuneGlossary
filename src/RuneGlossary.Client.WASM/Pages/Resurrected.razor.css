@@ -1,0 +1,55 @@
+﻿.panel {
+    display: block;
+
+    background-color: lightsteelblue;
+
+    height: 100%;
+    width: 100%;
+
+    color: white;
+}
+
+.main {
+
+}
+
+.character {
+    background-color: deepskyblue;
+
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+
+    width: 33%;
+    height: 100%;
+
+    display: flex;
+    flex-flow: column;
+}
+
+.character-data {
+    margin: 4px;
+
+    flex: 0 1 auto;
+
+    width: auto;
+}
+
+.rune-list {
+    margin: 4px;
+    padding: 4px;
+
+    height: fit-content;
+    width: auto;
+
+    column-count: 3;
+
+    flex: 1 1 content;
+}
+
+.selector {
+    display: flex;
+
+    margin: 4px;
+}

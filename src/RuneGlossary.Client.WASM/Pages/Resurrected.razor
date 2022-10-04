@@ -1,0 +1,35 @@
+﻿@page "/"
+
+@using RuneGlossary.Api
+@using RuneGlossary.Client.WASM.Components
+@using RuneGlossary.Client.WASM.Models
+@using STrain
+
+@inject IRequestSender RequestSender;
+
+<div class="panel main">
+    <div class="panel character">
+        <div class="panel character-data">
+
+        </div>
+        <div class="panel rune-list">
+            @foreach (var rune in Runes)
+            {
+                <div class="selector">
+                    <input type="checkbox" @value="rune.Selected"/>
+                    <Rune Model="rune.Value"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    public IEnumerable<Selector<Api.Rune>> Runes { get; set; } = Enumerable.Empty<Selector<Api.Rune>>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
+                    .Select(r => new Selector<Api.Rune>(r));
+    }
+}
