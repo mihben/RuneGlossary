@@ -3,9 +3,11 @@
 @using RuneGlossary.Api
 @using RuneGlossary.Client.WASM.Components
 @using RuneGlossary.Client.WASM.Models
+@using RuneGlossary.Client.WASM.Repositories
 @using STrain
 
 @inject IRequestSender RequestSender;
+@inject ICharacterRepository Repository;
 
 <div class="panel main">
     <div class="panel character">
@@ -67,6 +69,7 @@
     {
         Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
                     .Select(r => new Selector<Api.Rune>(r));
+        Characters = (await Repository.GetAsync(default)).ToList();
     }
 
     public void Next()
