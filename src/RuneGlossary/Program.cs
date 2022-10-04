@@ -1,4 +1,4 @@
-using RuneGlossary.Application.Performers.Queries;
+using RuneGlossary.Application.Performers;
 using Serilog;
 using STrain.CQS.NetCore;
 using STrain.CQS.NetCore.Builders;
@@ -15,7 +15,7 @@ builder.AddCQS(builder =>
 {
     builder.AddGenericRequestHandler();
 
-    builder.AddPerformerFrom<GetRunesQueryPerformer>();
+    builder.AddPerformerFrom<MasterDataPerformers>();
 
     builder.AddMvcRequestReceiver()
         .UseLogger()

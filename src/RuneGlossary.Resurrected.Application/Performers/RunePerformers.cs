@@ -4,14 +4,14 @@ using RuneGlossary.Resurrected.Api;
 using RuneGlossary.Resurrected.Infrastructure;
 using STrain;
 
-namespace RuneGlossary.Resurrected.Application.Performers.Queries
+namespace RuneGlossary.Resurrected.Application.Performers
 {
-    public class GetRunesQueryPerformer : IQueryPerformer<GetRunesQuery, IEnumerable<GetRunesQuery.Rune>>
+    public class RunePerformers : IQueryPerformer<GetRunesQuery, IEnumerable<GetRunesQuery.Rune>>
     {
         private readonly DatabaseContext _context;
-        private readonly ILogger<GetRunesQueryPerformer> _logger;
+        private readonly ILogger<RunePerformers> _logger;
 
-        public GetRunesQueryPerformer(DatabaseContext context, ILogger<GetRunesQueryPerformer> logger)
+        public RunePerformers(DatabaseContext context, ILogger<RunePerformers> logger)
         {
             _context = context;
             _logger = logger;

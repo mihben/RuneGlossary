@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using RuneGlossary.Resurrected.Application.Performers.Queries;
+using RuneGlossary.Resurrected.Application.Performers;
 using RuneGlossary.Resurrected.Infrastructure;
 using Serilog;
 using STrain.CQS.NetCore;
@@ -19,7 +19,7 @@ builder.AddCQS(builder =>
     builder.AddMvcRequestReceiver()
         .UseLogger();
 
-    builder.AddPerformerFrom<GetRunesQueryPerformer>();
+    builder.AddPerformerFrom<RunePerformers>();
 
     builder.AddRequestValidator()
         .UseFluentRequestValidator(builder => { });
