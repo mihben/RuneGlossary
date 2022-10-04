@@ -36,6 +36,10 @@
     width: auto;
 }
 
+.character-image {
+    justify-self: center;
+}
+
 .rune-list {
     margin: 4px;
     padding: 4px;

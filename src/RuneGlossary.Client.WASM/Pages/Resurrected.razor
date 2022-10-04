@@ -10,7 +10,9 @@
 <div class="panel main">
     <div class="panel character">
         <div class="panel character-data">
-
+            <div class="panel character-image">
+                <img src="assets/classes/@(Character.Class.Name.ToLower()).gif"/>
+            </div>
         </div>
         <div class="panel rune-list">
             @foreach (var rune in Runes)
@@ -25,6 +27,7 @@
 </div>
 
 @code {
+    public Character Character { get; set; } = new Character(0, new Api.Responses.Class(0, "Barbarian"), "AmazonName");
     public IEnumerable<Selector<Api.Rune>> Runes { get; set; } = Enumerable.Empty<Selector<Api.Rune>>();
 
     protected override async Task OnInitializedAsync()
