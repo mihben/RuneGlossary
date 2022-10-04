@@ -21,7 +21,7 @@
     border-width: 1px;
     border-radius: 5px;
 
-    width: 33%;
+    width: 25%;
     height: 100%;
 
     display: flex;
@@ -31,13 +31,39 @@
 .character-data {
     margin: 4px;
 
-    flex: 0 1 auto;
+    display: flex;
 
-    width: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    flex-flow: column;
+
+    width: 100%;
+
+    justify-content: center;
 }
 
-.character-image {
-    justify-self: center;
+img.class {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+div.class {
+    display: flex;
+
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+
+    justify-content: center;
+
+    width: 100%
+}
+
+.character-information {
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: content;
 }
 
 .rune-list {
@@ -49,11 +75,22 @@
 
     column-count: 3;
 
-    flex: 1 1 content;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: content;
+    
 }
 
 .selector {
     display: flex;
 
     margin: 4px;
+}
+
+button.previous {
+    justify-self: flex-start;
+}
+
+button.next {
+    justify-self: flex-end;
 }

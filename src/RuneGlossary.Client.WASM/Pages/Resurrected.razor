@@ -9,17 +9,29 @@
 
 <div class="panel main">
     <div class="panel character">
-        <div class="panel character-data">
-            <div class="panel character-image">
-                <img src="assets/classes/@(Character.Class.Name.ToLower()).gif"/>
+        <div class="character-data">
+            <div class="class">
+                <button class="previous" @onclick="Previous">@("<")</button>
+                <img class="class" src="assets/classes/@(Characters[Selected].Class.Name.ToLower()).gif" />
+                <button class="next" @onclick="Next">@(">")</button>
+            </div>
+            <div class="character-information">
+                <div class="field">
+                    <span>Name:</span>
+                    <span>@Characters[Selected].Name</span>
+                </div>
+                <div class="field">
+                    <span>Level:</span>
+                    <span>@Characters[Selected].Level</span>
+                </div>
             </div>
         </div>
-        <div class="panel rune-list">
+        <div class="rune-list">
             @foreach (var rune in Runes)
             {
                 <div class="selector">
-                    <input type="checkbox" @value="rune.Selected"/>
-                    <Rune Model="rune.Value"/>
+                    <input type="checkbox" @value="rune.Selected" />
+                    <Rune Model="rune.Value" />
                 </div>
             }
         </div>
@@ -27,12 +39,43 @@
 </div>
 
 @code {
-    public Character Character { get; set; } = new Character(0, new Api.Responses.Class(0, "Barbarian"), "AmazonName");
+    public IList<Character> Characters { get; set; } = new List<Character>
+    {
+        new Character(0, new Api.Responses.Class(0, "Amazon"), "Amazon-Name", 1),
+        new Character(1, new Api.Responses.Class(1, "Assassin"), "Asssassin-Name", 2),
+        new Character(2, new Api.Responses.Class(2, "Barbarian"), "Barbarian-Name", 3),
+        new Character(3, new Api.Responses.Class(3, "Necromancer"), "Necromancer-Name", 4),
+        new Character(4, new Api.Responses.Class(4, "Paladin"), "Paladin-Name", 5),
+        new Character(5, new Api.Responses.Class(5, "Druid"), "Druid-Name", 6),
+        new Character(6, new Api.Responses.Class(6, "Sorceress"), "Sorceress-Name", 7)
+    };
+    private int _selected = 0;
+    public int Selected {
+        get 
+        {
+            return _selected;
+        }
+        set
+        {
+            _selected = value;
+            StateHasChanged();
+        }
+    }
     public IEnumerable<Selector<Api.Rune>> Runes { get; set; } = Enumerable.Empty<Selector<Api.Rune>>();
 
     protected override async Task OnInitializedAsync()
     {
         Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
                     .Select(r => new Selector<Api.Rune>(r));
+    }
+
+    public void Next()
+    {
+        if (Selected < Characters.Count - 1) Selected++;
+    }
+
+    public void Previous()
+    {
+        if (Selected > 0) Selected--;
     }
 }
