@@ -1,0 +1,57 @@
+﻿@using Blazored.Modal
+@using Blazored.Modal.Services
+@using RuneGlossary.Api
+@using RuneGlossary.Api.Responses
+@using RuneGlossary.Client.WASM.Models
+@using STrain
+
+@inject IRequestSender RequestSender;
+
+<EditForm Model="@Character">
+    <div class="data">
+        <div class="field">
+            <span class="label">Class:</span>
+            <InputSelect class="field" @bind-Value="SelectedClass" con>
+                @foreach (var characterClass in Classes)
+                {
+                    <option value="@characterClass.Id">@characterClass.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="field">
+            <span class="label">Name:</span>
+            <InputText class="field" @bind-Value="Character.Name" />
+        </div>
+        <div class="field">
+            <span class="label">Level:</span>
+            <InputNumber class="field" @bind-Value="Character.Level" />
+        </div>
+        <div class="row button">
+            <button @onclick="SaveAsync">Save</button>
+            <button @onclick="CancelAsync">Cancel</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [CascadingParameter]
+    public BlazoredModalInstance Modal { get; set; } = default;
+
+    [Parameter]
+    public Character Character { get; set; }
+
+    public int SelectedClass {
+        get { return Character.Class?.Id ?? 0; }
+        set { Character.Class = Classes.Single(c => c.Id == value); }
+    }
+    public IEnumerable<Class> Classes { get; set; } = Enumerable.Empty<Class>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Classes = await RequestSender.GetAsync<GetClassesQuery, IEnumerable<Class>>(new GetClassesQuery(), default);
+    }
+
+    public async Task SaveAsync() => Modal.CloseAsync(ModalResult.Ok(Character));
+
+    public async Task CancelAsync() => Modal.CancelAsync();
+}

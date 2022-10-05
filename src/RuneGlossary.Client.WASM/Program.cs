@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using RuneGlossary.Client.WASM;
@@ -17,6 +18,7 @@ builder.UseRequestRouter(request => "bff")
         options.Path = "api";
     });
 
+builder.Services.AddBlazoredModal();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddTransient<ICharacterRepository, LocalStorageCharacterRepository>();
 

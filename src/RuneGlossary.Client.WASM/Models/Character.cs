@@ -1,20 +1,37 @@
 ﻿using RuneGlossary.Api.Responses;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace RuneGlossary.Client.WASM.Models
 {
     public class Character
     {
         public int Id { get; }
-        public Class Class { get; }
-        public string Name { get; }
-        public int Level { get; set; }
 
-        public Character(int id, Class @class, string name, int level)
+        [TypeConverter(nameof(ClassConverter))]
+        public Class? Class { get; set; }
+        public string? Name { get; set; }
+        public int? Level { get; set; }
+
+        public Character(int id)
         {
             Id = id;
-            Class = @class;
-            Name = name;
-            Level = level;
+        }
+    }
+
+    public class ClassConverter : TypeConverter
+    {
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
+        {
+            return (destinationType is not null && destinationType.Equals(typeof(string))) || base.CanConvertTo(context, destinationType);
+        }
+
+        public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
+        {
+            if (destinationType.Equals(typeof(string))
+                && value is not null && value is Class @class) return @class.Id;
+
+            return base.ConvertTo(context, culture, value, destinationType);
         }
     }
 }

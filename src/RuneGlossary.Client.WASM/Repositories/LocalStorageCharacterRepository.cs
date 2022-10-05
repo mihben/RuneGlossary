@@ -22,10 +22,18 @@ namespace RuneGlossary.Client.WASM.Repositories
 
         public async Task SaveAsync(Character character, CancellationToken cancellationToken)
         {
-            var characters = (await GetAsync(cancellationToken)).ToList();
-            characters.Add(character);
+            var characters = await GetAsync(cancellationToken);
+            var existing = characters.SingleOrDefault(c => c.Id == character.Id);
 
-            await _storage.SetItemAsync(KEY, cancellationToken);
+            if (existing is null)
+            {
+                await _storage.SetItemAsync(KEY, characters.Append(character), cancellationToken);
+            }
+            else
+            {
+                existing.Level = character.Level;
+                await _storage.SetItemAsync(KEY, characters, cancellationToken);
+            }
         }
     }
 }
