@@ -32,6 +32,7 @@ namespace RuneGlossary.Client.WASM.Repositories
             else
             {
                 existing.Level = character.Level;
+                existing.Runes = character.Runes;
                 await _storage.SetItemAsync(KEY, characters, cancellationToken);
             }
         }

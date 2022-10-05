@@ -12,6 +12,7 @@ namespace RuneGlossary.Client.WASM.Models
         public Class? Class { get; set; }
         public string? Name { get; set; }
         public int? Level { get; set; }
+        public IEnumerable<int> Runes { get; set; }
 
         public Character(int id)
         {
