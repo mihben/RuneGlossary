@@ -94,5 +94,24 @@ namespace RuneGlossary.Test.Unit.Repositories
 			characters.First().Level = character.Level;
 			_localStorageServiceMock.Verify(lls => lls.SetItemAsync("characters", It.Is<IEnumerable<Character>>(c => c.SequenceEqual(characters)), It.IsAny<CancellationToken>()), Times.Once);
 		}
+
+		[Fact(DisplayName = "[UNIT][LSCR-005] - Delete character")]
+		public async Task LocalStorageCharacterRepository_DeleteAsync_DeleteCharacter()
+		{
+			// Arrange
+			var sut = CreateSUT();
+			var characters = new Fixture().CreateMany<Character>();
+
+			_localStorageServiceMock.Setup(lls => lls.ContainKeyAsync("characters", It.IsAny<CancellationToken>()))
+				.ReturnsAsync(true);
+			_localStorageServiceMock.Setup(lls => lls.GetItemAsync<IEnumerable<Character>>("characters", It.IsAny<CancellationToken>()))
+				.ReturnsAsync(characters.ToList());
+
+			// Act
+			await sut.DeleteAsync(characters.First(), default);
+
+			// Assert
+			_localStorageServiceMock.Verify(lls => lls.SetItemAsync("characters", It.Is<IEnumerable<Character>>(c => !c.Contains(characters.First())), It.IsAny<CancellationToken>()), Times.Once);
+		}
 	}
 }

@@ -1,8 +1,10 @@
-﻿using Bunit;
+﻿using Blazored.Modal.Services;
+using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using RuneGlossary.Api;
 using RuneGlossary.Client.WASM.Pages;
+using RuneGlossary.Client.WASM.Repositories;
 using STrain;
 
 namespace RuneGlossary.Test.Unit.Pages
@@ -11,6 +13,8 @@ namespace RuneGlossary.Test.Unit.Pages
     {
         private readonly TestContext _context;
         private Mock<IRequestSender> _requestSenderMock;
+        private Mock<ICharacterRepository> _repositoryMock;
+        private Mock<IModalService> _modalServiceMock;
 
         public ResurrectedTests()
         {
@@ -25,8 +29,13 @@ namespace RuneGlossary.Test.Unit.Pages
         private IRenderedComponent<Resurrected> CreateCUT()
         {
             _requestSenderMock = new Mock<IRequestSender>();
+            _repositoryMock = new Mock<ICharacterRepository>();
+            _modalServiceMock = new Mock<IModalService>();
 
             _context.Services.AddSingleton(_requestSenderMock.Object);
+            _context.Services.AddSingleton(_repositoryMock.Object);
+            _context.Services.AddSingleton(_modalServiceMock.Object);
+
             return _context.RenderComponent<Resurrected>();
         }
 

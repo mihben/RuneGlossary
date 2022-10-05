@@ -1,0 +1,17 @@
+﻿@using Blazored.Modal
+@using Blazored.Modal.Services
+<span>Do you really want to delete @Name?</span>
+
+<button @onclick="ConfirmAsync">Yes</button>
+<button @onclick="CancelAsync">No</button>
+
+@code {
+    [CascadingParameter]
+    public BlazoredModalInstance Modal { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    public async Task ConfirmAsync() => await Modal.CloseAsync(ModalResult.Ok());
+    public async Task CancelAsync() => await Modal.CancelAsync(); 
+}

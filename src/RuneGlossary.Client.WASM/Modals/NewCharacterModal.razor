@@ -49,6 +49,7 @@
     protected override async Task OnInitializedAsync()
     {
         Classes = await RequestSender.GetAsync<GetClassesQuery, IEnumerable<Class>>(new GetClassesQuery(), default);
+        Character.Class ??= Classes.First();
     }
 
     public async Task SaveAsync() => Modal.CloseAsync(ModalResult.Ok(Character));

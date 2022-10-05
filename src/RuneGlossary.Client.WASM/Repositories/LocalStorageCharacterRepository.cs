@@ -35,5 +35,12 @@ namespace RuneGlossary.Client.WASM.Repositories
                 await _storage.SetItemAsync(KEY, characters, cancellationToken);
             }
         }
+
+        public async Task DeleteAsync(Character character, CancellationToken cancellationToken)
+        {
+            var characters = (await GetAsync(cancellationToken)).ToList();
+            characters.RemoveAll(c => c.Id == character.Id);
+            await _storage.SetItemAsync(KEY, characters, cancellationToken);
+        }
     }
 }

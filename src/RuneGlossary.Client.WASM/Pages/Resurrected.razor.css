@@ -46,6 +46,8 @@
 img.class {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
+
+    width: 84%;
 }
 
 div.class {
@@ -57,7 +59,7 @@ div.class {
 
     justify-content: center;
 
-    width: 100%
+    width: 100%;
 }
 
 .character-information {
