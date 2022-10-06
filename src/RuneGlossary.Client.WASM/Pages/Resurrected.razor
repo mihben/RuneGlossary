@@ -19,25 +19,22 @@
     <div class="panel character">
         @if (Character is not null)
         {
-            <EditForm EditContext="@_editContext">
+            <EditForm class="character-data" EditContext="@_editContext">
                 <div class="character-data">
-                    <div class="class">
+                    <span class="index">@(_selected + 1)/@(Characters.Count())</span>
+                    <div class="class" style="background-image: url()">
                         @if (Character is not null)
                         {
                             <button class="previous" @onclick="Previous">@("<")</button>
-                            <img class="class" src="assets/classes/@(Character?.Class.Name.ToLower()).png" />
+                            <img class="class" src="assets/classes/@(Character?.Class.Name.ToLower()).png"/>
                             <button class="next" @onclick="Next">@(">")</button>
                         }
                     </div>
                     <div class="character-information">
-                        <div class="field">
-                            <span>Name:</span>
-                            <span>@Character?.Name</span>
-                        </div>
-                        <div class="field">
-                            <span>Level:</span>
-                            <InputNumber @bind-Value="Character.Level" />
-                        </div>
+                        <span class="label" style="grid-area: label-name">Name:</span>
+                        <span class="value" style="grid-area: value-name">@Character?.Name</span>
+                        <span class="label" style="grid-area: label-level">Level:</span>
+                        <InputNumber class="value" style="grid-area: value-level" @bind-Value="Character.Level" />
                     </div>
                 </div>
                 <div class="rune-list">
@@ -51,10 +48,14 @@
                 </div>
             </EditForm>
         }
-        <div>
+        <div class="button-row">
             <button @onclick="AddAsync">New</button>
             <button @onclick="DeleteAsync">Delete</button>
         </div>
+    </div>
+
+    <div class="panel filter">
+
     </div>
 </div>
 
