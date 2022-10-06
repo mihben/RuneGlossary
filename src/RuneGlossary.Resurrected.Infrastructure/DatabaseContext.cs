@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using RuneGlossary.Resurrected.Api;
 using RuneGlossary.Resurrected.Infrastructure.Entities;
 
 namespace RuneGlossary.Resurrected.Infrastructure
@@ -9,7 +10,7 @@ namespace RuneGlossary.Resurrected.Infrastructure
     public class DatabaseContext : DbContext
     {
         public DbSet<ClassEntity> Classes { get; set; }
-        public DbSet<ItemTypeEntity> ItemtTypes { get; set; }
+        public DbSet<ItemTypeEntity> ItemTypes { get; set; }
         public DbSet<RuneEntity> Runes { get; set; }
         public DbSet<RuneWordEntity> RuneWords { get; set; }
 

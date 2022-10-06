@@ -17,4 +17,8 @@
     <PackageReference Include="STrain.Core" Version="1.0.0-rc.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RuneGlossary.Resurrected.Api\RuneGlossary.Resurrected.Api.csproj" />
+  </ItemGroup>
+
 </Project>
