@@ -1,35 +1,160 @@
 ﻿@page "/"
 
+@using Blazored.Modal
+@using Blazored.Modal.Services
 @using RuneGlossary.Api
 @using RuneGlossary.Client.WASM.Components
+@using RuneGlossary.Client.WASM.Modals
 @using RuneGlossary.Client.WASM.Models
+@using RuneGlossary.Client.WASM.Repositories
 @using STrain
+@using System.Collections.ObjectModel
 
+@inject IModalService ModalService;
 @inject IRequestSender RequestSender;
+@inject ICharacterRepository Repository;
+
 
 <div class="panel main">
     <div class="panel character">
-        <div class="panel character-data">
-
-        </div>
-        <div class="panel rune-list">
-            @foreach (var rune in Runes)
-            {
-                <div class="selector">
-                    <input type="checkbox" @value="rune.Selected"/>
-                    <Rune Model="rune.Value"/>
+        @if (Character is not null)
+        {
+            <EditForm EditContext="@_editContext">
+                <div class="character-data">
+                    <div class="class">
+                        @if (Character is not null)
+                        {
+                            <button class="previous" @onclick="Previous">@("<")</button>
+                            <img class="class" src="assets/classes/@(Character?.Class.Name.ToLower()).png" />
+                            <button class="next" @onclick="Next">@(">")</button>
+                        }
+                    </div>
+                    <div class="character-information">
+                        <div class="field">
+                            <span>Name:</span>
+                            <span>@Character?.Name</span>
+                        </div>
+                        <div class="field">
+                            <span>Level:</span>
+                            <InputNumber @bind-Value="Character.Level" />
+                        </div>
+                    </div>
                 </div>
-            }
+                <div class="rune-list">
+                    @foreach (var rune in Runes)
+                    {
+                        <div class="selector">
+                            <InputCheckbox @key=rune.Value.Id @bind-Value="rune.Selected"/>
+                            <Rune Model="rune.Value" />
+                        </div>
+                    }
+                </div>
+            </EditForm>
+        }
+        <div>
+            <button @onclick="AddAsync">New</button>
+            <button @onclick="DeleteAsync">Delete</button>
         </div>
     </div>
 </div>
 
 @code {
-    public IEnumerable<Selector<Api.Rune>> Runes { get; set; } = Enumerable.Empty<Selector<Api.Rune>>();
+    private int _selected = 0;
+    private EditContext _editContext;
+
+    public Character? Character => Characters?.ElementAtOrDefault(_selected);
+    public IEnumerable<Character>? Characters { get; set; }
+
+    public ObservableCollection<Selector<Api.Rune>> Runes { get; set; } = new ObservableCollection<Selector<Api.Rune>>();
 
     protected override async Task OnInitializedAsync()
     {
-        Runes = (await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
-                    .Select(r => new Selector<Api.Rune>(r));
+        Runes = new ObservableCollection<Selector<Api.Rune>>((await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
+                    .Select(r => new Selector<Api.Rune>(r)).ToList());
+        Characters = await Repository.GetAsync(default);
+
+        foreach (var rune in Runes)
+        {
+            rune.Selected = false;
+        }
+        foreach (var rune in Character.Runes)
+        {
+            Runes.Single(r => r.Value.Id == rune).Selected = true;
+        }
+
+        _editContext = new EditContext(Character);
+        _editContext.OnFieldChanged += OnChanged;
+    }
+
+    public void Next()
+    {
+        if (Characters is null || (_selected < Characters.Count() - 1))
+        {
+            _selected++;
+
+            foreach (var rune in Runes)
+            {
+                rune.Selected = false;
+            }
+            foreach (var rune in Character.Runes)
+            {
+                Runes.Single(r => r.Value.Id == rune).Selected = true;
+            }
+            StateHasChanged();
+        }
+    }
+
+    public void Previous()
+    {
+        if (_selected > 0)
+        {
+            _selected--;
+
+            foreach (var rune in Runes)
+            {
+                rune.Selected = false;
+            }
+            foreach (var rune in Character.Runes)
+            {
+                Runes.Single(r => r.Value.Id == rune).Selected = true;
+            }
+            StateHasChanged();
+        }
+    }
+
+    private void OnChanged(object sender, FieldChangedEventArgs args)
+    {
+        Character.Runes = Runes.Where(r => r.Selected).Select(r => r.Value.Id).ToList();
+        Repository.SaveAsync(Character, default);
+    }
+
+    public async Task AddAsync()
+    {
+        var id = 0;
+        if (Characters is not null && Characters.Any()) id = Characters.Max(c => c.Id) + 1;
+        var character = new Character(id);
+        character.Runes = Enumerable.Empty<int>();
+        var parameters = new ModalParameters()
+                                .Add(nameof(NewCharacterModal.Character), character);
+        var reference = ModalService.Show<NewCharacterModal>(string.Empty, parameters, new ModalOptions { HideHeader = true, DisableBackgroundCancel = true, HideCloseButton = true, Position = ModalPosition.Middle });
+        if ((await reference.Result).Confirmed)
+        {
+            await Repository.SaveAsync(character, default);
+            Characters = await Repository.GetAsync(default);
+            _selected = Characters.Count() - 1;
+            StateHasChanged();
+        }
+    }
+
+    public async Task DeleteAsync()
+    {
+        var reference = ModalService.Show<DeleteCharacterModal>("Delete", new ModalParameters().Add(nameof(DeleteCharacterModal.Name), Character.Name), new ModalOptions { Position = ModalPosition.Middle });
+        if ((await reference.Result).Confirmed)
+        {
+            await Repository.DeleteAsync(Character, default);
+            Characters = await Repository.GetAsync(default);
+            _selected = 0;
+            StateHasChanged();
+        }
     }
 }
