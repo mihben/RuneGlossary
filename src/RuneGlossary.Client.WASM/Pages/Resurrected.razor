@@ -3,6 +3,7 @@
 @using Blazored.Modal
 @using Blazored.Modal.Services
 @using RuneGlossary.Api
+@using RuneGlossary.Api.Responses
 @using RuneGlossary.Client.WASM.Components
 @using RuneGlossary.Client.WASM.Modals
 @using RuneGlossary.Client.WASM.Models
@@ -17,9 +18,9 @@
 
 <div class="panel main">
     <div class="panel character">
-        @if (Character is not null)
+        @if (!_isLoading)
         {
-            <EditForm class="character-data" EditContext="@_editContext">
+            <EditForm class="edit-form" EditContext="@_editContext">
                 <div class="character-data">
                     <span class="index">@(_selected + 1)/@(Characters.Count())</span>
                     <div class="class" style="background-image: url()">
@@ -55,11 +56,45 @@
     </div>
 
     <div class="panel filter">
-
+        @if (!_isLoading)
+        {
+            <EditForm style="display: inherit; grid-template: inherit; grid-template-areas: inherit; grid-template-rows: inherit;" EditContext="@_editContext">
+                <div class="item-types">
+                    <div class="armors">
+                        @foreach (var armor in ItemTypes.Where(it => it.Value.Class.Equals(ItemClass.Armor)))
+                        {
+                            <div class="selector">
+                            <InputCheckbox @key=armor.Value.Id @bind-Value="armor.Selected"/>
+                            <span>@armor.Value.Name</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="weapons">
+                        @foreach (var weapon in ItemTypes.Where(it => it.Value.Class.Equals(ItemClass.Weapon)))
+                        {
+                            <div class="selector">
+                                <InputCheckbox @key=weapon.Value.Id @bind-Value="weapon.Selected" />
+                                <span>@weapon.Value.Name</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="static">
+                    <span class="label" style="grid-area: label-max-level">Max Level:</span>
+                    <InputNumber class="value" style="grid-area: max-level" @bind-Value="Character.Filters.MaxLevel" />
+                    <span class="label" style="grid-area: label-socket">Socket Number:</span>
+                    <InputNumber class="value" style="grid-area: from" @bind-Value="Character.Filters.SocketFrom" />
+                    <span style="grid-area: dash">-</span>
+                    <InputNumber class="value" style="grid-area: to" @bind-Value="Character.Filters.SocketTo" />
+                </div>
+            </EditForm>
+        }
     </div>
 </div>
 
 @code {
+    private bool _isLoading = false;
+
     private int _selected = 0;
     private EditContext _editContext;
 
@@ -67,24 +102,22 @@
     public IEnumerable<Character>? Characters { get; set; }
 
     public ObservableCollection<Selector<Api.Rune>> Runes { get; set; } = new ObservableCollection<Selector<Api.Rune>>();
+    public IEnumerable<Selector<ItemType>> ItemTypes { get; set; } = Enumerable.Empty<Selector<ItemType>>();
 
     protected override async Task OnInitializedAsync()
     {
+        _isLoading = true;
         Runes = new ObservableCollection<Selector<Api.Rune>>((await RequestSender.GetAsync<GetRunesQuery, IEnumerable<Api.Rune>>(new GetRunesQuery(), default))!
                     .Select(r => new Selector<Api.Rune>(r)).ToList());
-        Characters = await Repository.GetAsync(default);
+        ItemTypes = (await RequestSender.GetAsync<GetItemTypesQuery, IEnumerable<ItemType>>(new GetItemTypesQuery(), default))
+                    .Select(it => new Selector<ItemType>(it)).ToList();
 
-        foreach (var rune in Runes)
-        {
-            rune.Selected = false;
-        }
-        foreach (var rune in Character.Runes)
-        {
-            Runes.Single(r => r.Value.Id == rune).Selected = true;
-        }
+        Characters = await Repository.GetAsync(default);
+        RefreshCharacter();
 
         _editContext = new EditContext(Character);
         _editContext.OnFieldChanged += OnChanged;
+        _isLoading = false;
     }
 
     public void Next()
@@ -92,16 +125,7 @@
         if (Characters is null || (_selected < Characters.Count() - 1))
         {
             _selected++;
-
-            foreach (var rune in Runes)
-            {
-                rune.Selected = false;
-            }
-            foreach (var rune in Character.Runes)
-            {
-                Runes.Single(r => r.Value.Id == rune).Selected = true;
-            }
-            StateHasChanged();
+            RefreshCharacter();
         }
     }
 
@@ -110,22 +134,21 @@
         if (_selected > 0)
         {
             _selected--;
-
-            foreach (var rune in Runes)
-            {
-                rune.Selected = false;
-            }
-            foreach (var rune in Character.Runes)
-            {
-                Runes.Single(r => r.Value.Id == rune).Selected = true;
-            }
-            StateHasChanged();
+            RefreshCharacter();
         }
+    }
+
+    private void RefreshCharacter()
+    {
+        Runes.Select<Api.Rune>(r => Character.Runes.Contains(r.Id));
+        ItemTypes.Select<ItemType>(r => Character.Filters.ItemTypes.Contains(r.Id));
+        StateHasChanged();
     }
 
     private void OnChanged(object sender, FieldChangedEventArgs args)
     {
         Character.Runes = Runes.Where(r => r.Selected).Select(r => r.Value.Id).ToList();
+        Character.Filters.ItemTypes = ItemTypes.Where(it => it.Selected).Select(it => it.Value.Id).ToList();
         Repository.SaveAsync(Character, default);
     }
 

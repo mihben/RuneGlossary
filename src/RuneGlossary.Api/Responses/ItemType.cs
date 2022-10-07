@@ -2,8 +2,8 @@
 {
     public enum ItemClass
     {
-        Weapon,
-        Armor
+        Armor,
+        Weapon
     }
 
     public record ItemType
