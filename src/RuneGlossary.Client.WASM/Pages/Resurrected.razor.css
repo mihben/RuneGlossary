@@ -1,19 +1,12 @@
-﻿.panel {
-    display: block;
-
+﻿div.panel {
     background-color: lightsteelblue;
-
-    height: 100%;
-    width: 100%;
 
     color: white;
 }
 
-.main {
+div.filter {
+    grid-area: filter;
 
-}
-
-.character {
     background-color: deepskyblue;
 
     border-color: darkblue;
@@ -21,66 +14,110 @@
     border-width: 1px;
     border-radius: 5px;
 
-    width: 25%;
-    height: 100%;
+    justify-content: center;
+    align-content: center;
 
-    display: flex;
-    flex-flow: column;
+    display: grid;
+
+    grid-template-areas: 'item-types static';
+    grid-template-columns: min-content max-content;
+
+    padding: 4px;
 }
 
-.character-data {
+div.main {
+    display: grid;
+
+    grid-template-areas:
+        'character filter'
+        'character result';
+    grid-template-columns: 25% auto;
+    grid-template-rows: min-content auto;
+    grid-column-gap: 4px;
+
+    align-content: center;
+}
+
+div.character {
+    background-color: deepskyblue;
+
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+
+    display: grid;
+
+    grid-template: 
+        'data'
+        'rune-list'
+        'button-row';
+    grid-template-rows: auto min-content min-content;
+    grid-row-gap: 4px;
+
+    grid-area: character;
+
+    height: fit-content;
+}
+
+div.character-data {
     margin: 4px;
 
-    display: flex;
+    display: grid;
+    grid-template-areas:
+        'index'
+        'class'
+        'information';
+    grid-template-rows: min-content auto min-content;
+    grid-row-gap: 4px;
 
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
-    flex-flow: column;
+    grid-area: data;
+}
 
-    width: 100%;
+span.index {
+    grid-area: index;
 
-    justify-content: center;
+    justify-self: center;
 }
 
 img.class {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
+    align-self: center;
+    justify-self: center;
 
-    width: 84%;
-}
-
-div.class {
-    display: flex;
-
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
-
-    justify-content: center;
+    grid-area: image;
 
     width: 100%;
 }
 
-.character-information {
-    flex-grow: 0;
-    flex-shrink: 1;
-    flex-basis: content;
+div.class {
+    display: grid;
+
+    grid-template-areas: 'previous image next';
+    grid-template-columns: max-content auto max-content;
+
+    grid-area: class;
+
+    height: auto;
 }
 
-.rune-list {
-    margin: 4px;
-    padding: 4px;
+div.character-information {
+    grid-area: information;
+    display: grid;
+    grid-template-areas:
+        'label-name value-name'
+        'label-level value-level';
+    grid-template-columns: max-content auto;
+    grid-row-gap: 4px;
+    grid-column-gap: 4px;
+}
 
-    height: fit-content;
+div.rune-list {
+    height: max-content;
     width: auto;
 
     column-count: 3;
-
-    flex-grow: 0;
-    flex-shrink: 1;
-    flex-basis: content;
     
+    grid-area: rune-list;
 }
 
 .selector {
@@ -90,9 +127,70 @@ div.class {
 }
 
 button.previous {
-    justify-self: flex-start;
+    grid-area: previous;
 }
 
 button.next {
-    justify-self: flex-end;
+    grid-area: next;
+}
+
+div.button-row {
+    grid-area: button-row;
+}
+
+form {
+    display: inherit;
+
+    grid-template: inherit;
+    grid-template-areas: inherit;
+    grid-template-rows: inherit;
+}
+
+span.label {
+    align-self: center;
+}
+
+.value {
+    align-self: center;
+}
+
+div.item-types {
+    display: grid;
+
+    grid-template: 'armors weapons';
+    grid-template-columns: max-content max-content;
+
+    grid-area: item-types;
+}
+
+div.weapons {
+    grid-area: weapons;
+
+    column-count: 5;
+    column-fill: auto;
+}
+
+div.armors {
+    grid-area: armors;
+}
+
+div.static {
+    grid-area: static;
+
+    display: grid;
+    grid-template-areas: 
+        'label-max-level max-level max-level max-level'
+        'label-socket from dash to';
+    grid-column-gap: 4px;
+    grid-row-gap: 4px;
+
+    height: max-content;
+}
+
+span.max-level {
+    grid-area: label-max-level;
+}
+
+span.socket {
+    grid-area: label-socket;
 }

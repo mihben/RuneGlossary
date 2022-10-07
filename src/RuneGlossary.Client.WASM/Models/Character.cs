@@ -13,10 +13,12 @@ namespace RuneGlossary.Client.WASM.Models
         public string? Name { get; set; }
         public int? Level { get; set; }
         public IEnumerable<int> Runes { get; set; }
+        public Filter Filters { get; }
 
         public Character(int id)
         {
             Id = id;
+            Filters = new Filter();
         }
     }
 

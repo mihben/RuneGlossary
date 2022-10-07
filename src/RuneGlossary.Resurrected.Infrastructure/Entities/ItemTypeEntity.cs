@@ -1,11 +1,7 @@
-﻿namespace RuneGlossary.Resurrected.Infrastructure.Entities
-{
-    public enum ItemClass
-    {
-        Armor,
-        Weapon
-    }
+﻿using RuneGlossary.Resurrected.Api;
 
+namespace RuneGlossary.Resurrected.Infrastructure.Entities
+{
     public class ItemTypeEntity
     {
         public int Id { get; set; }
