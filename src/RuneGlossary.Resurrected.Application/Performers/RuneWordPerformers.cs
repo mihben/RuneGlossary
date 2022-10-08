@@ -20,7 +20,13 @@ namespace RuneGlossary.Resurrected.Application.Performers
 
         public async Task<IEnumerable<GetRunesWordsQuery.Result>> PerformAsync(GetRunesWordsQuery query, CancellationToken cancellationToken)
         {
-            return (await _context.RuneWords.ToListAsync(cancellationToken)).AsResult();
+            return (await _context.RuneWords
+                            .Include(rw => rw.RuneSwitch)
+                            .ThenInclude(rw => rw.Rune)
+                            .Include(rw => rw.ItemTypeSwitch)
+                            .ThenInclude(rw => rw.ItemType)
+                            .Include(rw => rw.Statistics)
+                            .ToListAsync(cancellationToken)).AsResult();
         }
     }
 
@@ -33,7 +39,19 @@ namespace RuneGlossary.Resurrected.Application.Performers
 
         public static GetRunesWordsQuery.Result AsResult(this RuneWordEntity entity)
         {
-            return new GetRunesWordsQuery.Result(entity.Id, entity.Name, entity.Level, entity.Url);
+            return new GetRunesWordsQuery.Result(entity.Id,
+                                                 entity.Name,
+                                                 entity.Level,
+                                                 entity.Url,
+                                                 entity.RuneSwitch.Select(rs => new GetRunesWordsQuery.Result.Rune(rs.Rune.Id,
+                                                                                                                   rs.Order,
+                                                                                                                   rs.Rune.Level,
+                                                                                                                   rs.Rune.InHelmet,
+                                                                                                                   rs.Rune.InBodyArmor,
+                                                                                                                   rs.Rune.InShield,
+                                                                                                                   rs.Rune.InWeapon)),
+                                                 entity.ItemTypeSwitch.Select(it => new GetRunesWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
+                                                 entity.Statistics.Select(s => new GetRunesWordsQuery.Result.Statistic(s.Id, s.Description, null)));
         }
     }
 }

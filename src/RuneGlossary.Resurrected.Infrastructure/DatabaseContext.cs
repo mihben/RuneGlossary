@@ -120,7 +120,7 @@ namespace RuneGlossary.Resurrected.Infrastructure
             builder.Property(s => s.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-            builder.Property(s => s.Name)
+            builder.Property(s => s.Description)
                 .HasColumnName("name")
                 .IsRequired();
         }
