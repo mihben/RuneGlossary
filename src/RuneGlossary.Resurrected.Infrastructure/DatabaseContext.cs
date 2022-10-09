@@ -121,8 +121,12 @@ namespace RuneGlossary.Resurrected.Infrastructure
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
             builder.Property(s => s.Description)
-                .HasColumnName("name")
+                .HasColumnName("description")
                 .IsRequired();
+            builder.HasOne(s => s.Skill)
+                .WithMany()
+                .HasForeignKey("skill_id")
+                .HasConstraintName("FK_statistics_skill_id");
         }
 
         public static void Build(this EntityTypeBuilder<RuneWordEntity> builder)

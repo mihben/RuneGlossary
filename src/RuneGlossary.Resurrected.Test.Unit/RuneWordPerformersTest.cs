@@ -10,6 +10,7 @@ using RuneGlossary.Resurrected.Infrastructure.Entities;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace RuneGlossary.Resurrected.Test.Unit
 {
     public class RuneWordPerformersTest : IDisposable
@@ -55,12 +56,13 @@ namespace RuneGlossary.Resurrected.Test.Unit
                                                                                     .Without(rw => rw.ItemTypeSwitch)
                                                                                     .Without(rw => rw.ItemTypes))
                             .GenerateRunes()
-                            .GenerateItemTypes();
+                            .GenerateItemTypes()
+                            .GenerateStatistics();
 
             await _context.InsertAsnyc(runeWord, TimeSpan.FromSeconds(1));
 
             // Act
-            var result = await sut.PerformAsync(new GetRunesWordsQuery(), default);
+            var result = await sut.PerformAsync(new GetRuneWordsQuery(), default);
 
             // Assert
             Assert.Equal(runeWord.AsResult(), result.First(), new GetRuneWordsQueryResultEqualityComparer());
@@ -76,21 +78,21 @@ namespace RuneGlossary.Resurrected.Test.Unit
             await context.SaveChangesAsync(cancellationTokenSource.Token);
         }
 
-        public static GetRunesWordsQuery.Result AsResult(this RuneWordEntity entity)
+        public static GetRuneWordsQuery.Result AsResult(this RuneWordEntity entity)
         {
-            return new GetRunesWordsQuery.Result(entity.Id,
+            return new GetRuneWordsQuery.Result(entity.Id,
                                                  entity.Name,
                                                  entity.Level,
                                                  entity.Url,
-                                                 entity.RuneSwitch.Select(rs => new GetRunesWordsQuery.Result.Rune(rs.Rune.Id,
+                                                 entity.RuneSwitch.Select(rs => new GetRuneWordsQuery.Result.Rune(rs.Rune.Id,
                                                                                                                    rs.Order,
                                                                                                                    rs.Rune.Level,
                                                                                                                    rs.Rune.InHelmet,
                                                                                                                    rs.Rune.InBodyArmor,
                                                                                                                    rs.Rune.InShield,
                                                                                                                    rs.Rune.InWeapon)),
-                                                 entity.ItemTypeSwitch.Select(it => new GetRunesWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
-                                                 entity.Statistics.Select(s => new GetRunesWordsQuery.Result.Statistic(s.Id, s.Description, null)));
+                                                 entity.ItemTypeSwitch.Select(it => new GetRuneWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
+                                                 entity.Statistics.Select(s => new GetRuneWordsQuery.Result.Statistic(s.Id, s.Description, new GetRuneWordsQuery.Result.Skill(s.Skill.Id, s.Skill.Name, s.Skill.Description, s.Skill.Url))));
         }
 
         public static RuneWordEntity GenerateRunes(this RuneWordEntity entity)
@@ -149,9 +151,9 @@ namespace RuneGlossary.Resurrected.Test.Unit
         }
     }
 
-    internal class GetRuneWordsQueryResultEqualityComparer : IEqualityComparer<GetRunesWordsQuery.Result>
+    internal class GetRuneWordsQueryResultEqualityComparer : IEqualityComparer<GetRuneWordsQuery.Result>
     {
-        public bool Equals(GetRunesWordsQuery.Result? x, GetRunesWordsQuery.Result? y)
+        public bool Equals(GetRuneWordsQuery.Result? x, GetRuneWordsQuery.Result? y)
         {
             return x.Id == y.Id
                 && x.Name.Equals(y.Name)
@@ -162,7 +164,7 @@ namespace RuneGlossary.Resurrected.Test.Unit
                 && x.Statistics.SequenceEqual(y.Statistics);
         }
 
-        public int GetHashCode([DisallowNull] GetRunesWordsQuery.Result obj)
+        public int GetHashCode([DisallowNull] GetRuneWordsQuery.Result obj)
         {
             return obj.GetHashCode();
         }

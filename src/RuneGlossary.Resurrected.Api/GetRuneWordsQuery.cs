@@ -1,9 +1,9 @@
 ﻿using STrain;
-using static RuneGlossary.Resurrected.Api.GetRunesWordsQuery;
+using static RuneGlossary.Resurrected.Api.GetRuneWordsQuery;
 
 namespace RuneGlossary.Resurrected.Api
 {
-    public record GetRunesWordsQuery : Query<IEnumerable<Result>>
+    public record GetRuneWordsQuery : Query<IEnumerable<Result>>
     {
         public record Result
         {

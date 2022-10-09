@@ -7,7 +7,7 @@ using STrain;
 
 namespace RuneGlossary.Resurrected.Application.Performers
 {
-    public class RuneWordPerformers : IQueryPerformer<GetRunesWordsQuery, IEnumerable<GetRunesWordsQuery.Result>>
+    public class RuneWordPerformers : IQueryPerformer<GetRuneWordsQuery, IEnumerable<GetRuneWordsQuery.Result>>
     {
         private readonly DatabaseContext _context;
         private readonly ILogger<RuneWordPerformers> _logger;
@@ -18,40 +18,41 @@ namespace RuneGlossary.Resurrected.Application.Performers
             _logger = logger;
         }
 
-        public async Task<IEnumerable<GetRunesWordsQuery.Result>> PerformAsync(GetRunesWordsQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetRuneWordsQuery.Result>> PerformAsync(GetRuneWordsQuery query, CancellationToken cancellationToken)
         {
             return (await _context.RuneWords
                             .Include(rw => rw.RuneSwitch)
-                            .ThenInclude(rw => rw.Rune)
+                            .ThenInclude(s => s.Rune)
                             .Include(rw => rw.ItemTypeSwitch)
-                            .ThenInclude(rw => rw.ItemType)
+                            .ThenInclude(s => s.ItemType)
                             .Include(rw => rw.Statistics)
+                            .ThenInclude(s => s.Skill)
                             .ToListAsync(cancellationToken)).AsResult();
         }
     }
 
     internal static class RuneWordPerformersExtensions
     {
-        public static IEnumerable<GetRunesWordsQuery.Result> AsResult(this IEnumerable<RuneWordEntity> entities)
+        public static IEnumerable<GetRuneWordsQuery.Result> AsResult(this IEnumerable<RuneWordEntity> entities)
         {
             return entities.Select(e => e.AsResult());
         }
 
-        public static GetRunesWordsQuery.Result AsResult(this RuneWordEntity entity)
+        public static GetRuneWordsQuery.Result AsResult(this RuneWordEntity entity)
         {
-            return new GetRunesWordsQuery.Result(entity.Id,
+            return new GetRuneWordsQuery.Result(entity.Id,
                                                  entity.Name,
                                                  entity.Level,
                                                  entity.Url,
-                                                 entity.RuneSwitch.Select(rs => new GetRunesWordsQuery.Result.Rune(rs.Rune.Id,
+                                                 entity.RuneSwitch.Select(rs => new GetRuneWordsQuery.Result.Rune(rs.Rune.Id,
                                                                                                                    rs.Order,
                                                                                                                    rs.Rune.Level,
                                                                                                                    rs.Rune.InHelmet,
                                                                                                                    rs.Rune.InBodyArmor,
                                                                                                                    rs.Rune.InShield,
                                                                                                                    rs.Rune.InWeapon)),
-                                                 entity.ItemTypeSwitch.Select(it => new GetRunesWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
-                                                 entity.Statistics.Select(s => new GetRunesWordsQuery.Result.Statistic(s.Id, s.Description, null)));
+                                                 entity.ItemTypeSwitch.Select(it => new GetRuneWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
+                                                 entity.Statistics.Select(s => new GetRuneWordsQuery.Result.Statistic(s.Id, s.Description, s.Skill is not null ? new GetRuneWordsQuery.Result.Skill(s.Skill.Id, s.Skill.Name, s.Skill.Description, s.Skill.Url) : null)));
         }
     }
 }
