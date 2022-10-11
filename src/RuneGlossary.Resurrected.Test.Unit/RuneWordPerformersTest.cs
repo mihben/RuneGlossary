@@ -8,6 +8,7 @@ using RuneGlossary.Resurrected.Application.Performers;
 using RuneGlossary.Resurrected.Infrastructure;
 using RuneGlossary.Resurrected.Infrastructure.Entities;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -62,15 +63,60 @@ namespace RuneGlossary.Resurrected.Test.Unit
             await _context.InsertAsnyc(runeWord, TimeSpan.FromSeconds(1));
 
             // Act
-            var result = await sut.PerformAsync(new GetRuneWordsQuery(), default);
+            var result = await sut.PerformAsync(new GetRuneWordsQuery(runeWord.ItemTypes.Select(it => it.Id)), default);
 
             // Assert
             Assert.Equal(runeWord.AsResult(), result.First(), new GetRuneWordsQueryResultEqualityComparer());
+        }
+
+        [Fact(DisplayName = "[UNIT][GRWQ-002] - Filter by item type")]
+        public async Task RuneWordPerformers_GetRuneWordsQuery_FilterByItemType()
+        {
+            // Arrange
+            var sut = CreateSUT();
+
+            var runeWord = TestHelper.Generate<RuneWordEntity>(composer => composer
+                                                                                    .Without(rw => rw.RuneSwitch)
+                                                                                    .Without(rw => rw.Runes)
+                                                                                    .Without(rw => rw.Statistics)
+                                                                                    .Without(rw => rw.ItemTypeSwitch)
+                                                                                    .Without(rw => rw.ItemTypes))
+                            .GenerateRunes()
+                            .GenerateItemTypes()
+                            .GenerateStatistics();
+            var runeWordFiltered = TestHelper.Generate<RuneWordEntity>(composer => composer
+                                                                                    .Without(rw => rw.RuneSwitch)
+                                                                                    .Without(rw => rw.Runes)
+                                                                                    .Without(rw => rw.Statistics)
+                                                                                    .Without(rw => rw.ItemTypeSwitch)
+                                                                                    .Without(rw => rw.ItemTypes))
+                            .GenerateRunes()
+                            .GenerateItemTypes()
+                            .GenerateStatistics();
+
+            await _context.InsertRangeAsync(new List<RuneWordEntity> { runeWord, runeWordFiltered }, TimeSpan.FromSeconds(1));
+
+            // Act
+            var result = await sut.PerformAsync(new GetRuneWordsQuery(new List<int> { runeWord.ItemTypes.First().Id }), default);
+
+            // Assert
+            Assert.Collection(result, rw => Assert.Equal(runeWord.Id, rw.Id));
         }
     }
 
     internal static class RuneWordPerformersTestExtensions
     {
+        public static async Task InsertRangeAsync<TEntity>(this DatabaseContext context, IEnumerable<TEntity> entities, TimeSpan timeout)
+        {
+            using var cancellationTokenSource = new CancellationTokenSource(timeout);
+            foreach (var entity in entities)
+            {
+                await context.AddAsync(entity!, cancellationTokenSource.Token);
+
+            }
+            await context.SaveChangesAsync(cancellationTokenSource.Token);
+        }
+
         public static async Task InsertAsnyc<TEntity>(this DatabaseContext context, TEntity entity, TimeSpan timeout)
         {
             using var cancellationTokenSource = new CancellationTokenSource(timeout);

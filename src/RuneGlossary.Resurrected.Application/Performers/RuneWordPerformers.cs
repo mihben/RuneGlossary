@@ -20,14 +20,17 @@ namespace RuneGlossary.Resurrected.Application.Performers
 
         public async Task<IEnumerable<GetRuneWordsQuery.Result>> PerformAsync(GetRuneWordsQuery query, CancellationToken cancellationToken)
         {
-            return (await _context.RuneWords
-                            .Include(rw => rw.RuneSwitch)
-                            .ThenInclude(s => s.Rune)
-                            .Include(rw => rw.ItemTypeSwitch)
-                            .ThenInclude(s => s.ItemType)
-                            .Include(rw => rw.Statistics)
-                            .ThenInclude(s => s.Skill)
-                            .ToListAsync(cancellationToken)).AsResult();
+            var runeWords = await _context.RuneWords
+                                                .Include(rw => rw.RuneSwitch)
+                                                .ThenInclude(s => s.Rune)
+                                                .Include(rw => rw.ItemTypeSwitch)
+                                                .ThenInclude(s => s.ItemType)
+                                                .Include(rw => rw.Statistics)
+                                                .ThenInclude(s => s.Skill)
+                                                .Where(rw => rw.ItemTypes.Any(it => query.ItemTypes.Contains(it.Id)))
+                                            .ToListAsync(cancellationToken);
+
+            return runeWords.AsResult();
         }
     }
 

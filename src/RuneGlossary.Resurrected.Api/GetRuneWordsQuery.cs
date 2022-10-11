@@ -5,6 +5,13 @@ namespace RuneGlossary.Resurrected.Api
 {
     public record GetRuneWordsQuery : Query<IEnumerable<Result>>
     {
+        public IEnumerable<int> ItemTypes { get; }
+
+        public GetRuneWordsQuery(IEnumerable<int> itemTypes)
+        {
+            ItemTypes = itemTypes;
+        }
+
         public record Result
         {
             public int Id { get; }
