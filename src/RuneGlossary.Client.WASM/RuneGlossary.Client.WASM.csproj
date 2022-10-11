@@ -11,7 +11,7 @@
     <PackageReference Include="Blazored.Modal" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
-    <PackageReference Include="STrain.CQS.Blazor.Lightinject" Version="1.0.0-rc.2" />
+    <PackageReference Include="STrain.CQS.Blazor.Lightinject" Version="1.0.0-rc.4" />
   </ItemGroup>
 
   <ItemGroup>
