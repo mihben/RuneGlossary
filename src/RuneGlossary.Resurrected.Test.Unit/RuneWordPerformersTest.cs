@@ -8,7 +8,6 @@ using RuneGlossary.Resurrected.Application.Performers;
 using RuneGlossary.Resurrected.Infrastructure;
 using RuneGlossary.Resurrected.Infrastructure.Entities;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -50,6 +49,8 @@ namespace RuneGlossary.Resurrected.Test.Unit
         {
             // Arrange
             var sut = CreateSUT();
+            var socket = new Fixture().Create<int>();
+
             var runeWord = TestHelper.Generate<RuneWordEntity>(composer => composer
                                                                                     .Without(rw => rw.RuneSwitch)
                                                                                     .Without(rw => rw.Runes)
@@ -63,7 +64,7 @@ namespace RuneGlossary.Resurrected.Test.Unit
             await _context.InsertAsnyc(runeWord, TimeSpan.FromSeconds(1));
 
             // Act
-            var result = await sut.PerformAsync(new GetRuneWordsQuery(runeWord.ItemTypes.Select(it => it.Id)), default);
+            var result = await sut.PerformAsync(new GetRuneWordsQuery(runeWord.ItemTypes.Select(it => it.Id), 1, 1), default);
 
             // Assert
             Assert.Equal(runeWord.AsResult(), result.First(), new GetRuneWordsQueryResultEqualityComparer());
@@ -97,7 +98,41 @@ namespace RuneGlossary.Resurrected.Test.Unit
             await _context.InsertRangeAsync(new List<RuneWordEntity> { runeWord, runeWordFiltered }, TimeSpan.FromSeconds(1));
 
             // Act
-            var result = await sut.PerformAsync(new GetRuneWordsQuery(new List<int> { runeWord.ItemTypes.First().Id }), default);
+            var result = await sut.PerformAsync(new GetRuneWordsQuery(new List<int> { runeWord.ItemTypes.First().Id }, 1, 1), default);
+
+            // Assert
+            Assert.Collection(result, rw => Assert.Equal(runeWord.Id, rw.Id));
+        }
+
+        [Fact(DisplayName = "[UNIT][GRWQ-002] - Filter by socket number")]
+        public async Task RuneWordPerformers_GetRuneWordsQuery_SocketNumber()
+        {
+            // Arrange
+            var sut = CreateSUT();
+
+            var runeWord = TestHelper.Generate<RuneWordEntity>(composer => composer
+                                                                                    .Without(rw => rw.RuneSwitch)
+                                                                                    .Without(rw => rw.Runes)
+                                                                                    .Without(rw => rw.Statistics)
+                                                                                    .Without(rw => rw.ItemTypeSwitch)
+                                                                                    .Without(rw => rw.ItemTypes))
+                            .GenerateRunes()
+                            .GenerateItemTypes()
+                            .GenerateStatistics();
+            var runeWordFiltered = TestHelper.Generate<RuneWordEntity>(composer => composer
+                                                                                    .Without(rw => rw.RuneSwitch)
+                                                                                    .Without(rw => rw.Runes)
+                                                                                    .Without(rw => rw.Statistics)
+                                                                                    .Without(rw => rw.ItemTypeSwitch)
+                                                                                    .Without(rw => rw.ItemTypes))
+                            .GenerateRunes(3)
+                            .GenerateItemTypes()
+                            .GenerateStatistics();
+
+            await _context.InsertRangeAsync(new List<RuneWordEntity> { runeWord, runeWordFiltered }, TimeSpan.FromSeconds(1));
+
+            // Act
+            var result = await sut.PerformAsync(new GetRuneWordsQuery(runeWord.ItemTypeSwitch.Select(it => it.ItemType.Id).Concat(runeWordFiltered.ItemTypeSwitch.Select(it => it.ItemType.Id)), runeWord.RuneSwitch.Count, runeWord.RuneSwitch.Count), default);
 
             // Assert
             Assert.Collection(result, rw => Assert.Equal(runeWord.Id, rw.Id));
@@ -141,18 +176,23 @@ namespace RuneGlossary.Resurrected.Test.Unit
                                                  entity.Statistics.Select(s => new GetRuneWordsQuery.Result.Statistic(s.Id, s.Description, new GetRuneWordsQuery.Result.Skill(s.Skill.Id, s.Skill.Name, s.Skill.Description, s.Skill.Url))));
         }
 
-        public static RuneWordEntity GenerateRunes(this RuneWordEntity entity)
+        public static RuneWordEntity GenerateRunes(this RuneWordEntity entity, int count = 1)
         {
-            entity.Runes = new List<RuneEntity> {
-                TestHelper.Generate<RuneEntity>(composer => composer
+            var runes = new List<RuneEntity>();
+
+            for (var i = 0; i < count; i++)
+            {
+                runes.Add(TestHelper.Generate<RuneEntity>(composer => composer
                                                                         .With(r => r.RuneWords, new List<RuneWordEntity> { entity })
                                                                         .With(r => r.RuneWordSwitch, new List<RuneRuneWordSwitchEntity>
                                                                                                                             {
                                                                                                                                 TestHelper.Generate<RuneRuneWordSwitchEntity>(composer => composer
                                                                                                                                                                                                     .With(r => r.RuneWord, entity)
                                                                                                                                                                                                     .With(r => r.Rune, TestHelper.Generate<RuneEntity>(composer => composer.Without(r => r.RuneWords).Without(r => r.RuneWordSwitch))))
-                                                                                                                            }))
-            };
+                                                                                                                            })));
+            }
+
+            entity.Runes = runes;
             return entity;
         }
 

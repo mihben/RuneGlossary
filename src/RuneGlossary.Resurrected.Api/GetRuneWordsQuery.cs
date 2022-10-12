@@ -6,10 +6,14 @@ namespace RuneGlossary.Resurrected.Api
     public record GetRuneWordsQuery : Query<IEnumerable<Result>>
     {
         public IEnumerable<int> ItemTypes { get; }
+        public int SocketFrom { get; }
+        public int SocketTo { get; }
 
-        public GetRuneWordsQuery(IEnumerable<int> itemTypes)
+        public GetRuneWordsQuery(IEnumerable<int> itemTypes, int socketFrom, int socketTo)
         {
             ItemTypes = itemTypes;
+            SocketFrom = socketFrom;
+            SocketTo = socketTo;
         }
 
         public record Result
