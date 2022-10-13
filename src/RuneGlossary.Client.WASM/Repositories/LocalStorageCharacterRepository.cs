@@ -33,6 +33,10 @@ namespace RuneGlossary.Client.WASM.Repositories
             {
                 existing.Level = character.Level;
                 existing.Runes = character.Runes;
+                existing.Filters.ItemTypes = character.Filters.ItemTypes;
+                existing.Filters.MaxLevel = character.Filters.MaxLevel;
+                existing.Filters.SocketFrom = character.Filters.SocketFrom;
+                existing.Filters.SocketTo = character.Filters.SocketTo;
                 await _storage.SetItemAsync(KEY, characters, cancellationToken);
             }
         }

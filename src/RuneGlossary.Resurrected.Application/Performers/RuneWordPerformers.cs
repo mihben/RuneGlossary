@@ -50,6 +50,7 @@ namespace RuneGlossary.Resurrected.Application.Performers
                                                  entity.Level,
                                                  entity.Url,
                                                  entity.RuneSwitch.Select(rs => new GetRuneWordsQuery.Result.Rune(rs.Rune.Id,
+                                                                                                                   rs.Rune.Name,
                                                                                                                    rs.Order,
                                                                                                                    rs.Rune.Level,
                                                                                                                    rs.Rune.InHelmet,

@@ -207,14 +207,15 @@ namespace RuneGlossary.Resurrected.Test.Unit
                                                  entity.Level,
                                                  entity.Url,
                                                  entity.RuneSwitch.Select(rs => new GetRuneWordsQuery.Result.Rune(rs.Rune.Id,
+                                                                                                                    rs.Rune.Name,
                                                                                                                    rs.Order,
                                                                                                                    rs.Rune.Level,
                                                                                                                    rs.Rune.InHelmet,
                                                                                                                    rs.Rune.InBodyArmor,
                                                                                                                    rs.Rune.InShield,
                                                                                                                    rs.Rune.InWeapon)),
-                                                 entity.ItemTypeSwitch.Select(it => new GetRuneWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
-                                                 entity.Statistics.Select(s => new GetRuneWordsQuery.Result.Statistic(s.Id, s.Description, new GetRuneWordsQuery.Result.Skill(s.Skill.Id, s.Skill.Name, s.Skill.Description, s.Skill.Url))));
+                                                 entity.ItemTypeSwitch.Select(it => new GetRuneWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Class, it.ItemType.Name)),
+                                                 entity.Statistics.Select(s => new GetRuneWordsQuery.Result.Statistic(s.Id, s.Description, new GetRuneWordsQuery.Result.Skill(s.Skill!.Id, s.Skill.Name, s.Skill.Description, s.Skill.Url))));
         }
 
         public static RuneWordEntity GenerateRunes(this RuneWordEntity entity, int count = 1)

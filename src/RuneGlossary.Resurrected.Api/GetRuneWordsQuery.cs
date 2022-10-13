@@ -1,4 +1,5 @@
-﻿using STrain;
+﻿using FluentValidation;
+using STrain;
 using static RuneGlossary.Resurrected.Api.GetRuneWordsQuery;
 
 namespace RuneGlossary.Resurrected.Api
@@ -50,9 +51,10 @@ namespace RuneGlossary.Resurrected.Api
                 public string InShield { get; }
                 public string InWeapon { get; }
 
-                public Rune(int id, int order, int? level, string inHelmet, string inBodyArmor, string inShield, string inWeapon)
+                public Rune(int id, string name, int order, int? level, string inHelmet, string inBodyArmor, string inShield, string inWeapon)
                 {
                     Id = id;
+                    Name = name;
                     Order = order;
                     Level = level;
                     InHelmet = inHelmet;
@@ -105,6 +107,17 @@ namespace RuneGlossary.Resurrected.Api
                     Url = url;
                 }
             }
+        }
+    }
+
+    public class GetRuneWordsQueryValidator : AbstractValidator<GetRuneWordsQuery>
+    {
+        public GetRuneWordsQueryValidator()
+        {
+            RuleFor(q => q.ItemTypes).NotEmpty();
+            RuleFor(q => q.MaxLevel).InclusiveBetween(1, 99);
+            RuleFor(q => q.SocketFrom).InclusiveBetween(1, 6).LessThanOrEqualTo(q => q.SocketTo);
+            RuleFor(q => q.SocketTo).InclusiveBetween(1, 6);
         }
     }
 }

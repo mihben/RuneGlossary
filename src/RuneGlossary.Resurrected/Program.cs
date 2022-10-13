@@ -1,4 +1,6 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using RuneGlossary.Resurrected.Api;
 using RuneGlossary.Resurrected.Application.Performers;
 using RuneGlossary.Resurrected.Infrastructure;
 using Serilog;
@@ -13,16 +15,21 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IValidator<GetRuneWordsQuery>, GetRuneWordsQueryValidator>();
+
 builder.AddCQS(builder =>
 {
-    builder.AddGenericRequestHandler();
-    builder.AddMvcRequestReceiver()
-        .UseLogger();
-
     builder.AddPerformerFrom<RunePerformers>();
 
     builder.AddRequestValidator()
         .UseFluentRequestValidator(builder => { });
+
+    builder.AddMvcRequestReceiver()
+        .UseLogger();
+
+    builder.AddGenericRequestHandler();
+
 });
 
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(builder.Configuration["Database"]));
