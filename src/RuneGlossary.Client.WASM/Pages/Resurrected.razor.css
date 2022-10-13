@@ -19,10 +19,15 @@ div.filter {
 
     display: grid;
 
-    grid-template-areas: 'item-types static';
+    grid-template-areas: 
+        'item-types static'
+        'button-row button-row';
     grid-template-columns: min-content max-content;
+    grid-row-gap: 4px;
 
     padding: 4px;
+
+    height: fit-content;
 }
 
 div.main {
@@ -32,10 +37,31 @@ div.main {
         'character filter'
         'character result';
     grid-template-columns: 25% auto;
-    grid-template-rows: min-content auto;
+    grid-template-rows: max-content 1fr;
     grid-column-gap: 4px;
+    grid-row-gap: 4px;
 
     align-content: center;
+
+    height: 100%;
+}
+
+div.result {
+    grid-area: result;
+
+    background-color: deepskyblue;
+
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+
+    display: flex;
+    flex-flow: column;
+
+    max-height: 807px;
+
+    overflow: auto;
 }
 
 div.character {

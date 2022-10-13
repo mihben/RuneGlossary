@@ -15,10 +15,10 @@ namespace RuneGlossary.Client.WASM.Models
         public IEnumerable<int> Runes { get; set; }
         public Filter Filters { get; }
 
-        public Character(int id)
+        public Character(int id, Filter filters)
         {
             Id = id;
-            Filters = new Filter();
+            Filters = filters;
         }
     }
 

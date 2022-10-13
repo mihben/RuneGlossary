@@ -1,0 +1,30 @@
+﻿div.container {
+    background-color: blue;
+
+    border-block-style: solid;
+    border-color: white;
+    border-width: 1px;
+    border-radius: 5px;
+
+    margin: 4px;
+
+    text-align: center;
+
+    padding: 4px;
+}
+
+div.runes {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+div.statistics {
+    display: flex;
+    flex-flow: column;
+
+    margin-top: 16px;
+}
+
+a {
+    color: white;
+}

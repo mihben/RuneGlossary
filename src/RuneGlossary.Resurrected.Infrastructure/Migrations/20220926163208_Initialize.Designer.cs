@@ -206,17 +206,21 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                 NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                b.Property<string>("Name")
+                b.Property<string>("Description")
                     .IsRequired()
                     .HasColumnType("text")
-                    .HasColumnName("name");
+                    .HasColumnName("description");
 
                 b.Property<int>("rune_word_id")
+                    .HasColumnType("integer");
+
+                b.Property<int?>("skill_id")
                     .HasColumnType("integer");
 
                 b.HasKey("Id");
 
                 b.HasIndex("rune_word_id");
+                b.HasIndex("skill_id");
 
                 b.ToTable("statistics", "resurrected");
             });

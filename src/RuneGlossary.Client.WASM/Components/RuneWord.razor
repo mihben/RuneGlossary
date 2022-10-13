@@ -1,0 +1,28 @@
+﻿@using RuneGlossary.Api.Responses
+<div class="container">
+    <a href="@Model.Url" target="_blank">@Model.Name</a>
+    <div class="runes">
+        @foreach (var rune in Model.Runes)
+        {
+            <Rune Model="rune"/>
+        }
+    </div>
+    <div class="item-types">
+        (@foreach (var itemType in Model.ItemTypes)
+        {
+            <span>@itemType.Name, </span>
+        })
+    </div>
+
+    <div class="statistics">
+        @foreach (var statistic in Model.Statistics)
+        {
+            <span>@statistic.DisplayDescription()</span>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Api.Responses.RuneWord Model { get; set; }
+}

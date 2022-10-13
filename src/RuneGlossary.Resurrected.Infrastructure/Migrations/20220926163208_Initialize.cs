@@ -16,7 +16,6 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
             migrationBuilder.CreateAndFillClasses();
             migrationBuilder.CreateAndFillItemTypes();
             migrationBuilder.CreateAndFillRunes();
-            migrationBuilder.CreateAndFillSkills();
             migrationBuilder.CreateAndFillRuneWords();
         }
 
@@ -224,6 +223,18 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
     public class RuneWordEnumeration : Enumeration
     {
+        public class Statistic
+        {
+            public string Description { get; }
+            public SkillEnumeration Skill { get; }
+
+            public Statistic(string description, SkillEnumeration skill)
+            {
+                Description = description;
+                Skill = skill;
+            }
+        }
+
         private static readonly IEnumerable<ItemTypeEnumeration> _rangedWeapons = new List<ItemTypeEnumeration>()
         {
             ItemTypeEnumeration.Bow,
@@ -251,7 +262,7 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
         public int Level { get; }
         public IEnumerable<RuneEnumeration> Runes { get; }
         public IEnumerable<ItemTypeEnumeration> ItemTypes { get; }
-        public IEnumerable<string> Statistics { get; }
+        public IEnumerable<Statistic> Statistics { get; }
         public string Url { get; }
 
         public static RuneWordEnumeration AncientsPledge => new(0, "Ancient's Pledge", 21, new List<RuneEnumeration>
@@ -261,14 +272,14 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
             RuneEnumeration.Tal
         },
         new List<ItemTypeEnumeration> { ItemTypeEnumeration.Shield },
-        new List<string>
+        new List<Statistic>
         {
-            "+50% Enhanced Defense",
-            "Cold Resist +43%",
-            "Lightning Resist +48%",
-            "Fire Resist +48%",
-            "Poison Resist +48%",
-            "10% Damage Taken Goes to Mana"
+            new Statistic("+50% Enhanced Defense", null),
+            new Statistic("Cold Resist +43%", null),
+            new Statistic("Lightning Resist +48%", null),
+            new Statistic("Fire Resist +48%", null),
+            new Statistic("Poison Resist +48%", null),
+            new Statistic("10% Damage Taken Goes to Mana", null)
         }, "https://diablo2.wiki.fextralife.com/Ancient's+Pledge");
 
         public static RuneWordEnumeration Beast => new(1, "Beast", 63, new List<RuneEnumeration>
@@ -280,1322 +291,1322 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
             RuneEnumeration.Lum
         },
        new List<ItemTypeEnumeration> { ItemTypeEnumeration.Axe, ItemTypeEnumeration.Hammer, ItemTypeEnumeration.Scepter },
-       new List<string>
+       new List<Statistic>
        {
-            $"Level 9 {{{SkillEnumeration.Fanaticism.Id}}} Aura When Equipped",
-            "+40% Increased Attack Speed",
-            "+240-270% Enhanced Damage (varies)",
-            "20% Chance of Crushing Blow",
-            "25% Chance of Open Wounds",
-            $"+3 To {{{SkillEnumeration.Werebear.Id}}}",
-            $"+3 To {{{SkillEnumeration.Lycanthropy.Id}}}",
-            "Prevent Monster Heal",
-            "+25-40 To Strength (varies)",
-            "+10 To Energy",
-            "+2 To Mana After Each Kill",
-            "Level 13 Summon Grizzly (5 Charges)",
+            new Statistic("Level 9 {skill} Aura When Equipped", SkillEnumeration.Fanaticism),
+            new Statistic("+40% Increased Attack Speed", null),
+            new Statistic("+240-270% Enhanced Damage (varies)", null),
+            new Statistic("20% Chance of Crushing Blow", null),
+            new Statistic("25% Chance of Open Wounds", null),
+            new Statistic("+3 To {skill}",SkillEnumeration.Werebear),
+            new Statistic("+3 To {skill}",SkillEnumeration.Lycanthropy),
+            new Statistic("Prevent Monster Heal", null),
+            new Statistic("+25-40 To Strength (varies)", null),
+            new Statistic("+10 To Energy", null),
+            new Statistic("+2 To Mana After Each Kill", null),
+            new Statistic("Level 13  {skill} (5 Charges)", SkillEnumeration.SummonGrizzly),
        }, "https://diablo2.wiki.fextralife.com/Beast");
 
         public static RuneWordEnumeration Black => new(2, "Black", 35, new List<RuneEnumeration> { RuneEnumeration.Thul, RuneEnumeration.Io, RuneEnumeration.Nef },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Club, ItemTypeEnumeration.Hammer, ItemTypeEnumeration.Mace },
-            new List<string>
+            new List<Statistic>
             {
-                "+15% Increased Attack Speed",
-                "+120% Enhanced Damage",
-                "+200 to Attack Rating",
-                "Adds 3-14 Cold Damage (3 sec)",
-                "40% Chance of Crushing Blow",
-                "Knockback",
-                "+10 to Vitality",
-                "Magic Damage Reduced By 2",
-                $"Level 4 {{{SkillEnumeration.CorpseExplosion}}} (12 Charges)"
+                new Statistic("+15% Increased Attack Speed", null),
+                new Statistic("+120% Enhanced Damage", null),
+                new Statistic("+200 to Attack Rating", null),
+                new Statistic("Adds 3-14 Cold Damage (3 sec)", null),
+                new Statistic("40% Chance of Crushing Blow", null),
+                new Statistic("Knockback", null),
+                new Statistic("+10 to Vitality", null),
+                new Statistic("Magic Damage Reduced By 2", null),
+                new Statistic("Level 4 {skill} (12 Charges)", SkillEnumeration.CorpseExplosion)
             }, "https://diablo2.wiki.fextralife.com/Black");
 
         public static RuneWordEnumeration Bone => new(3, "Bone", 47, new List<RuneEnumeration> { RuneEnumeration.Sol, RuneEnumeration.Um, RuneEnumeration.Um },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"15% Chance To Cast level 10 {{{SkillEnumeration.BoneArmor.Id}}} When Struck",
-                $"15% Chance To Cast level 10 {{{SkillEnumeration.BoneSpear.Id}}} On Striking",
-                "+2 To Necromancer Skill Levels",
-                "+100-150 To Mana (varies)",
-                "All Resistances +30",
-                "Damage Reduced By 7",
+                new Statistic("15% Chance To Cast level 10 {skill} When Struck", SkillEnumeration.BoneArmor),
+                new Statistic("15% Chance To Cast level 10 {skill} On Striking", SkillEnumeration.BoneSpear),
+                new Statistic("+2 To Necromancer Skill Levels", null),
+                new Statistic("+100-150 To Mana (varies)", null),
+                new Statistic("All Resistances +30", null),
+                new Statistic("Damage Reduced By 7", null)
             }, "https://diablo2.wiki.fextralife.com/Bone");
 
         public static RuneWordEnumeration Bramble => new(4, "Bramble", 61, new List<RuneEnumeration> { RuneEnumeration.Ral, RuneEnumeration.Ohm, RuneEnumeration.Sur, RuneEnumeration.Eth },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"Level 15-21 {{{SkillEnumeration.Thorns.Id}}} Aura When Equipped (varies)",
-                "+50% Faster Hit Recovery",
-                "+25-50% To Poison Skill Damage (varies)",
-                "+300 Defense",
-                "Increase Maximum Mana 5%",
-                "Regenerate Mana 15%",
-                "+5% To Maximum Cold Resist",
-                "Fire Resist +30%",
-                "Poison Resist +100%",
-                "+13 Life After Each Kill",
-                $"Level 13 {{{SkillEnumeration.SpiritOfBarbs.Id}}} (33 Charges)"
+                new Statistic("Level 15-21 {skill} Aura When Equipped (varies)", SkillEnumeration.Thorns),
+                new Statistic("+50% Faster Hit Recovery", null),
+                new Statistic("+25-50% To Poison Skill Damage (varies)", null),
+                new Statistic("+300 Defense", null),
+                new Statistic("Increase Maximum Mana 5%", null),
+                new Statistic("Regenerate Mana 15%", null),
+                new Statistic("+5% To Maximum Cold Resist", null),
+                new Statistic("Fire Resist +30%", null),
+                new Statistic("Poison Resist +100%", null),
+                new Statistic("+13 Life After Each Kill", null),
+                new Statistic("Level 13 {skill} (33 Charges)", SkillEnumeration.SpiritOfBarbs)
             }, "https://diablo2.wiki.fextralife.com/Bramble");
 
         public static RuneWordEnumeration Brand => new(5, "Brand", 65, new List<RuneEnumeration> { RuneEnumeration.Jah, RuneEnumeration.Lo, RuneEnumeration.Mal, RuneEnumeration.Gul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-            new List<string>
+            new List<Statistic>
             {
-                $"35% Chance To Cast Level 14 {{{SkillEnumeration.AmplifyDamage.Id}}} When Struck",
-                $"100% Chance To Cast Level 18 {{{SkillEnumeration.BoneSpear.Id}}} On Striking",
-                $"Fires {{{SkillEnumeration.ExplodingArrow.Id}}} (15)",
-                "+260-340% Enhanced Damage (varies)",
-                "Ignore Target's Defense",
-                "20% Bonus to Attack Rating",
-                "+280-330% Damage To Demons (varies)",
-                "20% Deadly Strike",
-                "Prevent Monster Heal",
-                "Knockback",
+                new Statistic("35% Chance To Cast Level 14 {skill} When Struck", SkillEnumeration.AmplifyDamage),
+                new Statistic("100% Chance To Cast Level 18 {skill} On Striking", SkillEnumeration.BoneSpear),
+                new Statistic("Fires {skill} (15)", SkillEnumeration.ExplodingArrow),
+                new Statistic("+260-340% Enhanced Damage (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("20% Bonus to Attack Rating", null),
+                new Statistic("+280-330% Damage To Demons (varies)", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("Knockback", null)
             }, "https://diablo2.wiki.fextralife.com/Brand");
 
         public static RuneWordEnumeration BreathOfTheDying => new(6, "Breath of the Dying", 69, new List<RuneEnumeration> { RuneEnumeration.Vex, RuneEnumeration.Hel, RuneEnumeration.El, RuneEnumeration.Eld, RuneEnumeration.Zod, RuneEnumeration.Eth },
             _rangedWeapons.Concat(_meleeWeapons),
-            new List<string>
+            new List<Statistic>
             {
-                $"50% Chance To Cast Level 20 {{{SkillEnumeration.PoisonNova.Id}}} When You Kill An Enemy",
-                "Indestructible",
-                "+60% Increased Attack Speed",
-                "+350-400% Enhanced Damage (varies)",
-                "-25% Target Defense",
-                "+50 To Attack Rating",
-                "+200% Damage To Undead",
-                "+50 To Attack Rating Against Undead",
-                "7% Mana Stolen Per Hit",
-                "12-15% Life Stolen Per Hit (varies)",
-                "Prevent Monster Heal",
-                "+30 To All Attributes",
-                "+1 To Light Radius",
-                "Requirements -20%",
+                new Statistic("50% Chance To Cast Level 20 {skill} When You Kill An Enemy", SkillEnumeration.PoisonNova),
+                new Statistic("Indestructible", null),
+                new Statistic("+60% Increased Attack Speed", null),
+                new Statistic("+350-400% Enhanced Damage (varies)", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("+50 To Attack Rating", null),
+                new Statistic("+200% Damage To Undead", null),
+                new Statistic("+50 To Attack Rating Against Undead", null),
+                new Statistic("7% Mana Stolen Per Hit", null),
+                new Statistic("12-15% Life Stolen Per Hit (varies)", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+30 To All Attributes", null),
+                new Statistic("+1 To Light Radius", null),
+                new Statistic("Requirements -20%", null)
             }, "https://diablo2.wiki.fextralife.com/Breath+of+the+Dying");
 
         public static RuneWordEnumeration CallToArms => new(7, "Call to Arms", 57, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.Ral, RuneEnumeration.Mal, RuneEnumeration.Ist, RuneEnumeration.Ohm },
             _rangedWeapons.Concat(_meleeWeapons),
-            new List<string>
+            new List<Statistic>
             {
-                "+1 To All Skills",
-                "+40% Increased Attack Speed",
-                "+240-290% Enhanced Damage (varies)",
-                "Adds 5-30 Fire Damage",
-                "7% Life Stolen Per Hit",
-                $"+2-6 To {{{SkillEnumeration.BattleCommand.Id}}} (varies)",
-                $"+1-6 To {{{SkillEnumeration.BattleOrder.Id}}} (varies)",
-                $"+1-4 To {{{SkillEnumeration.BattleCry.Id}}} (varies)",
-                "Prevent Monster Heal",
-                "Replenish Life +12",
-                "30% Better Chance of Getting Magic Items",
+                new Statistic("+1 To All Skills", null),
+                new Statistic("+40% Increased Attack Speed", null),
+                new Statistic("+240-290% Enhanced Damage (varies)", null),
+                new Statistic("Adds 5-30 Fire Damage", null),
+                new Statistic("7% Life Stolen Per Hit", null),
+                new Statistic("+2-6 To {skill} (varies)", SkillEnumeration.BattleCommand),
+                new Statistic("+1-6 To {skill} (varies)", SkillEnumeration.BattleOrder),
+                new Statistic("+1-4 To {skill} (varies)", SkillEnumeration.BattleCry),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("Replenish Life +12", null),
+                new Statistic("30% Better Chance of Getting Magic Items", null)
             }, "https://diablo2.wiki.fextralife.com/Call+to+Arms");
 
         public static RuneWordEnumeration ChainsOfHonor => new(8, "Chains of Honor", 63, new List<RuneEnumeration> { RuneEnumeration.Dol, RuneEnumeration.Um, RuneEnumeration.Ber, RuneEnumeration.Ist },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+2 To All Skills",
-                "+200% Damage To Demons",
-                "+100% Damage To Undead",
-                "8% Life Stolen Per Hit",
-                "+70% Enhanced Defense",
-                "+20 To Strength",
-                "Replenish Life +7",
-                "All Resistances +65",
-                "Damage Reduced By 8%",
-                "25% Better Chance of Getting Magic Items"
+                new Statistic("+2 To All Skills", null),
+                new Statistic("+200% Damage To Demons", null),
+                new Statistic("+100% Damage To Undead", null),
+                new Statistic("8% Life Stolen Per Hit", null),
+                new Statistic("+70% Enhanced Defense", null),
+                new Statistic("+20 To Strength", null),
+                new Statistic("Replenish Life +7", null),
+                new Statistic("All Resistances +65", null),
+                new Statistic("Damage Reduced By 8%", null),
+                new Statistic("25% Better Chance of Getting Magic Items", null)
             }, "https://diablo2.wiki.fextralife.com/Chains+of+Honor");
 
         public static RuneWordEnumeration Chaos => new(9, "Chaos", 57, new List<RuneEnumeration> { RuneEnumeration.Fal, RuneEnumeration.Ohm, RuneEnumeration.Um },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Claw },
-            new List<string>
+            new List<Statistic>
             {
-                $"9% Chance To Cast Level 11 {{{SkillEnumeration.FrozenOrb.Id}}} On Striking",
-                $"11% Chance To Cast Level 9 {{{SkillEnumeration.ChargedBolt.Id}}} On Striking",
-                "+35% Increased Attacked Speed",
-                "+240-290% Enhanced Damage (varies)",
-                "Adds 216-471 Magic Damage",
-                "25% Chance of Open Wounds",
-                $"+1 To {{{SkillEnumeration.Whirlwind.Id}}}",
-                "+10 To Strength",
-                "+15 Life After Each Demon Kill",
+                new Statistic("9% Chance To Cast Level 11 {skill} On Striking", SkillEnumeration.FrozenOrb),
+                new Statistic("11% Chance To Cast Level 9 {skill} On Striking", SkillEnumeration.ChargedBolt),
+                new Statistic("+35% Increased Attacked Speed", null),
+                new Statistic("+240-290% Enhanced Damage (varies)", null),
+                new Statistic("Adds 216-471 Magic Damage", null),
+                new Statistic("25% Chance of Open Wounds", null),
+                new Statistic("+1 To {skill}", SkillEnumeration.Whirlwind),
+                new Statistic("+10 To Strength", null),
+                new Statistic("+15 Life After Each Demon Kill", null)
             }, "https://diablo2.wiki.fextralife.com/Chaos");
 
         public static RuneWordEnumeration CrescentMoon => new(10, "CrescentMoon", 47, new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Um, RuneEnumeration.Tir },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Axe, ItemTypeEnumeration.Polearm, ItemTypeEnumeration.Sword },
-            new List<string>
+            new List<Statistic>
             {
-                $"10% Chance To Cast Level 17 {{{SkillEnumeration.ChainLightning.Id}}} On Striking",
-                $"7% Chance To Cast Level 13 {{{SkillEnumeration.StaticField.Id}}} On Striking",
-                "+20% Increased Attack Speed",
-                "+180-220% Enhanced Damage (varies)",
-                "Ignore Target's Defense",
-                "-35% To Enemy Lightning Resistance",
-                "25% Chance of Open Wounds",
-                "+9-11 Magic Absorb (varies)",
-                "+2 To Mana After Each Kill",
-                $"Level 18 Summon {{{SkillEnumeration.SummonSpiritWolf.Id}}} (30 Charges)"
+                new Statistic("10% Chance To Cast Level 17 {skill} On Striking", SkillEnumeration.ChainLightning),
+                new Statistic("7% Chance To Cast Level 13 {skill} On Striking", SkillEnumeration.StaticField),
+                new Statistic("+20% Increased Attack Speed", null),
+                new Statistic("+180-220% Enhanced Damage (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("-35% To Enemy Lightning Resistance", null),
+                new Statistic("25% Chance of Open Wounds", null),
+                new Statistic("+9-11 Magic Absorb (varies)", null),
+                new Statistic("+2 To Mana After Each Kill", null),
+                new Statistic("Level 18 Summon {{{}} (30 Charges)", SkillEnumeration.SummonSpiritWolf)
             }, "https://diablo2.wiki.fextralife.com/Crescent+Moon+(Runeword)");
 
         public static RuneWordEnumeration Death => new(11, "Death", 55, new List<RuneEnumeration> { RuneEnumeration.Hel, RuneEnumeration.El, RuneEnumeration.Vex, RuneEnumeration.Ort, RuneEnumeration.Gul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Axe, ItemTypeEnumeration.Sword },
-            new List<string>
+            new List<Statistic>
             {
-                "Indestructible",
-                $"100% Chance To Cast Level 44 {{{SkillEnumeration.ChainLightning.Id}}} When You Die",
-                $"25% Chance To Cast Level 18 {{{SkillEnumeration.GlacialSpike.Id}}} On Attack",
-                "+300-385% Enhanced Damage (varies)",
-                "20% Bonus To Attack Rating",
-                "+50 To Attack Rating",
-                "Adds 1-50 Lightning Damage",
-                "7% Mana Stolen Per Hit",
-                "50% Chance of Crushing Blow",
-                "(0.5*Clvl)% Deadly Strike (Based on Character Level)",
-                "+1 To Light Radius",
-                $"Level 22 {{{SkillEnumeration.BloodGolem.Id}}} (15 Charges)",
-                "Requirements -20%",
+                new Statistic("Indestructible", null),
+                new Statistic("100% Chance To Cast Level 44 {skill} When You Die", SkillEnumeration.ChainLightning),
+                new Statistic("25% Chance To Cast Level 18 {skill} On Attack", SkillEnumeration.GlacialSpike),
+                new Statistic("+300-385% Enhanced Damage (varies)", null),
+                new Statistic("20% Bonus To Attack Rating", null),
+                new Statistic("+50 To Attack Rating", null),
+                new Statistic("Adds 1-50 Lightning Damage", null),
+                new Statistic("7% Mana Stolen Per Hit", null),
+                new Statistic("50% Chance of Crushing Blow", null),
+                new Statistic("(0.5*Clvl)% Deadly Strike (Based on Character Level)", null),
+                new Statistic("+1 To Light Radius", null),
+                new Statistic("Level 22 {skill} (15 Charges)", SkillEnumeration.BloodGolem),
+                new Statistic("Requirements -20%", null)
             }, "https://diablo2.wiki.fextralife.com/Death");
 
         public static RuneWordEnumeration Delirium => new(12, "Delirium", 51, new List<RuneEnumeration> { RuneEnumeration.Lem, RuneEnumeration.Ist, RuneEnumeration.Io },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Helmet },
-            new List<string>
+            new List<Statistic>
             {
-                "1% Chance To Cast lvl 50 Delirium When Struck",
-                $"6% Chance To Cast lvl 14 {{{SkillEnumeration.MindBlast.Id}}} When Struck",
-                $"14% Chance To Cast lvl 13 {{{SkillEnumeration.Terror.Id}}} When Struck",
-                $"11% Chance To Cast lvl 18 {{{SkillEnumeration.Confuse.Id}}} On Striking",
-                "+2 To All Skills",
-                "+261 Defense",
-                "+10 To Vitality",
-                "50% Extra Gold From Monsters",
-                "25% Better Chance of Getting Magic Items",
-                $"Level 17 {{{SkillEnumeration.Attract.Id}}} (60 Charges)",
+                new Statistic("1% Chance To Cast lvl 50 Delirium When Struck", null),
+                new Statistic("6% Chance To Cast lvl 14 {skill} When Struck", SkillEnumeration.MindBlast),
+                new Statistic("14% Chance To Cast lvl 13 {skill} When Struck", SkillEnumeration.Terror),
+                new Statistic("11% Chance To Cast lvl 18 {skill} On Striking", SkillEnumeration.Confuse),
+                new Statistic("+2 To All Skills", null),
+                new Statistic("+261 Defense", null),
+                new Statistic("+10 To Vitality", null),
+                new Statistic("50% Extra Gold From Monsters", null),
+                new Statistic("25% Better Chance of Getting Magic Items", null),
+                new Statistic("Level 17 {skill} (60 Charges)", SkillEnumeration.Attract)
             }, "https://diablo2.wiki.fextralife.com/Delirium");
 
         public static RuneWordEnumeration Destruction => new(13, "Destruction", 65, new List<RuneEnumeration> { RuneEnumeration.Vex, RuneEnumeration.Lo, RuneEnumeration.Ber, RuneEnumeration.Jah, RuneEnumeration.Ko },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Polearm, ItemTypeEnumeration.Sword },
-            new List<string>
+            new List<Statistic>
             {
-                $"23% Chance To Cast Level 12 {{{SkillEnumeration.Volcano.Id}}} On Striking",
-                $"5% Chance To Cast Level 23 {{{SkillEnumeration.MoltenBoulder.Id}}} On Striking",
-                $"100% Chance To Cast level 45 {{{SkillEnumeration.Meteor.Id}}} When You Die",
-                $"15% Chance To Cast Level 22 {{{SkillEnumeration.Nova.Id}}} On Attack",
-                "+350% Enhanced Damage",
-                "Ignore Target's Defense",
-                "Adds 100-180 Magic Damage",
-                "7% Mana Stolen Per Hit",
-                "20% Chance Of Crushing Blow",
-                "20% Deadly Strike",
-                "Prevent Monster Heal",
-                "+10 To Dexterity"
+                new Statistic("23% Chance To Cast Level 12 {skill} On Striking", SkillEnumeration.Volcano),
+                new Statistic("5% Chance To Cast Level 23 {skill} On Striking", SkillEnumeration.MoltenBoulder),
+                new Statistic("100% Chance To Cast level 45 {skill} When You Die", SkillEnumeration.Meteor),
+                new Statistic("15% Chance To Cast Level 22 {skill} On Attack", SkillEnumeration.Nova),
+                new Statistic("+350% Enhanced Damage", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("Adds 100-180 Magic Damage", null),
+                new Statistic("7% Mana Stolen Per Hit", null),
+                new Statistic("20% Chance Of Crushing Blow", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+10 To Dexterity", null),
             }, "https://diablo2.wiki.fextralife.com/Destruction");
 
         public static RuneWordEnumeration Doom => new(14, "Doom", 67, new List<RuneEnumeration> { RuneEnumeration.Hel, RuneEnumeration.Ohm, RuneEnumeration.Um, RuneEnumeration.Lo, RuneEnumeration.Cham },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Axe, ItemTypeEnumeration.Hammer, ItemTypeEnumeration.Polearm },
-            new List<string>
+            new List<Statistic>
             {
-                $"5% Chance To Cast Level 18 {{{SkillEnumeration.Volcano.Id}}} On Striking",
-                $"Level 12 {{{SkillEnumeration.HolyFreeze.Id}}} Aura When Equipped",
-                "+2 To All Skills",
-                "+45% Increased Attack Speed",
-                "+330-370% Enhanced Damage (varies)",
-                "-40-60% To Enemy Cold Resistance (varies)",
-                "20% Deadly Strike",
-                "25% Chance of Open Wounds",
-                "Prevent Monster Heal",
-                "Freezes Target +3",
-                "Requirements -20%"
+                new Statistic("5% Chance To Cast Level 18 {skill} On Striking", SkillEnumeration.Volcano),
+                new Statistic("Level 12 {skill} Aura When Equipped", SkillEnumeration.HolyFreeze),
+                new Statistic("+2 To All Skills", null),
+                new Statistic("+45% Increased Attack Speed", null),
+                new Statistic("+330-370% Enhanced Damage (varies)", null),
+                new Statistic("-40-60% To Enemy Cold Resistance (varies)", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("25% Chance of Open Wounds", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("Freezes Target +3", null),
+                new Statistic("Requirements -20%", null),
             }, "https://diablo2.wiki.fextralife.com/Doom");
 
         public static RuneWordEnumeration Dragon => new(15, "Dragon", 61, new List<RuneEnumeration> { RuneEnumeration.Sur, RuneEnumeration.Lo, RuneEnumeration.Sol },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor, ItemTypeEnumeration.Shield },
-            new List<string>
+            new List<Statistic>
             {
-                $"20% Chance to Cast Level 18 {{{SkillEnumeration.Venom.Id}}} When Struck",
-                $"12% Chance To Cast Level 15 {{{SkillEnumeration.Hydra.Id}}} On Striking",
-                $"Level 14 {{{SkillEnumeration.HolyFire.Id}}} Aura When Equipped",
-                "+360 Defense",
-                "+230 Defense Vs. Missile",
-                "+3-5 To All Attributes (varies)",
-                "+(0.375*Clvl) To Strength (Based on Character Level)",
-                "+5% To Maximum Lightning Resist",
-                "Damage Reduced by 7",
-                "Increase Maximum Mana 5% (Armor)",
-                "+50 To Mana (Shields)",
+                new Statistic("20% Chance to Cast Level 18 {skill} When Struck", SkillEnumeration.Venom),
+                new Statistic("12% Chance To Cast Level 15 {skill} On Striking", SkillEnumeration.Hydra),
+                new Statistic("Level 14 {skill} Aura When Equipped", SkillEnumeration.HolyFire),
+                new Statistic("+360 Defense", null),
+                new Statistic("+230 Defense Vs. Missile", null),
+                new Statistic("+3-5 To All Attributes (varies)", null),
+                new Statistic("+(0.375*Clvl) To Strength (Based on Character Level)", null),
+                new Statistic("+5% To Maximum Lightning Resist", null),
+                new Statistic("Damage Reduced by 7", null),
+                new Statistic("Increase Maximum Mana 5% (Armor)", null),
+                new Statistic("+50 To Mana (Shields)", null),
             }, "https://diablo2.wiki.fextralife.com/Dragon");
 
         public static RuneWordEnumeration Dream => new(16, "Dream", 65, new List<RuneEnumeration> { RuneEnumeration.Io, RuneEnumeration.Jah, RuneEnumeration.Pul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Shield, ItemTypeEnumeration.Helmet },
-            new List<string>
+            new List<Statistic>
             {
-                $"10% Chance To Cast Level 15 {{{SkillEnumeration.Confuse.Id}}} When Struck",
-                $"Level 15 {{{SkillEnumeration.HolyShock.Id}}} Aura When Equipped",
-                "+20-30% Faster Hit Recovery (varies)",
-                "+30% Enhanced Defense",
-                "+150-220 Defense (varies)",
-                "+10 To Vitality",
-                "+(0.625*Clvl) To Mana (Based On Character Level)",
-                "All Resistances +5-20 (varies)",
-                "12-25% Better Chance of Getting Magic Items (varies)",
-                "Increase Maximum Life 5% (Helmet)",
-                "+50 To Life (Shields)"
+                new Statistic("10% Chance To Cast Level 15 {skill} When Struck", SkillEnumeration.Confuse),
+                new Statistic("Level 15 {skill} Aura When Equipped", SkillEnumeration.HolyShock),
+                new Statistic("+20-30% Faster Hit Recovery (varies)", null),
+                new Statistic("+30% Enhanced Defense", null),
+                new Statistic("+150-220 Defense (varies)", null),
+                new Statistic("+10 To Vitality", null),
+                new Statistic("+(0.625*Clvl) To Mana (Based On Character Level)", null),
+                new Statistic("All Resistances +5-20 (varies)", null),
+                new Statistic("12-25% Better Chance of Getting Magic Items (varies)", null),
+                new Statistic("Increase Maximum Life 5% (Helmet)", null),
+                new Statistic("+50 To Life (Shields)", null),
             }, "https://diablo2.wiki.fextralife.com/Dream");
 
         public static RuneWordEnumeration Duress => new(17, "Duress", 47, new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Um, RuneEnumeration.Thul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "40% faster hit Recovery",
-                "+10-20% Enhanced Damage (varies)",
-                "Adds 37-133 Cold Damage",
-                "15% Crushing Blow",
-                "33% Open Wounds",
-                "+150-200% Enhanced Defense (varies)",
-                "-20% Slower Stamina Drain",
-                "Cold Resist +45%",
-                "Lightning Resist +15%",
-                "Fire Resist +15%",
-                "Poison Resist +15%"
+                new Statistic("40% faster hit Recovery", null),
+                new Statistic("+10-20% Enhanced Damage (varies)", null),
+                new Statistic("Adds 37-133 Cold Damage", null),
+                new Statistic("15% Crushing Blow", null),
+                new Statistic("33% Open Wounds", null),
+                new Statistic("+150-200% Enhanced Defense (varies)", null),
+                new Statistic("-20% Slower Stamina Drain", null),
+                new Statistic("Cold Resist +45%", null),
+                new Statistic("Lightning Resist +15%", null),
+                new Statistic("Fire Resist +15%", null),
+                new Statistic("Poison Resist +15%", null),
             }, "https://diablo2.wiki.fextralife.com/Duress");
 
         public static RuneWordEnumeration Edge => new(18, "Edge", 25, new List<RuneEnumeration> { RuneEnumeration.Tir, RuneEnumeration.Tal, RuneEnumeration.Amn },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-            new List<string>
+            new List<Statistic>
             {
-                $"Level 15 {{{SkillEnumeration.Thorns.Id}}} Aura When Equipped",
-                "+35% Increased Attack Speed",
-                "+320-380% Damage To Demons (varies)",
-                "+280% Damage To Undead",
-                "+75 Poison Damage Over 5 Seconds",
-                "7% Life Stolen Per Hit",
-                "Prevent Monster Heal",
-                "+5-10 To All Attributes (varies)",
-                "+2 To Mana After Each Kill",
-                "Reduces All Vendor Prices 15%"
+                new Statistic("Level 15 {skill} Aura When Equipped", SkillEnumeration.Thorns),
+                new Statistic("+35% Increased Attack Speed", null),
+                new Statistic("+320-380% Damage To Demons (varies)", null),
+                new Statistic("+280% Damage To Undead", null),
+                new Statistic("+75 Poison Damage Over 5 Seconds", null),
+                new Statistic("7% Life Stolen Per Hit", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+5-10 To All Attributes (varies)", null),
+                new Statistic("+2 To Mana After Each Kill", null),
+                new Statistic("Reduces All Vendor Prices 15%", null),
             }, "https://diablo2.wiki.fextralife.com/Edge");
 
         public static RuneWordEnumeration Enigma => new(19, "Enigma", 65, new List<RuneEnumeration> { RuneEnumeration.Jah, RuneEnumeration.Ith, RuneEnumeration.Ber },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+2 To All Skills",
-                "+45% Faster Run/Walk",
-                $"+1 To {{{SkillEnumeration.Teleport.Id}}}",
-                "+750-775 Defense (Varies)",
-                "+(0.75*Clvl) To Strength (Based On Character Level)",
-                "Increase Maximum Life 5%",
-                "Damage Reduced By 8%",
-                "+14 Life After Each Kill",
-                "15% Damage Taken Goes To Mana",
-                "(1*Clvl)% Better Chance of Getting Magic Items (Based On Character Level)"
+                new Statistic("+2 To All Skills", null),
+                new Statistic("+45% Faster Run/Walk", null),
+                new Statistic("+1 To {skill}", SkillEnumeration.Teleport),
+                new Statistic("+750-775 Defense (Varies)", null),
+                new Statistic("+(0.75*Clvl) To Strength (Based On Character Level)", null),
+                new Statistic("Increase Maximum Life 5%", null),
+                new Statistic("Damage Reduced By 8%", null),
+                new Statistic("+14 Life After Each Kill", null),
+                new Statistic("15% Damage Taken Goes To Mana", null),
+                new Statistic("(1*Clvl)% Better Chance of Getting Magic Items (Based On Character Level)", null),
             }, "https://diablo2.wiki.fextralife.com/Enigma");
 
         public static RuneWordEnumeration Enlightenment => new(20, "Enlightenment", 45, new List<RuneEnumeration> { RuneEnumeration.Pul, RuneEnumeration.Ral, RuneEnumeration.Sol },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"5% Chance To Cast Level 15 {{{SkillEnumeration.Blaze.Id}}} When Struck",
-                $"5% Chance To Cast level 15 {{{SkillEnumeration.Fireball.Id}}} On Striking",
-                "+2 To Sorceress Skill Levels",
-                "+1 To Warmth",
-                "+30% Enhanced Defense",
-                "Fire Resist +30%",
-                "Damage Reduced By 7"
+                new Statistic("5% Chance To Cast Level 15 {skill} When Struck", SkillEnumeration.Blaze),
+                new Statistic("5% Chance To Cast level 15 {skill} On Striking", SkillEnumeration.Fireball),
+                new Statistic("+2 To Sorceress Skill Levels", null),
+                new Statistic("+1 To Warmth", null),
+                new Statistic("+30% Enhanced Defense", null),
+                new Statistic("Fire Resist +30%", null),
+                new Statistic("Damage Reduced By 7", null),
             }, "https://diablo2.wiki.fextralife.com/Enlightenment");
 
         public static RuneWordEnumeration Eternity => new(21, "Eternity", 63, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.Ber, RuneEnumeration.Ist, RuneEnumeration.Sol, RuneEnumeration.Sur },
             _meleeWeapons,
-            new List<string>
+            new List<Statistic>
             {
-                "Indestructible",
-                "+260-310% Enhanced Damage (varies)",
-                "+9 To Minimum Damage",
-                "7% Life Stolen Per Hit",
-                "20% Chance of Crushing Blow",
-                "Hit Blinds Target",
-                "Slows Target By 33%",
-                "Replenish Mana 16%",
-                "Cannot Be Frozen",
-                "30% Better Chance Of Getting Magic Items",
-                $"Level 8 {{{SkillEnumeration.Revive.Id}}} (88 Charges)"
+                new Statistic("Indestructible", null),
+                new Statistic("+260-310% Enhanced Damage (varies)", null),
+                new Statistic("+9 To Minimum Damage", null),
+                new Statistic("7% Life Stolen Per Hit", null),
+                new Statistic("20% Chance of Crushing Blow", null),
+                new Statistic("Hit Blinds Target", null),
+                new Statistic("Slows Target By 33%", null),
+                new Statistic("Replenish Mana 16%", null),
+                new Statistic("Cannot Be Frozen", null),
+                new Statistic("30% Better Chance Of Getting Magic Items", null),
+                new Statistic("Level 8 {skill} (88 Charges)", SkillEnumeration.Revive),
             }, "https://diablo2.wiki.fextralife.com/Eternity");
 
         public static RuneWordEnumeration Exile => new(22, "Exile", 57, new List<RuneEnumeration> { RuneEnumeration.Vex, RuneEnumeration.Ohm, RuneEnumeration.Ist, RuneEnumeration.Dol },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.PaladinShield },
-            new List<string>
+            new List<Statistic>
             {
-                $"15% Chance To Cast Level 5 {{{SkillEnumeration.LifeTap.Id}}} On Striking",
-                $"Level 13-16 {{{SkillEnumeration.Defiance.Id}}} Aura When Equipped (varies)",
-                "+2 To Offensive Auras (Paladin Only)",
-                "+30% Faster Block Rate",
-                "Freezes Target",
-                "+220-260% Enhanced Defense (varies)",
-                "Replenish Life +7",
-                "+5% To Maximum Cold Resist",
-                "+5% To Maximum Fire Resist",
-                "25% Better Chance Of Getting Magic Items",
-                "Repairs 1 Durability every 4 seconds"
+                new Statistic("15% Chance To Cast Level 5 {skill} On Striking", SkillEnumeration.LifeTap),
+                new Statistic("Level 13-16 {skill} Aura When Equipped (varies)", SkillEnumeration.Defiance),
+                new Statistic("+2 To Offensive Auras (Paladin Only)", null),
+                new Statistic("+30% Faster Block Rate", null),
+                new Statistic("Freezes Target", null),
+                new Statistic("+220-260% Enhanced Defense (varies)", null),
+                new Statistic("Replenish Life +7", null),
+                new Statistic("+5% To Maximum Cold Resist", null),
+                new Statistic("+5% To Maximum Fire Resist", null),
+                new Statistic("25% Better Chance Of Getting Magic Items", null),
+                new Statistic("Repairs 1 Durability every 4 seconds", null)
             }, "https://diablo2.wiki.fextralife.com/Exile");
 
         public static RuneWordEnumeration Faith => new(23, "Faith", 65, new List<RuneEnumeration> { RuneEnumeration.Ohm, RuneEnumeration.Jah, RuneEnumeration.Lem, RuneEnumeration.Eld },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-            new List<string>
+            new List<Statistic>
             {
-                $"Level 12-15 {{{SkillEnumeration.Fanaticism.Id}}} Aura When Equipped (varies)",
-                "+1-2 To All Skills (varies)",
-                "+330% Enhanced Damage",
-                "Ignore Target's Defense",
-                "300% Bonus To Attack Rating",
-                "+75% Damage To Undead",
-                "+50 To Attack Rating Against Undead",
-                "+120 Fire Damage",
-                "All Resistances +15",
-                "10% Reanimate As: Returned",
-                "75% Extra Gold From Monsters"
+                new Statistic("Level 12-15 {skill} Aura When Equipped (varies)", SkillEnumeration.Fanaticism),
+                new Statistic("+1-2 To All Skills (varies)", null),
+                new Statistic("+330% Enhanced Damage", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("300% Bonus To Attack Rating", null),
+                new Statistic("+75% Damage To Undead", null),
+                new Statistic("+50 To Attack Rating Against Undead", null),
+                new Statistic("+120 Fire Damage", null),
+                new Statistic("All Resistances +15", null),
+                new Statistic("10% Reanimate As: Returned", null),
+                new Statistic("75% Extra Gold From Monsters", null)
             }, "https://diablo2.wiki.fextralife.com/Faith");
 
         public static RuneWordEnumeration Famine => new(24, "Famine", 65, new List<RuneEnumeration> { RuneEnumeration.Fal, RuneEnumeration.Ohm, RuneEnumeration.Ort, RuneEnumeration.Jah },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Axe, ItemTypeEnumeration.Hammer },
-            new List<string>
+            new List<Statistic>
             {
-                "+30% Increased Attack Speed",
-                "+320-370% Enhanced Damage (varies)",
-                "Ignore Target's Defense",
-                "Adds 180-200 Magic Damage",
-                "Adds 50-200 Fire Damage",
-                "Adds 51-250 Lightning Damage",
-                "Adds 50-200 Cold Damage",
-                "12% Life Stolen Per Hit",
-                "Prevent Monster Heal",
-                "+10 To Strength"
+                new Statistic("+30% Increased Attack Speed", null),
+                new Statistic("+320-370% Enhanced Damage (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("Adds 180-200 Magic Damage", null),
+                new Statistic("Adds 50-200 Fire Damage", null),
+                new Statistic("Adds 51-250 Lightning Damage", null),
+                new Statistic("Adds 50-200 Cold Damage", null),
+                new Statistic("12% Life Stolen Per Hit", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+10 To Strength", null)
             }, "https://diablo2.wiki.fextralife.com/Famine");
 
         public static RuneWordEnumeration Fortitude => new(25, "Fortitude", 59, new List<RuneEnumeration> { RuneEnumeration.El, RuneEnumeration.Sol, RuneEnumeration.Dol, RuneEnumeration.Lo },
             _rangedWeapons.Concat(_meleeWeapons).Concat(new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor }),
-            new List<string>
+            new List<Statistic>
             {
-                $"20% Chance To Cast Level 15 {{{SkillEnumeration.ChillingArmor.Id}}} when Struck",
-                "+25% Faster Cast Rate",
-                "+300% Enhanced Damage",
-                "+200% Enhanced Defense",
-                "+((8-12)*0.125*Clvl) To Life (Based on Character Level) (varies)",
-                "All Resistances +25-30 (varies)",
-                "12% Damage Taken Goes To Mana",
-                "+1 To Light Radius",
-                "+9 To Minimum Damage (Weapons)",
-                "+50 To Attack Rating (Weapons)",
-                "20% Deadly Strike (Weapons)",
-                "Hit Causes Monster To Flee 25% (Weapons)",
-                "+15 Defense (Armor)",
-                "Replenish Life +7 (Armor)",
-                "+5% To Maximum Lightning Resist (Armor)",
-                "Damage Reduced By 7 (Armor)"
+                new Statistic("20% Chance To Cast Level 15 {skill} when Struck", SkillEnumeration.ChillingArmor),
+                new Statistic("+25% Faster Cast Rate", null),
+                new Statistic("+300% Enhanced Damage", null),
+                new Statistic("+200% Enhanced Defense", null),
+                new Statistic("+((8-12)*0.125*Clvl) To Life (Based on Character Level) (varies)", null),
+                new Statistic("All Resistances +25-30 (varies)", null),
+                new Statistic("12% Damage Taken Goes To Mana", null),
+                new Statistic("+1 To Light Radius", null),
+                new Statistic("+9 To Minimum Damage (Weapons)", null),
+                new Statistic("+50 To Attack Rating (Weapons)", null),
+                new Statistic("20% Deadly Strike (Weapons)", null),
+                new Statistic("Hit Causes Monster To Flee 25% (Weapons)", null),
+                new Statistic("+15 Defense (Armor)", null),
+                new Statistic("Replenish Life +7 (Armor)", null),
+                new Statistic("+5% To Maximum Lightning Resist (Armor)", null),
+                new Statistic("Damage Reduced By 7 (Armor)", null)
             }, "https://diablo2.wiki.fextralife.com/Fortitude");
 
         public static RuneWordEnumeration Fury => new(26, "Fury", 65, new List<RuneEnumeration> { RuneEnumeration.Jah, RuneEnumeration.Gul, RuneEnumeration.Eth },
             _meleeWeapons,
-            new List<string>
+            new List<Statistic>
             {
-                "40% Increased Attack Speed",
-                "+209% Enhanced Damage",
-                "Ignores Target Defense",
-                "-25% Target Defense",
-                "20% Bonus to Attack Rating",
-                "6% Life Stolen Per Hit",
-                "33% Chance Of Deadly Strike",
-                "66% Chance Of Open Wounds",
-                $"+5 To {{{SkillEnumeration.Frenzy.Id}}} (Barbarian Only)",
-                "Prevent Monster Heal"
+                new Statistic("40% Increased Attack Speed", null),
+                new Statistic("+209% Enhanced Damage", null),
+                new Statistic("Ignores Target Defense", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("20% Bonus to Attack Rating", null),
+                new Statistic("6% Life Stolen Per Hit", null),
+                new Statistic("33% Chance Of Deadly Strike", null),
+                new Statistic("66% Chance Of Open Wounds", null),
+                new Statistic("+5 To {skill} (Barbarian Only)", SkillEnumeration.Frenzy),
+                new Statistic("Prevent Monster Heal", null)
             }, "https://diablo2.wiki.fextralife.com/Fury");
 
         public static RuneWordEnumeration Gloom => new(27, "Gloom", 47, new List<RuneEnumeration> { RuneEnumeration.Fal, RuneEnumeration.Um, RuneEnumeration.Pul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"15% Chance To Cast Level 3 {{{SkillEnumeration.DimVision.Id}}} When Struck",
-                "+10% Faster Hit Recovery",
-                "+200-260% Enhanced Defense (varies)",
-                "+10 To Strength",
-                "All Resistances +45",
-                "Half Freeze Duration",
-                "5% Damage Taken Goes To Mana",
-                "-3 To Light Radius"
+                new Statistic("15% Chance To Cast Level 3 {skill} When Struck", SkillEnumeration.DimVision),
+                new Statistic("+10% Faster Hit Recovery", null),
+                new Statistic("+200-260% Enhanced Defense (varies)", null),
+                new Statistic("+10 To Strength", null),
+                new Statistic("All Resistances +45", null),
+                new Statistic("Half Freeze Duration", null),
+                new Statistic("5% Damage Taken Goes To Mana", null),
+                new Statistic("-3 To Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Gloom");
 
         public static RuneWordEnumeration Grief => new(28, "Grief", 59, new List<RuneEnumeration> { RuneEnumeration.Eth, RuneEnumeration.Tir, RuneEnumeration.Lo, RuneEnumeration.Mal, RuneEnumeration.Ral },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Axe },
-            new List<string>
+            new List<Statistic>
             {
-                $"35% Chance To Cast Level 15 {{{SkillEnumeration.Venom.Id}}} On Striking",
-                "+30-40% Increased Attack Speed (varies)",
-                "Damage +340-400 (varies)",
-                "Ignore Target's Defense",
-                "-25% Target Defense",
-                "+(1.875*Clvl)% Damage To Demons (Based on Character Level)",
-                "Adds 5-30 Fire Damage",
-                "-20-25% To Enemy Poison Resistance (varies)",
-                "20% Deadly Strike",
-                "Prevent Monster Heal",
-                "+2 To Mana After Each Kill",
-                "+10-15 Life After Each Kill (varies)"
+                new Statistic("35% Chance To Cast Level 15 {skill} On Striking", SkillEnumeration.Venom),
+                new Statistic("+30-40% Increased Attack Speed (varies)", null),
+                new Statistic("Damage +340-400 (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("+(1.875*Clvl)% Damage To Demons (Based on Character Level)", null),
+                new Statistic("Adds 5-30 Fire Damage", null),
+                new Statistic("-20-25% To Enemy Poison Resistance (varies)", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+2 To Mana After Each Kill", null),
+                new Statistic("+10-15 Life After Each Kill (varies)", null)
             }, "https://diablo2.wiki.fextralife.com/Grief");
 
         public static RuneWordEnumeration HandOfJustice => new(29, "HandOfJustice", 67, new List<RuneEnumeration> { RuneEnumeration.Sur, RuneEnumeration.Cham, RuneEnumeration.Lo, RuneEnumeration.Amn, RuneEnumeration.Lo },
             _rangedWeapons.Concat(_meleeWeapons),
-            new List<string>
+            new List<Statistic>
             {
-                $"100% Chance To Cast Level 36 {{{SkillEnumeration.Blaze.Id}}} When You Level-Up",
-                $"100% Chance To Cast Level 48 {{{SkillEnumeration.Meteor.Id}}} When You Die",
-                $"Level 16 {{{SkillEnumeration.HolyFire.Id}}} Aura When Equipped",
-                "+33% Increased Attack Speed",
-                "+280-330% Enhanced Damage (varies)",
-                "Ignore Target's Defense",
-                "-20% To Enemy Fire Resistance",
-                "7% Life Stolen Per Hit",
-                "20% Deadly Strike",
-                "Hit Blinds Target",
-                "Freezes Target +3"
+                new Statistic("100% Chance To Cast Level 36 {skill} When You Level-Up", SkillEnumeration.Blaze),
+                new Statistic("100% Chance To Cast Level 48 {skill} When You Die", SkillEnumeration.Meteor),
+                new Statistic("Level 16 {skill} Aura When Equipped", SkillEnumeration.HolyFire),
+                new Statistic("+33% Increased Attack Speed", null),
+                new Statistic("+280-330% Enhanced Damage (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("-20% To Enemy Fire Resistance", null),
+                new Statistic("7% Life Stolen Per Hit", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("Hit Blinds Target", null),
+                new Statistic("Freezes Target +3", null)
             }, "https://diablo2.wiki.fextralife.com/Hand+of+Justice");
 
         public static RuneWordEnumeration Harmony => new(30, "Harmony", 39, new List<RuneEnumeration> { RuneEnumeration.Tir, RuneEnumeration.Ith, RuneEnumeration.Sol, RuneEnumeration.Ko },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-            new List<string>
+            new List<Statistic>
             {
-                $"Level 10 {{{SkillEnumeration.Vigor.Id}}} Aura When Equipped",
-                "+200-275% Enhanced Damage (varies)",
-                "+9 To Minimum Damage",
-                "+9 To Maximum Damage",
-                "Adds 55-160 Fire Damage",
-                "Adds 55-160 Lightning Damage",
-                "Adds 55-160 Cold Damage",
-                $"+2-6 To {{{SkillEnumeration.Valkyrie.Id}}} (varies)",
-                "+10 To Dexterity",
-                "Regenerate Mana 20%",
-                "+2 To Mana After Each Kill",
-                "+2 To Light Radius",
-                $"Level 20 {{{SkillEnumeration.Revive.Id}}} (25 Charges)"
+                new Statistic("Level 10 {skill} Aura When Equipped", SkillEnumeration.Vigor),
+                new Statistic("+200-275% Enhanced Damage (varies)", null),
+                new Statistic("+9 To Minimum Damage", null),
+                new Statistic("+9 To Maximum Damage", null),
+                new Statistic("Adds 55-160 Fire Damage", null),
+                new Statistic("Adds 55-160 Lightning Damage", null),
+                new Statistic("Adds 55-160 Cold Damage", null),
+                new Statistic("+2-6 To {skill} (varies)", SkillEnumeration.Valkyrie),
+                new Statistic("+10 To Dexterity", null),
+                new Statistic("Regenerate Mana 20%", null),
+                new Statistic("+2 To Mana After Each Kill", null),
+                new Statistic("+2 To Light Radius", null),
+                new Statistic("Level 20 {skill} (25 Charges)", SkillEnumeration.Revive)
             }, "https://diablo2.wiki.fextralife.com/Harmony");
 
         public static RuneWordEnumeration HeartOfTheOak => new(31, "Heart of the Oak", 55, new List<RuneEnumeration> { RuneEnumeration.Ko, RuneEnumeration.Vex, RuneEnumeration.Pul, RuneEnumeration.Thul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Stave, ItemTypeEnumeration.Mace },
-            new List<string>
+            new List<Statistic>
             {
-                "+3 To All Skills",
-                "+40% Faster Cast Rate",
-                "+75% Damage To Demons",
-                "+100 To Attack Rating Against Demons",
-                "Adds 3-14 Cold Damage",
-                "7% Mana Stolen Per Hit",
-                "+10 To Dexterity",
-                "Replenish Life +20",
-                "Increase Maximum Mana 15%",
-                "All Resistances +30-40 (varies)",
-                $"Level 4 {{{SkillEnumeration.OakSage.Id}}} (25 Charges)",
-                $"Level 14 {{{SkillEnumeration.Raven.Id}}} (60 Charges)"
+                new Statistic("+3 To All Skills", null),
+                new Statistic("+40% Faster Cast Rate", null),
+                new Statistic("+75% Damage To Demons", null),
+                new Statistic("+100 To Attack Rating Against Demons", null),
+                new Statistic("Adds 3-14 Cold Damage", null),
+                new Statistic("7% Mana Stolen Per Hit", null),
+                new Statistic("+10 To Dexterity", null),
+                new Statistic("Replenish Life +20", null),
+                new Statistic("Increase Maximum Mana 15%", null),
+                new Statistic("All Resistances +30-40 (varies)", null),
+                new Statistic("Level 4 {skill} (25 Charges)", SkillEnumeration.OakSage),
+                new Statistic("Level 14 {skill} (60 Charges)", SkillEnumeration.Raven)
             }, "https://diablo2.wiki.fextralife.com/Heart+of+the+Oak");
 
         public static RuneWordEnumeration HolyThunder => new(32, "Holy Thunder", 23, new List<RuneEnumeration> { RuneEnumeration.Eth, RuneEnumeration.Ral, RuneEnumeration.Ort, RuneEnumeration.Tal },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Scepter },
-            new List<string>
+            new List<Statistic>
             {
-                "+60% Enhanced Damage",
-                "+10 to Maximum Damage",
-                "-25% Target Defense",
-                "Adds 5-30 Fire Damage",
-                "Adds 21-110 Lightning Damage",
-                "+75 Poison Damage over 5 secs",
-                $"+3 to {{{SkillEnumeration.HolyShock.Id}}} (Paladin Only)",
-                "+5% to Maximum Lightning Resist",
-                "Lightning Resist +60%",
-                $"Level 7 {{{SkillEnumeration.ChainLightning.Id}}} (60 charges)"
+                new Statistic("+60% Enhanced Damage", null),
+                new Statistic("+10 to Maximum Damage", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("Adds 5-30 Fire Damage", null),
+                new Statistic("Adds 21-110 Lightning Damage", null),
+                new Statistic("+75 Poison Damage over 5 secs", null),
+                new Statistic("+3 to {{{SkillEnumeration.HolyShock}}} (Paladin Only)", null),
+                new Statistic("+5% to Maximum Lightning Resist", null),
+                new Statistic("Lightning Resist +60%", null),
+                new Statistic("Level 7 {{{SkillEnumeration.ChainLightning}}} (60 charges)", null)
             }, "https://diablo2.wiki.fextralife.com/Holy+Thunder");
 
         public static RuneWordEnumeration Honor => new(33, "Honor", 27, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.El, RuneEnumeration.Ith, RuneEnumeration.Tir, RuneEnumeration.Sol },
             _meleeWeapons,
-            new List<string>
+            new List<Statistic>
             {
-                "+1 to all skills",
-                "+160% Enhanced Damage",
-                "+9 to Minimum Damage",
-                "+9 to Maximum Damage",
-                "+250 Attack Rating",
-                "7% Life Stolen per Hit",
-                "25% Deadly Strike",
-                "+10 to Strength",
-                "Replenish life +10",
-                "+2 to Mana after each Kill",
-                "+1 to Light Radius"
+                new Statistic("+1 to all skills", null),
+                new Statistic("+160% Enhanced Damage", null),
+                new Statistic("+9 to Minimum Damage", null),
+                new Statistic("+9 to Maximum Damage", null),
+                new Statistic("+250 Attack Rating", null),
+                new Statistic("7% Life Stolen per Hit", null),
+                new Statistic("25% Deadly Strike", null),
+                new Statistic("+10 to Strength", null),
+                new Statistic("Replenish life +10", null),
+                new Statistic("+2 to Mana after each Kill", null),
+                new Statistic("+1 to Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Honor");
 
         public static RuneWordEnumeration Ice => new(34, "Ice", 65, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.Shael, RuneEnumeration.Jah, RuneEnumeration.Tir, RuneEnumeration.Lo },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-            new List<string>
+            new List<Statistic>
             {
-                $"100% Chance To Cast Level 40 {{{SkillEnumeration.Blizzard.Id}}} When You Level-up",
-                $"25% Chance To Cast Level 22 {{{SkillEnumeration.FrostNova.Id}}} On Striking",
-                $"Level 18 {{{SkillEnumeration.HolyFreeze.Id}}} Aura When Equipped",
-                "+20% Increased Attack Speed",
-                "+140-210% Enhanced Damage (varies)",
-                "Ignore Target's Defense",
-                "+25-30% To Cold Skill Damage (varies)",
-                "7% Life Stolen Per Hit",
-                "-20% To Enemy Cold Resistance",
-                "20% Deadly Strike",
-                "(3.125*Clvl)% Extra Gold From Monsters (Based on Character Level)"
+                new Statistic("100% Chance To Cast Level 40 {skill} When You Level-up", SkillEnumeration.Blizzard),
+                new Statistic("25% Chance To Cast Level 22 {skill} On Striking", SkillEnumeration.FrostNova),
+                new Statistic("Level 18 {skill} Aura When Equipped", SkillEnumeration.HolyFreeze),
+                new Statistic("+20% Increased Attack Speed", null),
+                new Statistic("+140-210% Enhanced Damage (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("+25-30% To Cold Skill Damage (varies)", null),
+                new Statistic("7% Life Stolen Per Hit", null),
+                new Statistic("-20% To Enemy Cold Resistance", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("(3.125*Clvl)% Extra Gold From Monsters (Based on Character Level)", null)
             }, "https://diablo2.wiki.fextralife.com/Ice");
 
         public static RuneWordEnumeration Infinity => new(35, "Infinity", 63, new List<RuneEnumeration> { RuneEnumeration.Ber, RuneEnumeration.Mal, RuneEnumeration.Ber, RuneEnumeration.Ist, RuneEnumeration.Lo },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Polearm },
-            new List<string>
+            new List<Statistic>
             {
-                $"Level 12-17 {{{SkillEnumeration.Meditation.Id}}} Aura When Equipped (varies)",
-                "+35% Faster Cast Rate",
-                "+200-260% Enhanced Damage (varies)",
-                "+9 To Minimum Damage",
-                "180-250% Bonus to Attack Rating (varies)",
-                "Adds 5-30 Fire Damage",
-                "+75 Poison Damage Over 5 Seconds",
-                "+1-6 To Critical Strike (varies)",
-                "+5 To All Attributes",
-                "+2 To Mana After Each Kill",
-                "23% Better Chance of Getting Magic Items"
+                new Statistic("Level 12-17 {skill} Aura When Equipped (varies)", SkillEnumeration.Meditation),
+                new Statistic("+35% Faster Cast Rate", null),
+                new Statistic("+200-260% Enhanced Damage (varies)", null),
+                new Statistic("+9 To Minimum Damage", null),
+                new Statistic("180-250% Bonus to Attack Rating (varies)", null),
+                new Statistic("Adds 5-30 Fire Damage", null),
+                new Statistic("+75 Poison Damage Over 5 Seconds", null),
+                new Statistic("+1-6 To Critical Strike (varies)", null),
+                new Statistic("+5 To All Attributes", null),
+                new Statistic("+2 To Mana After Each Kill", null),
+                new Statistic("23% Better Chance of Getting Magic Items", null)
             }, "https://diablo2.wiki.fextralife.com/Infinity");
 
         public static RuneWordEnumeration Insight => new(36, "Insight", 63, new List<RuneEnumeration> { RuneEnumeration.Ral, RuneEnumeration.Tir, RuneEnumeration.Tal, RuneEnumeration.Sol, RuneEnumeration.Lo },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Polearm, ItemTypeEnumeration.Stave },
-            new List<string>
+            new List<Statistic>
             {
-                $"50% Chance To Cast Level 20 {{{SkillEnumeration.ChainLightning.Id}}} When You Kill An Enemy",
-                $"Level 12 {{{SkillEnumeration.Conviction.Id}}} Aura When Equipped",
-                "+35% Faster Run/Walk",
-                "+255-325% Enhanced Damage (varies)",
-                "-(45-55)% To Enemy Lightning Resistance (varies)",
-                "40% Chance of Crushing Blow",
-                "Prevent Monster Heal",
-                "+(0.5*Clvl) To Vitality (Based on Character Level)",
-                "30% Better Chance of Getting Magic Items",
-                $"Level 21 {{{SkillEnumeration.CycloneArmor.Id}}} (30 Charges)"
+                new Statistic("50% Chance To Cast Level 20 {skill} When You Kill An Enemy", SkillEnumeration.ChainLightning),
+                new Statistic("Level 12 {skill} Aura When Equipped", SkillEnumeration.Conviction),
+                new Statistic("+35% Faster Run/Walk", null),
+                new Statistic("+255-325% Enhanced Damage (varies)", null),
+                new Statistic("-(45-55)% To Enemy Lightning Resistance (varies)", null),
+                new Statistic("40% Chance of Crushing Blow", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+(0.5*Clvl) To Vitality (Based on Character Level)", null),
+                new Statistic("30% Better Chance of Getting Magic Items", null),
+                new Statistic("Level 21 {skill} (30 Charges)", SkillEnumeration.CycloneArmor)
             }, "https://diablo2.wiki.fextralife.com/Infinity");
 
         public static RuneWordEnumeration KingsGrace => new(37, "King's Grace", 25, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.Ral, RuneEnumeration.Thul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Scepter },
-            new List<string>
+            new List<Statistic>
             {
-                "+100% Enhanced Damage",
-                "+150 to Attack Rating",
-                "+100% Damage to Demons",
-                "+100 to Attack Rating against Demons",
-                "+50% Damage to Undead",
-                "+100 to Attack Rating against Undead",
-                "Adds 5-30 Fire Damage",
-                "Adds 3-14 Cold damage",
-                "7% Life stolen per hit"
+                new Statistic("+100% Enhanced Damage", null),
+                new Statistic("+150 to Attack Rating", null),
+                new Statistic("+100% Damage to Demons", null),
+                new Statistic("+100 to Attack Rating against Demons", null),
+                new Statistic("+50% Damage to Undead", null),
+                new Statistic("+100 to Attack Rating against Undead", null),
+                new Statistic("Adds 5-30 Fire Damage", null),
+                new Statistic("Adds 3-14 Cold damage", null),
+                new Statistic("7% Life stolen per hit", null)
             }, "https://diablo2.wiki.fextralife.com/King%27s+Grace");
 
         public static RuneWordEnumeration Kingslayer => new(38, "Kingslayer", 53, new List<RuneEnumeration> { RuneEnumeration.Mal, RuneEnumeration.Um, RuneEnumeration.Gul, RuneEnumeration.Fal },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Axe },
-            new List<string>
+            new List<Statistic>
             {
-                "+30% Increased Attack Speed",
-                "+230-270% Enhanced Damage (varies)",
-                "-25% Target Defense",
-                "20% Bonus To Attack Rating",
-                "33% Chance of Crushing Blow",
-                "50% Chance of Open Wounds",
-                $"+1 To {{{SkillEnumeration.Vengeance.Id}}}",
-                "Prevent Monster Heal",
-                "+10 To Strength",
-                "40% Extra Gold From Monsters"
+                new Statistic("+30% Increased Attack Speed", null),
+                new Statistic("+230-270% Enhanced Damage (varies)", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("20% Bonus To Attack Rating", null),
+                new Statistic("33% Chance of Crushing Blow", null),
+                new Statistic("50% Chance of Open Wounds", null),
+                new Statistic("+1 To {skill}", SkillEnumeration.Vengeance),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+10 To Strength", null),
+                new Statistic("40% Extra Gold From Monsters", null)
             }, "https://diablo2.wiki.fextralife.com/Kingslayer");
 
         public static RuneWordEnumeration LastWish => new(39, "Last Wish", 65, new List<RuneEnumeration> { RuneEnumeration.Jah, RuneEnumeration.Mal, RuneEnumeration.Jah, RuneEnumeration.Sur, RuneEnumeration.Jah, RuneEnumeration.Ber },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Axe, ItemTypeEnumeration.Hammer },
-            new List<string>
+            new List<Statistic>
             {
-                $"6% Chance To Cast Level 11 {{{SkillEnumeration.Fade.Id}}} When Struck",
-                $"10% Chance To Cast Level 18 {{{SkillEnumeration.LifeTap.Id}}} On Striking",
-                $"20% Chance To Cast Level 20 {{{SkillEnumeration.ChargedBolt.Id}}} On Attack",
-                $"Level 17 {{{SkillEnumeration.Might.Id}}} Aura When Equipped",
-                "+330-375% Enhanced Damage (varies)",
-                "Ignore Target's Defense",
-                "60-70% Chance of Crushing Blow (varies)",
-                "Prevent Monster Heal",
-                "Hit Blinds Target",
-                "(0.5*Clvl)% Chance of Getting Magic Items (Based on Character Level)"
+                new Statistic("6% Chance To Cast Level 11 {skill} When Struck", SkillEnumeration.Fade),
+                new Statistic("10% Chance To Cast Level 18 {skill} On Striking", SkillEnumeration.LifeTap),
+                new Statistic("20% Chance To Cast Level 20 {skill} On Attack", SkillEnumeration.ChargedBolt),
+                new Statistic("Level 17 {skill} Aura When Equipped", SkillEnumeration.Might),
+                new Statistic("+330-375% Enhanced Damage (varies)", null),
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("60-70% Chance of Crushing Blow (varies)", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("Hit Blinds Target", null),
+                new Statistic("(0.5*Clvl)% Chance of Getting Magic Items (Based on Character Level)", null)
             }, "https://diablo2.wiki.fextralife.com/Last+Wish");
 
         public static RuneWordEnumeration Lawbringer => new(40, "Lawbringer", 43, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.Lem, RuneEnumeration.Ko },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Scepter, ItemTypeEnumeration.Hammer },
-            new List<string>
+            new List<Statistic>
             {
-                $"20% Chance To Cast Level 15 {{{SkillEnumeration.Decrepify.Id}}} On Striking",
-                $"Level 16-18 {{{SkillEnumeration.Sanctuary.Id}}} Aura When Equipped (varies)",
-                "-50% Target Defense",
-                "Adds 150-210 Fire Damage",
-                "Adds 130-180 Cold Damage",
-                "7% Life Stolen Per Hit",
-                "Slain Monsters Rest In Peace",
-                "+200-250 Defense Vs. Missile (varies)",
-                "+10 To Dexterity",
-                "75% Extra Gold From Monsters"
+                new Statistic("20% Chance To Cast Level 15 {skill} On Striking", SkillEnumeration.Decrepify),
+                new Statistic("Level 16-18 {skill} Aura When Equipped (varies)", SkillEnumeration.Sanctuary),
+                new Statistic("-50% Target Defense", null),
+                new Statistic("Adds 150-210 Fire Damage", null),
+                new Statistic("Adds 130-180 Cold Damage", null),
+                new Statistic("7% Life Stolen Per Hit", null),
+                new Statistic("Slain Monsters Rest In Peace", null),
+                new Statistic("+200-250 Defense Vs. Missile (varies)", null),
+                new Statistic("+10 To Dexterity", null),
+                new Statistic("75% Extra Gold From Monsters", null)
             }, "https://diablo2.wiki.fextralife.com/Lawbringer");
 
         public static RuneWordEnumeration Leaf => new(41, "Leaf", 19, new List<RuneEnumeration> { RuneEnumeration.Tir, RuneEnumeration.Ral },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Stave },
-            new List<string>
+            new List<Statistic>
             {
-                "+3 to Fire Skills",
-                "Adds 5-30 Fire Damage",
-                $"+3 to {{{SkillEnumeration.Inferno.Id}}} (Sorceress Only)",
-                $"+3 to {{{SkillEnumeration.Warmth.Id}}} (Sorceress Only)",
-                $"+3 to {{{SkillEnumeration.FireBolt}}} (Sorceress Only)",
-                "+(2*Clvl) Defence (Based on Character Level)",
-                "Cold Resist +33%",
-                "+2 to Mana after each Kill"
+                new Statistic("+3 to Fire Skills", null),
+                new Statistic("Adds 5-30 Fire Damage", null),
+                new Statistic("+3 to {{{SkillEnumeration.Inferno}}} (Sorceress Only)", null),
+                new Statistic("+3 to {{{SkillEnumeration.Warmth}}} (Sorceress Only)", null),
+                new Statistic("+3 to {{{SkillEnumeration.FireBolt}}} (Sorceress Only)", null),
+                new Statistic("+(2*Clvl) Defence (Based on Character Level)", null),
+                new Statistic("Cold Resist +33%", null),
+                new Statistic("+2 to Mana after each Kill", null)
             }, "https://diablo2.wiki.fextralife.com/Leaf");
 
         public static RuneWordEnumeration Lionheart => new(42, "Lionheart", 41, new List<RuneEnumeration> { RuneEnumeration.Hel, RuneEnumeration.Lum, RuneEnumeration.Fal },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+20% Enhanced Damage",
-                "+25 To Strength",
-                "+15 To Dexterity",
-                "+20 To Vitality",
-                "+10 To Energy",
-                "+50 To Life",
-                "All Resistances +30",
-                "Requirements -15%"
+                new Statistic("+20% Enhanced Damage", null),
+                new Statistic("+25 To Strength", null),
+                new Statistic("+15 To Dexterity", null),
+                new Statistic("+20 To Vitality", null),
+                new Statistic("+10 To Energy", null),
+                new Statistic("+50 To Life", null),
+                new Statistic("All Resistances +30", null),
+                new Statistic("Requirements -15%", null)
             }, "https://diablo2.wiki.fextralife.com/Lionheart");
 
         public static RuneWordEnumeration Lore => new(43, "Lore", 27, new List<RuneEnumeration> { RuneEnumeration.Ort, RuneEnumeration.Sol },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Helmet },
-            new List<string>
+            new List<Statistic>
             {
-                "+1 to All Skills",
-                "+10 to Energy",
-                "Lightning Resist +30%",
-                "Damage Reduced by 7",
-                "+2 to Mana after each Kill",
-                "+2 to Light Radius"
+                new Statistic("+1 to All Skills", null),
+                new Statistic("+10 to Energy", null),
+                new Statistic("Lightning Resist +30%", null),
+                new Statistic("Damage Reduced by 7", null),
+                new Statistic("+2 to Mana after each Kill", null),
+                new Statistic("+2 to Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Lore");
 
         public static RuneWordEnumeration Malice => new(44, "Malice", 15, new List<RuneEnumeration> { RuneEnumeration.Ith, RuneEnumeration.El, RuneEnumeration.Eth },
             _meleeWeapons,
-            new List<string>
+            new List<Statistic>
             {
-                "+33% Enhanced Damage",
-                "+9 to Maximum Damage",
-                "-25% Target Defense",
-                "+50 to Attack Rating",
-                "100% Chance of Open wounds",
-                "Prevent Monster Heal",
-                "-100 to Monster Defense Per Hit",
-                "Drain Life -5"
+                new Statistic("+33% Enhanced Damage", null),
+                new Statistic("+9 to Maximum Damage", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("+50 to Attack Rating", null),
+                new Statistic("100% Chance of Open wounds", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("-100 to Monster Defense Per Hit", null),
+                new Statistic("Drain Life -5", null)
             }, "https://diablo2.wiki.fextralife.com/Malice");
 
         public static RuneWordEnumeration Melody => new(45, "Melody", 39, new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Ko, RuneEnumeration.Nef },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-            new List<string>
+            new List<Statistic>
             {
-                "+3 To Bow and Crossbow Skills (Amazon Only)",
-                "+20% Increased Attack Speed",
-                "+50% Enhanced Damage",
-                "+300% Damage To Undead",
-                $"+3 To {{{SkillEnumeration.SlowMissiles.Id}}} (Amazon Only)",
-                $"+3 To {{{SkillEnumeration.Dodge.Id}}} (Amazon Only)",
-                $"+3 To {{{SkillEnumeration.CriticalStrike.Id}}} (Amazon Only)",
-                "Knockback",
-                "+10 To Dexterity"
+                new Statistic("+3 To Bow and Crossbow Skills (Amazon Only)", null),
+                new Statistic("+20% Increased Attack Speed", null),
+                new Statistic("+50% Enhanced Damage", null),
+                new Statistic("+300% Damage To Undead", null),
+                new Statistic("+3 To {skill} (Amazon Only)", SkillEnumeration.SlowMissiles),
+                new Statistic("+3 To {skill} (Amazon Only)", SkillEnumeration.Dodge),
+                new Statistic("+3 To {skill} (Amazon Only)", SkillEnumeration.CriticalStrike),
+                new Statistic("Knockback", null),
+                new Statistic("+10 To Dexterity", null)
             }, "https://diablo2.wiki.fextralife.com/Melody");
 
         public static RuneWordEnumeration Memory => new(46, "Memory", 37, new List<RuneEnumeration> { RuneEnumeration.Lum, RuneEnumeration.Io, RuneEnumeration.Sol, RuneEnumeration.Eth },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Stave },
-            new List<string>
+            new List<Statistic>
             {
-                "+3 To Sorceress Skill Levels",
-                "+33% Faster Cast Rate",
-                "+9 To Minimum Damage",
-                "-25% Target Defence",
-                $"+3 To {{{SkillEnumeration.EnergyShield.Id}}} (Sorceress Only)",
-                $"+2 To {{{SkillEnumeration.StaticField.Id}}} (Sorceress Only)",
-                "+50% Enhanced Defense",
-                "+10 Vitality",
-                "+10 Energy",
-                "Increase Maximum Mana 20%",
-                "Magic Damage Reduced By 7"
+                new Statistic("+3 To Sorceress Skill Levels", null),
+                new Statistic("+33% Faster Cast Rate", null),
+                new Statistic("+9 To Minimum Damage", null),
+                new Statistic("-25% Target Defence", null),
+                new Statistic("+3 To {skill} (Sorceress Only)", SkillEnumeration.EnergyShield),
+                new Statistic("+2 To {skill} (Sorceress Only)", SkillEnumeration.StaticField),
+                new Statistic("+50% Enhanced Defense", null),
+                new Statistic("+10 Vitality", null),
+                new Statistic("+10 Energy", null),
+                new Statistic("Increase Maximum Mana 20%", null),
+                new Statistic("Magic Damage Reduced By 7", null)
             }, "https://diablo2.wiki.fextralife.com/Memory");
 
         public static RuneWordEnumeration Myth => new(47, "Myth", 25, new List<RuneEnumeration> { RuneEnumeration.Hel, RuneEnumeration.Amn, RuneEnumeration.Nef },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"3% Chance To Cast Level 1 {{{SkillEnumeration.Howl.Id}}} When Struck",
-                $"10% Chance To Cast Level 1 {{{SkillEnumeration.Taunt.Id}}} On Striking",
-                "+2 To Barbarian Skill Levels",
-                "+30 Defense Vs. Missile",
-                "Replenish Life +10",
-                "Attacker Takes Damage of 14",
-                "Requirements -15%"
+                new Statistic("3% Chance To Cast Level 1 {skill} When Struck", SkillEnumeration.Howl),
+                new Statistic("10% Chance To Cast Level 1 {skill} On Striking", SkillEnumeration.Taunt),
+                new Statistic("+2 To Barbarian Skill Levels", null),
+                new Statistic("+30 Defense Vs. Missile", null),
+                new Statistic("Replenish Life +10", null),
+                new Statistic("Attacker Takes Damage of 14", null),
+                new Statistic("Requirements -15%", null)
             }, "https://diablo2.wiki.fextralife.com/Myth");
 
         public static RuneWordEnumeration Nadir => new(48, "Nadir", 13, new List<RuneEnumeration> { RuneEnumeration.Nef, RuneEnumeration.Tir },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Helmet },
-            new List<string>
+            new List<Statistic>
             {
-                "+50% Enhanced Defense",
-                "+10 Defense",
-                "+30 Defense vs. Missile",
-                "+5 to Strength",
-                "+2 to Mana after each Kill",
-                "-33% Extra Gold from Monsters",
-                "-3 to Light Radius",
-                $"Level 13 {{{SkillEnumeration.CloackOfShadows.Id}}} (9 charges)"
+                new Statistic("+50% Enhanced Defense", null),
+                new Statistic("+10 Defense", null),
+                new Statistic("+30 Defense vs. Missile", null),
+                new Statistic("+5 to Strength", null),
+                new Statistic("+2 to Mana after each Kill", null),
+                new Statistic("-33% Extra Gold from Monsters", null),
+                new Statistic("-3 to Light Radius", null),
+                new Statistic("Level 13 {skill} (9 charges)", SkillEnumeration.CloackOfShadows)
             }, "https://diablo2.wiki.fextralife.com/Nadir");
 
         public static RuneWordEnumeration Oath => new(49, "Oath", 59, new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Pul, RuneEnumeration.Mal, RuneEnumeration.Lum },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Axe, ItemTypeEnumeration.Mace, ItemTypeEnumeration.Sword },
-            new List<string>
+            new List<Statistic>
             {
-                "Indestructible",
-                $"30% Chance To Cast Level 20 {{{SkillEnumeration.BoneSpirit.Id}}} On Striking",
-                "+50% Increased Attack Speed",
-                "+210-340% Enhanced Damage (varies)",
-                "+75% Damage To Demons",
-                "+100 To Attack Rating Against Demons",
-                "Prevent Monster Heal",
-                "+10 To Energy",
-                "+10-15 Magic Absorb (varies)",
-                $"Level 16 {{{SkillEnumeration.HeartOfWolverine.Id}}} (20 Charges)",
-                $"Level 17 {{{SkillEnumeration.IronGolem.Id}}} (14 Charges)"
+                new Statistic("Indestructible", null),
+                new Statistic("30% Chance To Cast Level 20 {skill} On Striking", SkillEnumeration.BoneSpirit),
+                new Statistic("+50% Increased Attack Speed", null),
+                new Statistic("+210-340% Enhanced Damage (varies)", null),
+                new Statistic("+75% Damage To Demons", null),
+                new Statistic("+100 To Attack Rating Against Demons", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+10 To Energy", null),
+                new Statistic("+10-15 Magic Absorb (varies)", null),
+                new Statistic("Level 16 {skill} (20 Charges)", SkillEnumeration.HeartOfWolverine),
+                new Statistic("Level 17 {skill} (14 Charges)", SkillEnumeration.IronGolem)
             }, "https://diablo2.wiki.fextralife.com/Oath");
 
         public static RuneWordEnumeration Obedience => new(50, "Obedience", 41, new List<RuneEnumeration> { RuneEnumeration.Hel, RuneEnumeration.Ko, RuneEnumeration.Thul, RuneEnumeration.Eth, RuneEnumeration.Fal },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Polearm },
-            new List<string>
+            new List<Statistic>
             {
-                $"30% Chance To Cast Level 21 {{{SkillEnumeration.Enchant.Id}}} When You Kill An Enemy",
-                "+40% Faster Hit Recovery",
-                "+370% Enhanced Damage",
-                "-25% Target Defense",
-                "Adds 3-14 Cold Damage (3 Seconds Duration,Normal)",
-                "-25% To Enemy Fire Resistance",
-                "40% Chance of Crushing Blow",
-                "+200-300 Defense (varies)",
-                "+10 To Strength",
-                "+10 To Dexterity",
-                "All Resistances +20-30 (varies)",
-                "Requirements -20%"
+                new Statistic("30% Chance To Cast Level 21 {skill} When You Kill An Enemy", SkillEnumeration.Enchant),
+                new Statistic("+40% Faster Hit Recovery", null),
+                new Statistic("+370% Enhanced Damage", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("Adds 3-14 Cold Damage (3 Seconds Duration,Normal)", null),
+                new Statistic("-25% To Enemy Fire Resistance", null),
+                new Statistic("40% Chance of Crushing Blow", null),
+                new Statistic("+200-300 Defense (varies)", null),
+                new Statistic("+10 To Strength", null),
+                new Statistic("+10 To Dexterity", null),
+                new Statistic("All Resistances +20-30 (varies)", null),
+                new Statistic("Requirements -20%", null)
             }, "https://diablo2.wiki.fextralife.com/Obedience");
 
         public static RuneWordEnumeration Passion => new(51, "Passion", 43, new List<RuneEnumeration> { RuneEnumeration.Dol, RuneEnumeration.Ort, RuneEnumeration.Eld, RuneEnumeration.Lem },
             _rangedWeapons.Concat(_meleeWeapons),
-            new List<string>
+            new List<Statistic>
             {
-                "+25% Increased Attack Speed",
-                "+160-210% Enhanced Damage (varies)",
-                "50-80% Bonus To Attack Rating (varies)",
-                "+75% Damage To Undead",
-                "+50 To Attack Rating Against Undead",
-                "Adds 1-50 Lightning Damage",
-                $"+1 To {{{SkillEnumeration.Berserk.Id}}}",
-                $"+1 To {{{SkillEnumeration.Zeal.Id}}}",
-                "Hit Blinds Target +10",
-                "Hit Causes Monster To Flee 25%",
-                "75% Extra Gold From Monsters",
-                $"Level 3 {{{SkillEnumeration.HeartOfWolverine.Id}}} (12 Charges)"
+                new Statistic("+25% Increased Attack Speed", null),
+                new Statistic("+160-210% Enhanced Damage (varies)", null),
+                new Statistic("50-80% Bonus To Attack Rating (varies)", null),
+                new Statistic("+75% Damage To Undead", null),
+                new Statistic("+50 To Attack Rating Against Undead", null),
+                new Statistic("Adds 1-50 Lightning Damage", null),
+                new Statistic("+1 To {skill}", SkillEnumeration.Berserk),
+                new Statistic("+1 To {skill}", SkillEnumeration.Zeal),
+                new Statistic("Hit Blinds Target +10", null),
+                new Statistic("Hit Causes Monster To Flee 25%", null),
+                new Statistic("75% Extra Gold From Monsters", null),
+                new Statistic("Level 3 {skill} (12 Charges)", SkillEnumeration.HeartOfWolverine)
             }, "https://diablo2.wiki.fextralife.com/Passion");
 
         public static RuneWordEnumeration Peace => new(52, "Peace", 29, new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Thul, RuneEnumeration.Amn },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"4% Chance To Cast Level 5 {{{SkillEnumeration.SlowMissiles.Id}}} When Struck",
-                $"2% Chance To Cast level 15 {{{SkillEnumeration.Valkyrie.Id}}} On Striking",
-                "+2 To Amazon Skill Levels",
-                "+20% Faster Hit Recovery",
-                "+2 To Critical Strike",
-                "Cold Resist +30%",
-                "Attacker Takes Damage of 14"
+                new Statistic("4% Chance To Cast Level 5 {skill} When Struck", SkillEnumeration.SlowMissiles),
+                new Statistic("2% Chance To Cast level 15 {skill} On Striking", SkillEnumeration.Valkyrie),
+                new Statistic("+2 To Amazon Skill Levels", null),
+                new Statistic("+20% Faster Hit Recovery", null),
+                new Statistic("+2 To Critical Strike", null),
+                new Statistic("Cold Resist +30%", null),
+                new Statistic("Attacker Takes Damage of 14", null)
             }, "https://diablo2.wiki.fextralife.com/Peace");
 
         public static RuneWordEnumeration Phoenix => new(53, "Phoenix", 65, new List<RuneEnumeration> { RuneEnumeration.Vex, RuneEnumeration.Vex, RuneEnumeration.Lo, RuneEnumeration.Jah },
             _rangedWeapons.Concat(_meleeWeapons).Concat(new List<ItemTypeEnumeration> { ItemTypeEnumeration.Shield, ItemTypeEnumeration.PaladinShield }),
-            new List<string>
+            new List<Statistic>
             {
-                $"100% Chance To Cast level 40 {{{SkillEnumeration.Blaze.Id}}} When You Level-up",
-                $"40% Chance To Cast Level 22 {{{SkillEnumeration.Firestorm.Id}}} On Striking",
-                $"Level 10-15 {{{SkillEnumeration.Redemption.Id}}} Aura When Equipped (varies)",
-                "+350-400% Enhanced Damage (varies)",
-                "-28% To Enemy Fire Resistance",
-                "+350-400 Defense Vs. Missile (varies)",
-                "+15-21 Fire Absorb (varies)",
-                "Ignores Target's Defense (Weapons)",
-                "14% Mana Stolen Per Hit (Weapons)",
-                "20% Deadly Strike (Weapons)",
-                "+50 To Life (Shields)",
-                "+5% To Maximum Lightning Resist (Shields)",
-                "+10% To Maximum Fire Resist (Shields)"
+                new Statistic("100% Chance To Cast level 40 {skill} When You Level-up", SkillEnumeration.Blaze),
+                new Statistic("40% Chance To Cast Level 22 {skill} On Striking", SkillEnumeration.Firestorm),
+                new Statistic("Level 10-15 {skill} Aura When Equipped (varies)", SkillEnumeration.Redemption),
+                new Statistic("+350-400% Enhanced Damage (varies)", null),
+                new Statistic("-28% To Enemy Fire Resistance", null),
+                new Statistic("+350-400 Defense Vs. Missile (varies)", null),
+                new Statistic("+15-21 Fire Absorb (varies)", null),
+                new Statistic("Ignores Target's Defense (Weapons)", null),
+                new Statistic("14% Mana Stolen Per Hit (Weapons)", null),
+                new Statistic("20% Deadly Strike (Weapons)", null),
+                new Statistic("+50 To Life (Shields)", null),
+                new Statistic("+5% To Maximum Lightning Resist (Shields)", null),
+                new Statistic("+10% To Maximum Fire Resist (Shields)", null)
             }, "https://diablo2.wiki.fextralife.com/Phoenix");
 
         public static RuneWordEnumeration Pride => new(54, "Pride", 67, new List<RuneEnumeration> { RuneEnumeration.Cham, RuneEnumeration.Sur, RuneEnumeration.Io, RuneEnumeration.Lo },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Polearm },
-            new List<string>
+            new List<Statistic>
             {
-                $"25% Chance To Cast Level 17 {{{SkillEnumeration.FireWall.Id}}} When Struck",
-                $"Level 16-20 {{{SkillEnumeration.Concentration.Id}}} Aura When Equipped (varies)",
-                "260-300% Bonus To Attack Rating (varies)",
-                "+(1*Clvl)% Damage To Demons (Based on Character Level)",
-                "Adds 50-280 Lightning Damage",
-                "20% Deadly Strike",
-                "Hit Blinds Target",
-                "Freezes Target +3",
-                "+10 To Vitality",
-                "Replenish Life +8",
-                "(1.875*Clvl)% Extra Gold From Monsters (Based on Character Level)"
+                new Statistic("25% Chance To Cast Level 17 {skill} When Struck", SkillEnumeration.FireWall),
+                new Statistic("Level 16-20 {skill} Aura When Equipped (varies)", SkillEnumeration.Concentration),
+                new Statistic("260-300% Bonus To Attack Rating (varies)", null),
+                new Statistic("+(1*Clvl)% Damage To Demons (Based on Character Level)", null),
+                new Statistic("Adds 50-280 Lightning Damage", null),
+                new Statistic("20% Deadly Strike", null),
+                new Statistic("Hit Blinds Target", null),
+                new Statistic("Freezes Target +3", null),
+                new Statistic("+10 To Vitality", null),
+                new Statistic("Replenish Life +8", null),
+                new Statistic("(1.875*Clvl)% Extra Gold From Monsters (Based on Character Level)", null)
             }, "https://diablo2.wiki.fextralife.com/Pride");
 
         public static RuneWordEnumeration Principle => new(55, "Principle", 55, runes: new List<RuneEnumeration> { RuneEnumeration.Ral, RuneEnumeration.Gul, RuneEnumeration.Eld },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"100% Chance To Cast Level 5 {{{SkillEnumeration.HolyBolt.Id}}} On Striking",
-                "+2 To Paladin Skill Levels",
-                "+50% Damage to Undead",
-                "+100-150 to Life (varies)",
-                "15% Slower Stamina Drain",
-                "+5% To Maximum Poison Resist",
-                "Fire Resist +30%"
+                new Statistic("100% Chance To Cast Level 5 {skill} On Striking", SkillEnumeration.HolyBolt),
+                new Statistic("+2 To Paladin Skill Levels", null),
+                new Statistic("+50% Damage to Undead", null),
+                new Statistic("+100-150 to Life (varies)", null),
+                new Statistic("15% Slower Stamina Drain", null),
+                new Statistic("+5% To Maximum Poison Resist", null),
+                new Statistic("Fire Resist +30%", null)
             }, "https://diablo2.wiki.fextralife.com/Principle");
 
         public static RuneWordEnumeration Prudence => new(56, "Prudence", 49, runes: new List<RuneEnumeration> { RuneEnumeration.Mal, RuneEnumeration.Tir },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+25% Faster Hit Recovery",
-                "+140-170% Enhanced Defense (varies)",
-                "All Resistances +25-35 (varies)",
-                "Damage Reduced by 3",
-                "Magic Damage Reduced by 17",
-                "+2 To Mana After Each Kill",
-                "+1 To Light Radius",
-                "Repairs Durability 1 In 4 Seconds"
+                new Statistic("+25% Faster Hit Recovery", null),
+                new Statistic("+140-170% Enhanced Defense (varies)", null),
+                new Statistic("All Resistances +25-35 (varies)", null),
+                new Statistic("Damage Reduced by 3", null),
+                new Statistic("Magic Damage Reduced by 17", null),
+                new Statistic("+2 To Mana After Each Kill", null),
+                new Statistic("+1 To Light Radius", null),
+                new Statistic("Repairs Durability 1 In 4 Seconds", null)
             }, "https://diablo2.wiki.fextralife.com/Prudence");
 
         public static RuneWordEnumeration Radiance => new(57, "Radiance", 27, runes: new List<RuneEnumeration> { RuneEnumeration.Nef, RuneEnumeration.Sol, RuneEnumeration.Ith },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Helmet },
-            new List<string>
+            new List<Statistic>
             {
-                "+75% Enhanced Defense",
-                "+30 Defense vs. Missiles",
-                "+10 to Vitality",
-                "+10 to Energy",
-                "+33 to Mana",
-                "Damage Reduced by 7",
-                "Magic Damage Reduced by 3",
-                "15% Damage Taken Goes to Mana",
-                "+5 to Light Radius"
+                new Statistic("+75% Enhanced Defense", null),
+                new Statistic("+30 Defense vs. Missiles", null),
+                new Statistic("+10 to Vitality", null),
+                new Statistic("+10 to Energy", null),
+                new Statistic("+33 to Mana", null),
+                new Statistic("Damage Reduced by 7", null),
+                new Statistic("Magic Damage Reduced by 3", null),
+                new Statistic("15% Damage Taken Goes to Mana", null),
+                new Statistic("+5 to Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Radiance");
 
         public static RuneWordEnumeration Rain => new(58, "Rain", 49, runes: new List<RuneEnumeration> { RuneEnumeration.Ort, RuneEnumeration.Mal, RuneEnumeration.Ith },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                $"5% Chance To Cast Level 15 {{{SkillEnumeration.CycloneArmor.Id}}} Armor When Struck",
-                $"5% Chance To Cast Level 15 {{{SkillEnumeration.Twister.Id}}} On Striking",
-                "+2 To Druid Skills",
-                "+100-150 To Mana (varies)",
-                "Lightning Resist +30%",
-                "Magic Damage Reduced By 7",
-                "15% Damage Taken Goes to Mana"
+                new Statistic("5% Chance To Cast Level 15 {skill} Armor When Struck", SkillEnumeration.CycloneArmor),
+                new Statistic("5% Chance To Cast Level 15 {skill} On Striking", SkillEnumeration.Twister),
+                new Statistic("+2 To Druid Skills", null),
+                new Statistic("+100-150 To Mana (varies)", null),
+                new Statistic("Lightning Resist +30%", null),
+                new Statistic("Magic Damage Reduced By 7", null),
+                new Statistic("15% Damage Taken Goes to Mana", null)
             }, "https://diablo2.wiki.fextralife.com/Rain");
 
         public static RuneWordEnumeration Rhyme => new(59, "Rhyme", 29, runes: new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Eth },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Shield, ItemTypeEnumeration.PaladinShield },
-            new List<string>
+            new List<Statistic>
             {
-                "+40% Faster Block Rate",
-                "20% Increased Chance of Blocking",
-                "Regenerate Mana 15%",
-                "All Resistances +25",
-                "Cannot be Frozen",
-                "50% Extra Gold from Monsters",
-                "25% Better Chance of Getting Magic Items"
+                new Statistic("+40% Faster Block Rate", null),
+                new Statistic("20% Increased Chance of Blocking", null),
+                new Statistic("Regenerate Mana 15%", null),
+                new Statistic("All Resistances +25", null),
+                new Statistic("Cannot be Frozen", null),
+                new Statistic("50% Extra Gold from Monsters", null),
+                new Statistic("25% Better Chance of Getting Magic Items", null)
             }, "https://diablo2.wiki.fextralife.com/Rhyme");
 
         public static RuneWordEnumeration Rift => new(60, "Rite", 53, runes: new List<RuneEnumeration> { RuneEnumeration.Hel, RuneEnumeration.Ko, RuneEnumeration.Lem, RuneEnumeration.Gul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Polearm, ItemTypeEnumeration.Scepter },
-            new List<string>
+            new List<Statistic>
             {
-                $"20% Chance To Cast Level 16 {{{SkillEnumeration.Tornado.Id}}} On Striking",
-                $"16% Chance To Cast Level 21 {{{SkillEnumeration.FrozenOrb.Id}}} On Attack",
-                "20% Bonus To Attack Rating",
-                "Adds 160-250 Magic Damage",
-                "Adds 60-180 Fire Damage",
-                "+5-10 To All Attributes (varies)",
-                "+10 To Dexterity",
-                "38% Damage Taken Goes To Mana",
-                "75% Extra Gold From Monsters",
-                $"Level 15 {{{SkillEnumeration.IronMaiden.Id}}} (40 Charges)",
-                "Requirements -20%"
+                new Statistic("20% Chance To Cast Level 16 {skill} On Striking", SkillEnumeration.Tornado),
+                new Statistic("16% Chance To Cast Level 21 {skill} On Attack", SkillEnumeration.FrozenOrb),
+                new Statistic("20% Bonus To Attack Rating", null),
+                new Statistic("Adds 160-250 Magic Damage", null),
+                new Statistic("Adds 60-180 Fire Damage", null),
+                new Statistic("+5-10 To All Attributes (varies)", null),
+                new Statistic("+10 To Dexterity", null),
+                new Statistic("38% Damage Taken Goes To Mana", null),
+                new Statistic("75% Extra Gold From Monsters", null),
+                new Statistic("Level 15 {skill} (40 Charges)", SkillEnumeration.IronMaiden),
+                new Statistic("Requirements -20%", null)
             }, "https://diablo2.wiki.fextralife.com/Rift");
 
         public static RuneWordEnumeration Sanctuary => new(61, "Sanctuary", 49, runes: new List<RuneEnumeration> { RuneEnumeration.Ko, RuneEnumeration.Ko, RuneEnumeration.Mal },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.PaladinShield, ItemTypeEnumeration.Shield },
-            new List<string>
+            new List<Statistic>
             {
-                "+20% Faster Hit Recovery",
-                "+20% Faster Block Rate",
-                "20% Increased Chance of Blocking",
-                "+130-160% Enhanced Defense (varies)",
-                "+250 Defense vs. Missile",
-                "+20 To Dexterity",
-                "All Resistances +50-70 (varies)",
-                "Magic Damage Reduced By 7",
-                $"Level 12 {{{SkillEnumeration.SlowMissiles.Id}}} (60 Charges)"
+                new Statistic("+20% Faster Hit Recovery", null),
+                new Statistic("+20% Faster Block Rate", null),
+                new Statistic("20% Increased Chance of Blocking", null),
+                new Statistic("+130-160% Enhanced Defense (varies)", null),
+                new Statistic("+250 Defense vs. Missile", null),
+                new Statistic("+20 To Dexterity", null),
+                new Statistic("All Resistances +50-70 (varies)", null),
+                new Statistic("Magic Damage Reduced By 7", null),
+                new Statistic("Level 12 {skill} (60 Charges)", SkillEnumeration.SlowMissiles)
             }, "https://diablo2.wiki.fextralife.com/Sanctuary");
 
         public static RuneWordEnumeration Silence => new(62, "Silence", 55, runes: new List<RuneEnumeration> { RuneEnumeration.Dol, RuneEnumeration.Eld, RuneEnumeration.Hel, RuneEnumeration.Ist, RuneEnumeration.Tir, RuneEnumeration.Vex },
             _rangedWeapons.Concat(_meleeWeapons),
-            new List<string>
+            new List<Statistic>
             {
-                "+2 to All Skills",
-                "+20% Increased Attack Speed",
-                "+20% Faster Hit Recovery",
-                "+200% Enhanced Damage",
-                "+75% Damage To Undead",
-                "+50 to Attack Rating Against Undead",
-                "11% Mana Stolen Per Hit",
-                "Hit Blinds Target +33",
-                "Hit Causes Monster to Flee 25%",
-                "All Resistances +75",
-                "+2 to Mana After Each Kill",
-                "30% Better Chance of Getting Magic Items",
-                "Requirements -20%"
+                new Statistic("+2 to All Skills", null),
+                new Statistic("+20% Increased Attack Speed", null),
+                new Statistic("+20% Faster Hit Recovery", null),
+                new Statistic("+200% Enhanced Damage", null),
+                new Statistic("+75% Damage To Undead", null),
+                new Statistic("+50 to Attack Rating Against Undead", null),
+                new Statistic("11% Mana Stolen Per Hit", null),
+                new Statistic("Hit Blinds Target +33", null),
+                new Statistic("Hit Causes Monster to Flee 25%", null),
+                new Statistic("All Resistances +75", null),
+                new Statistic("+2 to Mana After Each Kill", null),
+                new Statistic("30% Better Chance of Getting Magic Items", null),
+                new Statistic("Requirements -20%", null)
             }, "https://diablo2.wiki.fextralife.com/Silence");
 
         public static RuneWordEnumeration Smoke => new(63, "Smoke", 37, runes: new List<RuneEnumeration> { RuneEnumeration.Nef, RuneEnumeration.Lum },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+20% Faster Hit Recovery",
-                "+75% Enhanced Defense",
-                "+280 Defense vs. Missiles",
-                "+10 to Energy",
-                "All Resistances +50",
-                "-1 to Light Radius",
-                $"Level 6 {{{SkillEnumeration.Weaken.Id}}} (18 charges)"
+                new Statistic("+20% Faster Hit Recovery", null),
+                new Statistic("+75% Enhanced Defense", null),
+                new Statistic("+280 Defense vs. Missiles", null),
+                new Statistic("+10 to Energy", null),
+                new Statistic("All Resistances +50", null),
+                new Statistic("-1 to Light Radius", null),
+                new Statistic("Level 6 {skill} (18 charges)", SkillEnumeration.Weaken)
             }, "https://diablo2.wiki.fextralife.com/Smoke");
 
         public static RuneWordEnumeration Spirit => new(64, "Spirit", 25, runes: new List<RuneEnumeration> { RuneEnumeration.Tal, RuneEnumeration.Thul, RuneEnumeration.Ort, RuneEnumeration.Amn },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Shield, ItemTypeEnumeration.Sword },
-            new List<string>
+            new List<Statistic>
             {
-                "+2 To All Skills",
-                "+25-35% Faster Cast Rate (varies)",
-                "+55% Faster Hit Recovery",
-                "+250 Defense Vs. Missile",
-                "+22 To Vitality",
-                "+89-112 To Mana (varies)",
-                "+3-8 Magic Absorb (varies)",
-                "Cold Resist +35% (Shields)",
-                "Lightning Resist +35% (Shields)",
-                "Poison Resist +35% (Shields)",
-                "Attacker Takes Damage of 14 (Shields)",
-                "Adds 1-50 Lightning Damage (Swords)",
-                "Adds 3-14 Cold Damage (3 Sec,Normal) (Swords)",
-                "+75 Poison Damage Over 5 Seconds (Swords)",
-                "7% Life Stolen Per Hit (Swords)"
+                new Statistic("+2 To All Skills", null),
+                new Statistic("+25-35% Faster Cast Rate (varies)", null),
+                new Statistic("+55% Faster Hit Recovery", null),
+                new Statistic("+250 Defense Vs. Missile", null),
+                new Statistic("+22 To Vitality", null),
+                new Statistic("+89-112 To Mana (varies)", null),
+                new Statistic("+3-8 Magic Absorb (varies)", null),
+                new Statistic("Cold Resist +35% (Shields)", null),
+                new Statistic("Lightning Resist +35% (Shields)", null),
+                new Statistic("Poison Resist +35% (Shields)", null),
+                new Statistic("Attacker Takes Damage of 14 (Shields)", null),
+                new Statistic("Adds 1-50 Lightning Damage (Swords)", null),
+                new Statistic("Adds 3-14 Cold Damage (3 Sec,Normal) (Swords)", null),
+                new Statistic("+75 Poison Damage Over 5 Seconds (Swords)", null),
+                new Statistic("7% Life Stolen Per Hit (Swords)", null)
             }, "https://diablo2.wiki.fextralife.com/Spirit");
 
         public static RuneWordEnumeration Splendor => new(65, "Splendor", 37, runes: new List<RuneEnumeration> { RuneEnumeration.Eth, RuneEnumeration.Lum },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Shield, ItemTypeEnumeration.PaladinShield },
-            new List<string>
+            new List<Statistic>
             {
-                "+1 To All Skills",
-                "+10% Faster Cast Rate",
-                "+20% Faster Block Rate",
-                "+60-100% Enhanced Defense (varies)",
-                "+10 To Energy",
-                "Regenerate Mana 15%",
-                "50% Extra Gold From Monsters",
-                "20% Better Chance of Getting Magic Items",
-                "+3 To Light Radius"
+                new Statistic("+1 To All Skills", null),
+                new Statistic("+10% Faster Cast Rate", null),
+                new Statistic("+20% Faster Block Rate", null),
+                new Statistic("+60-100% Enhanced Defense (varies)", null),
+                new Statistic("+10 To Energy", null),
+                new Statistic("Regenerate Mana 15%", null),
+                new Statistic("50% Extra Gold From Monsters", null),
+                new Statistic("20% Better Chance of Getting Magic Items", null),
+                new Statistic("+3 To Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Splendor");
 
         public static RuneWordEnumeration Stealth => new(66, "Stealth", 17, runes: new List<RuneEnumeration> { RuneEnumeration.Tal, RuneEnumeration.Eth },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+25% Faster Run/Walk",
-                "+25% Faster Casting Rate",
-                "+25% Faster Hit Recovery",
-                "+6 to Dexterity",
-                "Regenerate Mana 15%",
-                "+15 Maximum Stamina",
-                "Poison Resist +30%",
-                "Magic Damage Reduced by 3"
+                new Statistic("+25% Faster Run/Walk", null),
+                new Statistic("+25% Faster Casting Rate", null),
+                new Statistic("+25% Faster Hit Recovery", null),
+                new Statistic("+6 to Dexterity", null),
+                new Statistic("Regenerate Mana 15%", null),
+                new Statistic("+15 Maximum Stamina", null),
+                new Statistic("Poison Resist +30%", null),
+                new Statistic("Magic Damage Reduced by 3", null)
             }, "https://diablo2.wiki.fextralife.com/Stealth");
 
         public static RuneWordEnumeration Steel => new(67, "Steel", 13, runes: new List<RuneEnumeration> { RuneEnumeration.Tir, RuneEnumeration.El },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Axe, ItemTypeEnumeration.Mace },
-            new List<string>
+            new List<Statistic>
             {
-                "+25% Increased Attack Speed",
-                "+20% Enhanced Damage",
-                "+3 to Minimum Damage",
-                "+3 to Maximum Damage",
-                "+50 to Attack Rating",
-                "50% Chance of Open Wounds",
-                "+2 to Mana after each Kill",
-                "+1 to Light Radius"
+                new Statistic("+25% Increased Attack Speed", null),
+                new Statistic("+20% Enhanced Damage", null),
+                new Statistic("+3 to Minimum Damage", null),
+                new Statistic("+3 to Maximum Damage", null),
+                new Statistic("+50 to Attack Rating", null),
+                new Statistic("50% Chance of Open Wounds", null),
+                new Statistic("+2 to Mana after each Kill", null),
+                new Statistic("+1 to Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Steel");
 
         public static RuneWordEnumeration Stone => new(68, "Stone", 47, runes: new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Um, RuneEnumeration.Pul, RuneEnumeration.Lum },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-            new List<string>
+            new List<Statistic>
             {
-                "+60% Faster Hit Recovery",
-                "+250-290% Enhanced Defense (varies)",
-                "+300 Defense Vs. Missile",
-                "+16 To Strength",
-                "+16 To Vitality",
-                "+10 To Energy",
-                "All Resistances +15",
-                $"Level 16 {{{SkillEnumeration.MoltenBoulder.Id}}} (80 Charges)",
-                $"Level 16 {{{SkillEnumeration.ClayGolem.Id}}} (16 Charges)"
+                new Statistic("+60% Faster Hit Recovery", null),
+                new Statistic("+250-290% Enhanced Defense (varies)", null),
+                new Statistic("+300 Defense Vs. Missile", null),
+                new Statistic("+16 To Strength", null),
+                new Statistic("+16 To Vitality", null),
+                new Statistic("+10 To Energy", null),
+                new Statistic("All Resistances +15", null),
+                new Statistic("Level 16 {skill} (80 Charges)", SkillEnumeration.MoltenBoulder),
+                new Statistic("Level 16 {skill} (16 Charges)", SkillEnumeration.ClayGolem)
             }, "https://diablo2.wiki.fextralife.com/Stone");
 
         public static RuneWordEnumeration Strength => new(69, "Strength", 25, runes: new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.Tir },
             _meleeWeapons,
-            new List<string>
+            new List<Statistic>
             {
-                "+35% Enhanced Damage",
-                "7% Life stolen per hit",
-                "25% Chance of Crushing Blow",
-                "+20 to Strength",
-                "+10 to Vitality",
-                "+2 to Mana after each Kill"
+                new Statistic("+35% Enhanced Damage", null),
+                new Statistic("7% Life stolen per hit", null),
+                new Statistic("25% Chance of Crushing Blow", null),
+                new Statistic("+20 to Strength", null),
+                new Statistic("+10 to Vitality", null),
+                new Statistic("+2 to Mana after each Kill", null)
             }, "https://diablo2.wiki.fextralife.com/Strength");
 
         public static RuneWordEnumeration Treachery => new(70, "Treachery", 43, runes: new List<RuneEnumeration> { RuneEnumeration.Shael, RuneEnumeration.Thul, RuneEnumeration.Lem },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-           new List<string>
+           new List<Statistic>
             {
-                $"5% Chance To Cast Level 15 {{{SkillEnumeration.Fade.Id}}} When Struck",
-                $"25% Chance To Cast level 15 {{{SkillEnumeration.Venom.Id}}} On Striking",
-                "+2 To Assassin Skills",
-                "+45% Increased Attack Speed",
-                "+20% Faster Hit Recovery",
-                "Cold Resist +30%",
-                "50% Extra Gold From Monsters"
+                new Statistic("5% Chance To Cast Level 15 {skill} When Struck", SkillEnumeration.Fade),
+                new Statistic("25% Chance To Cast level 15 {skill} On Striking", SkillEnumeration.Venom),
+                new Statistic("+2 To Assassin Skills", null),
+                new Statistic("+45% Increased Attack Speed", null),
+                new Statistic("+20% Faster Hit Recovery", null),
+                new Statistic("Cold Resist +30%", null),
+                new Statistic("50% Extra Gold From Monsters", null)
             }, "https://diablo2.wiki.fextralife.com/Treachery");
 
         public static RuneWordEnumeration Venom => new(71, "Venom", 49, runes: new List<RuneEnumeration> { RuneEnumeration.Tal, RuneEnumeration.Dol, RuneEnumeration.Mal },
             _rangedWeapons.Concat(_meleeWeapons),
-           new List<string>
+           new List<Statistic>
             {
-                "Ignore Target's Defense",
-                "+273 Poison Damage Over 6 Seconds",
-                "7% Mana Stolen Per Hit",
-                "Prevent Monster Heal",
-                "Hit Causes Monster To Flee 25%",
-                $"Level 13 {{{SkillEnumeration.PoisonNova.Id}}} (11 Charges)",
-                $"Level 15 {{{SkillEnumeration.PosionExplosion.Id}}} (27 Charges)"
+                new Statistic("Ignore Target's Defense", null),
+                new Statistic("+273 Poison Damage Over 6 Seconds", null),
+                new Statistic("7% Mana Stolen Per Hit", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("Hit Causes Monster To Flee 25%", null),
+                new Statistic("Level 13 {skill} (11 Charges)", SkillEnumeration.PoisonNova),
+                new Statistic("Level 15 {skill} (27 Charges)", SkillEnumeration.PosionExplosion)
             }, "https://diablo2.wiki.fextralife.com/Venom");
 
         public static RuneWordEnumeration VoiceOfReason => new(72, "Voice of Reason", 43, runes: new List<RuneEnumeration> { RuneEnumeration.Lem, RuneEnumeration.Ko, RuneEnumeration.El, RuneEnumeration.Eld },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Mace, ItemTypeEnumeration.Sword },
-           new List<string>
+           new List<Statistic>
             {
-                $"15% Chance To Cast Level 13 {{{SkillEnumeration.FrozenOrb.Id}}} On Striking",
-                $"18% Chance To Cast Level 20 {{{SkillEnumeration.IceBlast.Id}}} On Striking",
-                "+50 To Attack Rating",
-                "+220-350% Damage To Demons (varies)",
-                "+355-375% Damage To Undead (varies)",
-                "+50 To Attack Rating Against Undead",
-                "Adds 100-220 Cold Damage",
-                "-24% To Enemy Cold Resistance",
-                "+10 To Dexterity",
-                "Cannot Be Frozen",
-                "75% Extra Gold From Monsters",
-                "+1 To Light Radius"
+                new Statistic("15% Chance To Cast Level 13 {skill} On Striking", SkillEnumeration.FrozenOrb),
+                new Statistic("18% Chance To Cast Level 20 {skill} On Striking", SkillEnumeration.IceBlast),
+                new Statistic("+50 To Attack Rating", null),
+                new Statistic("+220-350% Damage To Demons (varies)", null),
+                new Statistic("+355-375% Damage To Undead (varies)", null),
+                new Statistic("+50 To Attack Rating Against Undead", null),
+                new Statistic("Adds 100-220 Cold Damage", null),
+                new Statistic("-24% To Enemy Cold Resistance", null),
+                new Statistic("+10 To Dexterity", null),
+                new Statistic("Cannot Be Frozen", null),
+                new Statistic("75% Extra Gold From Monsters", null),
+                new Statistic("+1 To Light Radius", null)
             }, "https://diablo2.wiki.fextralife.com/Voice+of+Reason");
 
         public static RuneWordEnumeration Wealth => new(73, "Wealth", 43, runes: new List<RuneEnumeration> { RuneEnumeration.Lem, RuneEnumeration.Ko, RuneEnumeration.Tir },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.BodyArmor },
-           new List<string>
+           new List<Statistic>
             {
-                "+10 to Dexterity",
-                "+2 to Mana After Each Kill",
-                "300% Extra Gold From Monsters",
-                "100% Better Chance of Getting Magic Items"
+                new Statistic("+10 to Dexterity", null),
+                new Statistic("+2 to Mana After Each Kill", null),
+                new Statistic("300% Extra Gold From Monsters", null),
+                new Statistic("100% Better Chance of Getting Magic Items", null)
             }, "https://diablo2.wiki.fextralife.com/Wealth");
 
         public static RuneWordEnumeration White => new(74, "White", 35, runes: new List<RuneEnumeration> { RuneEnumeration.Dol, RuneEnumeration.Io },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Wand },
-           new List<string>
+           new List<Statistic>
             {
-                "+3 to Poison and Bone Skills (Necromancer Only)",
-                "+20% Faster Cast Rate",
-                $"+2 to {{{SkillEnumeration.BoneSpear.Id}}} (Necromancer Only)",
-                $"+4 to {{{SkillEnumeration.SkeletonMastery.Id}}} (Necromancer Only)",
-                $"+3 to {{{SkillEnumeration.BoneArmor.Id}}} (Necromancer Only)",
-                "Hit causes monster to flee 25%",
-                "+10 to vitality",
-                "+13 to mana",
-                "Magic Damage Reduced by 4"
+                new Statistic("+3 to Poison and Bone Skills (Necromancer Only)", null),
+                new Statistic("+20% Faster Cast Rate", null),
+                new Statistic("+2 to {skill} (Necromancer Only)", SkillEnumeration.BoneSpear),
+                new Statistic("+4 to {skill} (Necromancer Only)", SkillEnumeration.SkeletonMastery),
+                new Statistic("+3 to {skill} (Necromancer Only)", SkillEnumeration.BoneArmor),
+                new Statistic("Hit causes monster to flee 25%", null),
+                new Statistic("+10 to vitality", null),
+                new Statistic("+13 to mana", null),
+                new Statistic("Magic Damage Reduced by 4", null)
             }, "https://diablo2.wiki.fextralife.com/White");
 
         public static RuneWordEnumeration Wind => new(75, "Wind", 35, runes: new List<RuneEnumeration> { RuneEnumeration.Sur, RuneEnumeration.El },
             _meleeWeapons,
-           new List<string>
+           new List<Statistic>
             {
-                $"10% Chance To Cast Level 9 {{{SkillEnumeration.Tornado.Id}}} On Striking",
-                "+20% Faster Run/Walk",
-                "+40% Increased Attack Speed",
-                "+15% Faster Hit Recovery",
-                "+120-160% Enhanced Damage (varies)",
-                "-50% Target Defense",
-                "+50 To Attack Rating",
-                "Hit Blinds Target",
-                "+1 To Light Radius",
-                $"Level 13 {{{SkillEnumeration.Twister.Id}}} (127 Charges)"
+                new Statistic("10% Chance To Cast Level 9 {skill} On Striking", SkillEnumeration.Tornado),
+                new Statistic("+20% Faster Run/Walk", null),
+                new Statistic("+40% Increased Attack Speed", null),
+                new Statistic("+15% Faster Hit Recovery", null),
+                new Statistic("+120-160% Enhanced Damage (varies)", null),
+                new Statistic("-50% Target Defense", null),
+                new Statistic("+50 To Attack Rating", null),
+                new Statistic("Hit Blinds Target", null),
+                new Statistic("+1 To Light Radius", null),
+                new Statistic("Level 13 {skill} (127 Charges)", SkillEnumeration.Twister)
             }, "https://diablo2.wiki.fextralife.com/Wind");
 
         public static RuneWordEnumeration Wrath => new(76, "Wrath", 63, runes: new List<RuneEnumeration> { RuneEnumeration.Pul, RuneEnumeration.Lum, RuneEnumeration.Ber, RuneEnumeration.Mal },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-           new List<string>
+           new List<Statistic>
             {
-                $"30% Chance To Cast Level 1 {{{SkillEnumeration.Decrepify.Id}}} On Striking",
-                $"5% Chance To Cast Level 10 {{{SkillEnumeration.LifeTap.Id}}} On Striking",
-                "+375% Damage To Demons",
-                "+100 To Attack Rating Against Demons",
-                "+250-300% Damage To Undead (varies)",
-                "Adds 85-120 Magic Damage",
-                "Adds 41-240 Lightning Damage",
-                "20% Chance of Crushing Blow",
-                "Prevent Monster Heal",
-                "+10 To Energy",
-                "Cannot Be Frozen"
+                new Statistic("30% Chance To Cast Level 1 {skill} On Striking", SkillEnumeration.Decrepify),
+                new Statistic("5% Chance To Cast Level 10 {skill} On Striking", SkillEnumeration.LifeTap),
+                new Statistic("+375% Damage To Demons", null),
+                new Statistic("+100 To Attack Rating Against Demons", null),
+                new Statistic("+250-300% Damage To Undead (varies)", null),
+                new Statistic("Adds 85-120 Magic Damage", null),
+                new Statistic("Adds 41-240 Lightning Damage", null),
+                new Statistic("20% Chance of Crushing Blow", null),
+                new Statistic("Prevent Monster Heal", null),
+                new Statistic("+10 To Energy", null),
+                new Statistic("Cannot Be Frozen", null)
             }, "https://diablo2.wiki.fextralife.com/Wrath");
 
         public static RuneWordEnumeration Zephyr => new(77, "Zephyr", 21, runes: new List<RuneEnumeration> { RuneEnumeration.Ort, RuneEnumeration.Eth },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Bow, ItemTypeEnumeration.Crossbow },
-           new List<string>
+           new List<Statistic>
             {
-                $"7% Chance to Cast Level 1 {{{SkillEnumeration.Twister.Id}}} When Struck",
-                "+25% Faster Run/Walk",
-                "+25% Increased Attack Speed",
-                "+33% Enhanced Damage",
-                "-25% Target Defense",
-                "+66 to Attack Rating",
-                "Adds 1-50 lightning damage",
-                "+25 Defense"
+                new Statistic("7% Chance to Cast Level 1 {skill} When Struck", SkillEnumeration.Twister),
+                new Statistic("+25% Faster Run/Walk", null),
+                new Statistic("+25% Increased Attack Speed", null),
+                new Statistic("+33% Enhanced Damage", null),
+                new Statistic("-25% Target Defense", null),
+                new Statistic("+66 to Attack Rating", null),
+                new Statistic("Adds 1-50 lightning damage", null),
+                new Statistic("+25 Defense", null)
             }, "https://diablo2.wiki.fextralife.com/Unbending+Will");
 
         public static RuneWordEnumeration Mist => new(79, "Mist", 67, runes: new List<RuneEnumeration> { RuneEnumeration.Cham, RuneEnumeration.Shael, RuneEnumeration.Gul, RuneEnumeration.Eld, RuneEnumeration.Thul, RuneEnumeration.Ith },
             _rangedWeapons,
-           new List<string>
+           new List<Statistic>
             {
-                $"Level 8-12 {{{SkillEnumeration.Concentration.Id}}} Aura When Equipped (varies)",
-                "+3 To All Skills",
-                "20% Increased Attack Speed",
-                "+100% Piercing Attack",
-                "+325-375% Enhanced Damage (varies)",
-                "+9 To Maximum Damage",
-                "20% Bonus to Attack Rating",
-                "Adds 3-14 Cold Damage",
-                "Freeze Target +3",
-                "+24 to Vitality",
-                "All Resistances +40"
+                new Statistic("Level 8-12 {skill} Aura When Equipped (varies)", SkillEnumeration.Concentration),
+                new Statistic("+3 To All Skills", null),
+                new Statistic("20% Increased Attack Speed", null),
+                new Statistic("+100% Piercing Attack", null),
+                new Statistic("+325-375% Enhanced Damage (varies)", null),
+                new Statistic("+9 To Maximum Damage", null),
+                new Statistic("20% Bonus to Attack Rating", null),
+                new Statistic("Adds 3-14 Cold Damage", null),
+                new Statistic("Freeze Target +3", null),
+                new Statistic("+24 to Vitality", null),
+                new Statistic("All Resistances +40", null)
             }, "https://diablo2.wiki.fextralife.com/Mist");
 
         public static RuneWordEnumeration Wisdom => new(80, "Wisdom", 45, runes: new List<RuneEnumeration> { RuneEnumeration.Pul, RuneEnumeration.Ith, RuneEnumeration.Eld },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Helmet },
-           new List<string>
+           new List<Statistic>
             {
-                "+33% Piercing Attack",
-                "+15-25% Bonus to Attack Rating (varies)",
-                "4-8% Mana Stolen Per Hit (varies)",
-                "+30% Enhanced Defense",
-                "+10 to Energy",
-                "15% Slower Stamina Drain",
-                "Cannot Be Frozen",
-                "+5 Mana After Each Kill",
-                "15% Damage Taken Goes to Mana"
+                new Statistic("+33% Piercing Attack", null),
+                new Statistic("+15-25% Bonus to Attack Rating (varies)", null),
+                new Statistic("4-8% Mana Stolen Per Hit (varies)", null),
+                new Statistic("+30% Enhanced Defense", null),
+                new Statistic("+10 to Energy", null),
+                new Statistic("15% Slower Stamina Drain", null),
+                new Statistic("Cannot Be Frozen", null),
+                new Statistic("+5 Mana After Each Kill", null),
+                new Statistic("15% Damage Taken Goes to Mana", null)
             }, "https://diablo2.wiki.fextralife.com/Wisdom");
 
         public static RuneWordEnumeration Pattern => new(81, "Pattern", 23, runes: new List<RuneEnumeration> { RuneEnumeration.Tal, RuneEnumeration.Ort, RuneEnumeration.Thul },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Claw },
-           new List<string>
+           new List<Statistic>
             {
-                "+30% Faster Block Rate",
-                "+40-80% Enhanced Damage (varies)",
-                "10% Bonus to Attack Rating",
-                "Adds 12-32 Fire Damage",
-                "Adds 1-50 Lightning Damage",
-                "Adds 3-14 Cold Damage",
-                "+75 Poison Damage Over 5 Seconds",
-                "+6 to Strength",
-                "+6 to Dexterity",
-                "All Resistances +15"
+                new Statistic("+30% Faster Block Rate", null),
+                new Statistic("+40-80% Enhanced Damage (varies)", null),
+                new Statistic("10% Bonus to Attack Rating", null),
+                new Statistic("Adds 12-32 Fire Damage", null),
+                new Statistic("Adds 1-50 Lightning Damage", null),
+                new Statistic("Adds 3-14 Cold Damage", null),
+                new Statistic("+75 Poison Damage Over 5 Seconds", null),
+                new Statistic("+6 to Strength", null),
+                new Statistic("+6 to Dexterity", null),
+                new Statistic("All Resistances +15", null)
             }, "https://diablo2.wiki.fextralife.com/Pattern");
 
         public static RuneWordEnumeration Plague => new(82, "Plague", 67, runes: new List<RuneEnumeration> { RuneEnumeration.Cham, RuneEnumeration.Shael, RuneEnumeration.Um },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Sword, ItemTypeEnumeration.Claw, ItemTypeEnumeration.Dagger },
-           new List<string>
+           new List<Statistic>
             {
-                $"20% Chance to cast level 12 {{{SkillEnumeration.LowerResist.Id}}} when struck",
-                $"25% Chance to cast level 15 {{{SkillEnumeration.PoisonNova.Id}}} on striking",
-                $"Level 13-17 {{{SkillEnumeration.Cleansing.Id}}} Aura When Equipped (varies)",
-                "+1-2 All Skills",
-                "+20% Increased Attack Speed",
-                "+220-320% Enhanced Damage (varies)",
-                "-23% To Enemy Poison Resistance",
-                "+(0.375*Clvl) Deadly Strike (Based on Character Level)",
-                "+25% Chance of Open Wounds",
-                "Freezes Target +3"
+                new Statistic("20% Chance to cast level 12 {skill} when struck", SkillEnumeration.LowerResist),
+                new Statistic("25% Chance to cast level 15 {skill} on striking", SkillEnumeration.PoisonNova),
+                new Statistic("Level 13-17 {skill} Aura When Equipped (varies)", SkillEnumeration.Cleansing),
+                new Statistic("+1-2 All Skills", null),
+                new Statistic("+20% Increased Attack Speed", null),
+                new Statistic("+220-320% Enhanced Damage (varies)", null),
+                new Statistic("-23% To Enemy Poison Resistance", null),
+                new Statistic("+(0.375*Clvl) Deadly Strike (Based on Character Level)", null),
+                new Statistic("+25% Chance of Open Wounds", null),
+                new Statistic("Freezes Target +3", null)
             }, "https://diablo2.wiki.fextralife.com/Plague");
 
         public static RuneWordEnumeration Obsession => new(83, "Obsession", 69, runes: new List<RuneEnumeration> { RuneEnumeration.Zod, RuneEnumeration.Ist, RuneEnumeration.Lem, RuneEnumeration.Lum, RuneEnumeration.Io, RuneEnumeration.Nef },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Stave },
-           new List<string>
+           new List<Statistic>
             {
-                "Indestructible",
-                $"24% Chance to cast level 10 {{{SkillEnumeration.Weaken.Id}}} when struck",
-                "+4 To All Skills",
-                "+65% Faster Cast Rate",
-                "+60% Faster Hit Recovery",
-                "Knockback",
-                "+10 To Vitality",
-                "+10 To Energy",
-                "Increase Maximum Life 15-25% (varies)",
-                "Regenerate Mana 15-30% (varies)",
-                "All Resistances +60-70 (varies)",
-                "75% Extra Gold from Monsters",
-                "30% Better Chance of Getting Magic Items"
+                new Statistic("Indestructible", null),
+                new Statistic("24% Chance to cast level 10 {skill} when struck", SkillEnumeration.Weaken),
+                new Statistic("+4 To All Skills", null),
+                new Statistic("+65% Faster Cast Rate", null),
+                new Statistic("+60% Faster Hit Recovery", null),
+                new Statistic("Knockback", null),
+                new Statistic("+10 To Vitality", null),
+                new Statistic("+10 To Energy", null),
+                new Statistic("Increase Maximum Life 15-25% (varies)", null),
+                new Statistic("Regenerate Mana 15-30% (varies)", null),
+                new Statistic("All Resistances +60-70 (varies)", null),
+                new Statistic("75% Extra Gold from Monsters", null),
+                new Statistic("30% Better Chance of Getting Magic Items", null)
             }, "https://diablo2.wiki.fextralife.com/Obsession");
 
         public static RuneWordEnumeration FlickeringFlame => new(84, "Flickering Flame", 55, runes: new List<RuneEnumeration> { RuneEnumeration.Nef, RuneEnumeration.Pul, RuneEnumeration.Vex },
             new List<ItemTypeEnumeration> { ItemTypeEnumeration.Helmet },
-           new List<string>
+           new List<Statistic>
             {
-                $"Level 4-8 {{{SkillEnumeration.ResistFire.Id}}} Aura When Equipped (varies)",
-                "+3 To Fire Skills",
-                "-10-15% to Enemy Fire Resistance (varies)",
-                "+30% Enhanced Defense",
-                "+30 Defense Vs. Missile",
-                "+50-75 To Mana (varies)",
-                "Half Freeze Duration",
-                "+5% To Maximum Fire Resist",
-                "Poison Length Reduced by 50%"
+                new Statistic("Level 4-8 {skill} Aura When Equipped (varies)", SkillEnumeration.ResistFire),
+                new Statistic("+3 To Fire Skills", null),
+                new Statistic("-10-15% to Enemy Fire Resistance (varies)", null),
+                new Statistic("+30% Enhanced Defense", null),
+                new Statistic("+30 Defense Vs. Missile", null),
+                new Statistic("+50-75 To Mana (varies)", null),
+                new Statistic("Half Freeze Duration", null),
+                new Statistic("+5% To Maximum Fire Resist", null),
+                new Statistic("Poison Length Reduced by 50%", null)
             }, "https://diablo2.wiki.fextralife.com/Obsession");
 
-        public RuneWordEnumeration(int id, string name, int level, IEnumerable<RuneEnumeration> runes, IEnumerable<ItemTypeEnumeration> itemTypes, IEnumerable<string> statistics, string url)
+        public RuneWordEnumeration(int id, string name, int level, IEnumerable<RuneEnumeration> runes, IEnumerable<ItemTypeEnumeration> itemTypes, IEnumerable<Statistic> statistics, string url)
             : base(id, name)
         {
             Level = level;
@@ -1637,8 +1648,8 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
             foreach (var statistic in runeWord.Statistics)
             {
-                migrationBuilder.InsertData("statistics", new string[] { "name", "rune_word_id" },
-                        new object[] { statistic, runeWord.Id }, schema: "resurrected");
+                migrationBuilder.InsertData("statistics", new string[] { "description", "rune_word_id", "skill_id" },
+                        new object[] { statistic.Description, runeWord.Id, statistic.Skill?.Id }, schema: "resurrected");
             }
         }
 
@@ -1709,27 +1720,6 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                 });
 
             migrationBuilder.Insert<RuneEnumeration>("runes", new string[] { "id", "name", "level", "in_weapon", "in_helmet", "in_body_armor", "in_shield" }, r => new object[] { r.Id, r.Name, r.Level, r.InWeapon, r.InHelmet, r.InBodyArmor, r.InShield });
-        }
-
-        public static void CreateAndFillSkills(this MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.CreateTable(
-               name: "skills",
-               schema: "resurrected",
-               columns: table => new
-               {
-                   id = table.Column<int>(type: "integer", nullable: false)
-                       .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                   name = table.Column<string>(type: "text", nullable: false),
-                   description = table.Column<string>(type: "text", nullable: false),
-                   url = table.Column<string>(type: "text", nullable: false)
-               },
-               constraints: table =>
-               {
-                   table.PrimaryKey("PK_skills", x => x.id);
-               });
-
-            migrationBuilder.Insert<SkillEnumeration>("skills", new string[] { "id", "name", "description", "url" }, s => new object[] { s.Id, s.Name, s.Description, s.Url });
         }
 
         public static void CreateAndFillRuneWords(this MigrationBuilder migrationBuilder)
@@ -1806,14 +1796,31 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+               name: "skills",
+               schema: "resurrected",
+               columns: table => new
+               {
+                   id = table.Column<int>(type: "integer", nullable: false)
+                       .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                   name = table.Column<string>(type: "text", nullable: false),
+                   description = table.Column<string>(type: "text", nullable: false),
+                   url = table.Column<string>(type: "text", nullable: false)
+               },
+               constraints: table =>
+               {
+                   table.PrimaryKey("PK_skills", x => x.id);
+               });
+
+            migrationBuilder.CreateTable(
                 name: "statistics",
                 schema: "resurrected",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    rune_word_id = table.Column<int>(type: "integer", nullable: false)
+                    description = table.Column<string>(type: "text", nullable: false),
+                    rune_word_id = table.Column<int>(type: "integer", nullable: false),
+                    skill_id = table.Column<int?>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1825,7 +1832,17 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                         principalTable: "rune_words",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_statistics_skills",
+                        column: x => x.skill_id,
+                        principalSchema: "resurrected",
+                        principalTable: "skills",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+
+            migrationBuilder.Insert<SkillEnumeration>("skills", new string[] { "id", "name", "description", "url" }, s => new object[] { s.Id, s.Name, s.Description, s.Url });
 
             migrationBuilder.CreateIndex(
                 name: "IX_rune_words_id",
@@ -1844,6 +1861,12 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                 table: "rune_words_runes_switch",
                 schema: "resurrected",
                 column: "rune_word_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_statistic_skill_id",
+                table: "statistics",
+                schema: "resurrected",
+                column: "skill_id");
 
             foreach (var runeWord in Enumeration.GetAll<RuneWordEnumeration>())
             {

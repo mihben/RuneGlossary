@@ -7,7 +7,8 @@ namespace RuneGlossary.Application.Performers
 {
     public class MasterDataPerformers : IQueryPerformer<GetRunesQuery, IEnumerable<Rune>>,
                                         IQueryPerformer<GetClassesQuery, IEnumerable<Class>>,
-                                        IQueryPerformer<GetItemTypesQuery, IEnumerable<ItemType>>
+                                        IQueryPerformer<GetItemTypesQuery, IEnumerable<ItemType>>,
+                                        IQueryPerformer<GetRuneWordsQuery, IEnumerable<RuneWord>>
     {
         private readonly IRequestSender _sender;
         private readonly ILogger<MasterDataPerformers> _logger;
@@ -36,7 +37,19 @@ namespace RuneGlossary.Application.Performers
         {
             _logger.LogDebug("Querying item types");
             return (await _sender.GetAsync<Resurrected.Api.GetItemTypesQuery, IEnumerable<Resurrected.Api.GetItemTypesQuery.Result>>(new Resurrected.Api.GetItemTypesQuery(), cancellationToken))?
-                .Select(it => new ItemType(it.Id, (ItemClass)it.Class, it.Name)) ?? Enumerable.Empty<ItemType>();
+                .Select(it => new ItemType(it.Id, (Api.Responses.ItemClass)it.Class, it.Name)) ?? Enumerable.Empty<ItemType>();
         }
+
+        public async Task<IEnumerable<RuneWord>> PerformAsync(GetRuneWordsQuery query, CancellationToken cancellationToken)
+        {
+            _logger.LogDebug("Querying rune words");
+            return (await _sender.GetAsync<Resurrected.Api.GetRuneWordsQuery, IEnumerable<Resurrected.Api.GetRuneWordsQuery.Result>>(new Resurrected.Api.GetRuneWordsQuery(query.ItemTypes, query.SocketFrom, query.SocketTo, query.MaxLevel), cancellationToken))?
+                .Select(rw => new RuneWord(rw.Id, rw.Name, rw.ItemTypes.Select(it => new ItemType(it.Id, (Api.Responses.ItemClass)it.Class, it.Name)), rw.Runes.OrderBy(r => r.Order).Select(r => new Rune(r.Id, r.Name, r.Level, r.InHelmet, r.InBodyArmor, r.InShield, r.InWeapon)), rw.Statistics.Select(s => new Statistic(s.Id, s.Description, s.Skill?.AsResponse())), rw.Url)) ?? Enumerable.Empty<RuneWord>();
+        }
+    }
+
+    internal static class MasterDataPerformerExtensions
+    {
+        public static Skill AsResponse(this Resurrected.Api.GetRuneWordsQuery.Result.Skill skill) => new(skill.Id, skill.Name, skill.Description, skill.Url);
     }
 }

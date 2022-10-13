@@ -2,7 +2,7 @@
 
 namespace RuneGlossary.Resurrected.Infrastructure.Entities
 {
-    public class ItemTypeEntity
+    public record ItemTypeEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

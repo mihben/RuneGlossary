@@ -1,6 +1,6 @@
 ﻿namespace RuneGlossary.Resurrected.Infrastructure.Entities
 {
-    public class RuneEntity
+    public record RuneEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

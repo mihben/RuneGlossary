@@ -88,6 +88,17 @@
                     <InputNumber class="value" style="grid-area: to" @bind-Value="Character.Filters.SocketTo" />
                 </div>
             </EditForm>
+
+            <div class="button-row">
+                <button @onclick="SearchAsync">Search</button>
+            </div>
+        }
+    </div>
+
+    <div class="panel result">
+        @foreach (var runeWord in RuneWords)
+        {
+            <RuneWord Model="runeWord"/>
         }
     </div>
 </div>
@@ -103,6 +114,8 @@
 
     public ObservableCollection<Selector<Api.Rune>> Runes { get; set; } = new ObservableCollection<Selector<Api.Rune>>();
     public IEnumerable<Selector<ItemType>> ItemTypes { get; set; } = Enumerable.Empty<Selector<ItemType>>();
+
+    public IEnumerable<Api.Responses.RuneWord> RuneWords { get; set; } = Enumerable.Empty<Api.Responses.RuneWord>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -147,6 +160,7 @@
 
     private void OnChanged(object sender, FieldChangedEventArgs args)
     {
+        Console.WriteLine("OnChange");
         Character.Runes = Runes.Where(r => r.Selected).Select(r => r.Value.Id).ToList();
         Character.Filters.ItemTypes = ItemTypes.Where(it => it.Selected).Select(it => it.Value.Id).ToList();
         Repository.SaveAsync(Character, default);
@@ -156,7 +170,7 @@
     {
         var id = 0;
         if (Characters is not null && Characters.Any()) id = Characters.Max(c => c.Id) + 1;
-        var character = new Character(id);
+        var character = new Character(id, new Filter());
         character.Runes = Enumerable.Empty<int>();
         var parameters = new ModalParameters()
                                 .Add(nameof(NewCharacterModal.Character), character);
@@ -180,5 +194,11 @@
             _selected = 0;
             StateHasChanged();
         }
+    }
+
+    public async Task SearchAsync()
+    {
+        RuneWords = await RequestSender.GetAsync<GetRuneWordsQuery, IEnumerable<Api.Responses.RuneWord>>(new GetRuneWordsQuery(Character.Filters.ItemTypes, Character.Filters.SocketFrom, Character.Filters.SocketTo, Character.Filters.MaxLevel), default);
+        StateHasChanged();
     }
 }

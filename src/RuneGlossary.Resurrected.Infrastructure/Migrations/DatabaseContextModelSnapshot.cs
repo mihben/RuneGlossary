@@ -197,10 +197,10 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnName("description");
 
                     b.Property<int>("rune_word_id")
                         .HasColumnType("integer");
@@ -262,6 +262,8 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_rune_word_statistics");
+
+                    b.Navigation("Skill");
                 });
 
             modelBuilder.Entity("RuneGlossary.Resurrected.Infrastructure.Entities.ItemTypeEntity", b =>

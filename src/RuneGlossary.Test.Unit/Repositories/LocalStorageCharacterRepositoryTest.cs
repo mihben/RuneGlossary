@@ -75,7 +75,7 @@ namespace RuneGlossary.Test.Unit.Repositories
 			// Arrange
 			var sut = CreateSUT();
 			var characters = new Fixture().CreateMany<Character>();
-			var character = new Character(characters.First().Id)
+			var character = new Character(characters.First().Id, new Filter())
 			{
 				Class = characters.First().Class,
 				Name = characters.First().Name,
