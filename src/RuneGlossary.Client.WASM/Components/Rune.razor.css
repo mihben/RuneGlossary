@@ -48,6 +48,10 @@ div.tooltip-content {
 }
 
 span.name {
+    color: var(--color-text-rune);
+}
+
+span.tooltip {
     font-weight: bold;
 
     margin-bottom: 16px;

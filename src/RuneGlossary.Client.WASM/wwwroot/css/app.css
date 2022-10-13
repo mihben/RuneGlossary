@@ -1,8 +1,34 @@
-﻿
+﻿@font-face {
+    font-family: 'Exocet';
+    src: url('../assets/fonts/exocet-heavy.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+    font-family: 'Exocet';
+    src: url('../assets/fonts/exocet-light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --color-background: rgba(0, 0, 0, 0.3);
+    --color-text: #A18E73;
+    --color-text-rune: #F1A801;
+    --border-top: url('../assets/border.png');
+    --border-input: url('../assets/input.png')
+    --size-single: 4px;
+    --size-double: 8px;
+}
+
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Exocet';
 
     overflow: hidden;
+
+    background-image: url('../assets/background.gif');
+    background-size: cover;
+
+    color: var(--color-text);
 }
 
 body {
