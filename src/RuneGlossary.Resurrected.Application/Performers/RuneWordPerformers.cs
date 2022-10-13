@@ -56,7 +56,7 @@ namespace RuneGlossary.Resurrected.Application.Performers
                                                                                                                    rs.Rune.InBodyArmor,
                                                                                                                    rs.Rune.InShield,
                                                                                                                    rs.Rune.InWeapon)),
-                                                 entity.ItemTypeSwitch.Select(it => new GetRuneWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Name)),
+                                                 entity.ItemTypeSwitch.Select(it => new GetRuneWordsQuery.Result.ItemType(it.ItemType.Id, it.ItemType.Class, it.ItemType.Name)),
                                                  entity.Statistics.Select(s => new GetRuneWordsQuery.Result.Statistic(s.Id, s.Description, s.Skill is not null ? new GetRuneWordsQuery.Result.Skill(s.Skill.Id, s.Skill.Name, s.Skill.Description, s.Skill.Url) : null)));
         }
     }
