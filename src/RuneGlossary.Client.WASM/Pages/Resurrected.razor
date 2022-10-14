@@ -35,14 +35,21 @@
                         <span class="label" style="grid-area: label-name">Name:</span>
                         <span class="value" style="grid-area: value-name">@Character?.Name</span>
                         <span class="label" style="grid-area: label-level">Level:</span>
-                        <InputNumber style="grid-area: value-level; border-image: var(--border-input); border-image-width: auto; border-style: solid; background-color: transparent; color: var(--color-text)" @bind-Value="Character.Level" />
+                        <div style="display: flex;">
+                            <InputNumber style="grid-area: value-level;" @bind-Value="Character.Level" />
+                            <button class="plus" @onclick="IncreaseLevel"/>
+                        </div>
                     </div>
                 </div>
                 <div class="rune-list">
                     @foreach (var rune in Runes)
                     {
                         <div class="selector">
-                            <InputCheckbox @key=rune.Value.Id @bind-Value="rune.Selected"/>
+                            <div class="checkbox-container">
+                                <InputCheckbox id=@rune.Value.Name @key=rune.Value.Id @bind-Value="rune.Selected"/>
+                                <div class="checkbox"/>
+                                <label for=@rune.Value.Name />
+                            </div>
                             <Rune Model="rune.Value" />
                         </div>
                     }
@@ -64,8 +71,12 @@
                         @foreach (var armor in ItemTypes.Where(it => it.Value.Class.Equals(ItemClass.Armor)))
                         {
                             <div class="selector">
-                            <InputCheckbox @key=armor.Value.Id @bind-Value="armor.Selected"/>
-                            <span>@armor.Value.Name</span>
+                                <div class="checkbox-container">
+                                    <InputCheckbox id=@armor.Value.Name @key=armor.Value.Id @bind-Value="armor.Selected" />
+                                    <div class="checkbox" />
+                                    <label for=@armor.Value.Name />
+                                </div>
+                                <span>@armor.Value.Name</span>
                             </div>
                         }
                     </div>
@@ -73,7 +84,11 @@
                         @foreach (var weapon in ItemTypes.Where(it => it.Value.Class.Equals(ItemClass.Weapon)))
                         {
                             <div class="selector">
-                                <InputCheckbox @key=weapon.Value.Id @bind-Value="weapon.Selected" />
+                                <div class="checkbox-container">
+                                    <InputCheckbox id=@weapon.Value.Name @key=weapon.Value.Id @bind-Value="weapon.Selected" />
+                                    <div class="checkbox" />
+                                    <label for=@weapon.Value.Name />
+                                </div>
                                 <span>@weapon.Value.Name</span>
                             </div>
                         }
@@ -81,11 +96,11 @@
                 </div>
                 <div class="static">
                     <span class="label" style="grid-area: label-max-level">Max Level:</span>
-                    <InputNumber class="value" style="grid-area: max-level" @bind-Value="Character.Filters.MaxLevel" />
+                    <InputNumber class="value" style="grid-area: max-level; max-width: 50px;" @bind-Value="Character.Filters.MaxLevel" />
                     <span class="label" style="grid-area: label-socket">Socket Number:</span>
-                    <InputNumber class="value" style="grid-area: from" @bind-Value="Character.Filters.SocketFrom" />
+                    <InputNumber class="value" style="grid-area: from; max-width: 50px;" @bind-Value="Character.Filters.SocketFrom" />
                     <span style="grid-area: dash">-</span>
-                    <InputNumber class="value" style="grid-area: to" @bind-Value="Character.Filters.SocketTo" />
+                    <InputNumber class="value" style="grid-area: to; max-width: 50px;" @bind-Value="Character.Filters.SocketTo" />
                 </div>
             </EditForm>
 
@@ -133,6 +148,12 @@
         _isLoading = false;
     }
 
+    public void IncreaseLevel()
+    {
+        ++Character.Level;
+        _editContext.NotifyFieldChanged(_editContext.Field(nameof(Character.Level)));
+    }
+
     public void Next()
     {
         if (Characters is null || (_selected < Characters.Count() - 1))
@@ -160,7 +181,7 @@
 
     private void OnChanged(object sender, FieldChangedEventArgs args)
     {
-        Console.WriteLine("OnChange");
+        Console.WriteLine($"OnChange: {args.FieldIdentifier.FieldName}");
         Character.Runes = Runes.Where(r => r.Selected).Select(r => r.Value.Id).ToList();
         Character.Filters.ItemTypes = ItemTypes.Where(it => it.Selected).Select(it => it.Value.Id).ToList();
         Repository.SaveAsync(Character, default);

@@ -18,6 +18,10 @@ div.runes {
     margin-bottom: 4px;
 }
 
+div.item-types {
+    max-width: 75%;
+}
+
 div.statistics {
     display: flex;
     flex-flow: column;
