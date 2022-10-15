@@ -36,21 +36,20 @@ div.character {
 }
 
 div.filter {
-    grid-area: filter;
     background-color: var(--color-background);
-    border-color: darkblue;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 5px;
-    justify-content: center;
-    align-content: center;
+
     display: grid;
+
+    border-style: solid;
+
+    grid-area: filter;
+    justify-content: stretch;
     grid-template-areas:
         'item-types static'
         'button-row button-row';
-    grid-template-columns: min-content max-content;
+    grid-template-columns: auto auto;
     grid-row-gap: 4px;
-    padding: 4px;
+    padding: var(--size-double);
     height: fit-content;
 }
 
@@ -109,24 +108,47 @@ div.rune-list {
 
 div.button-row {
     grid-area: button-row;
-
     display: flex;
+    justify-content: flex-end;
+}
 
-    justify-content: space-between;
+div.item-types {
+    display: grid;
+    grid-template: 'armors weapons';
+    grid-template-columns: max-content max-content;
+    grid-area: item-types;
+    justify-self: center;
+}
+
+div.weapons {
+    grid-area: weapons;
+    column-count: 5;
+    column-fill: auto;
+}
+
+div.armors {
+    grid-area: armors;
+}
+
+div.static {
+    grid-area: static;
+    display: grid;
+    grid-template-areas:
+        'label-max-level max-level max-level max-level'
+        'label-socket from dash to';
+    grid-column-gap: 4px;
+    grid-row-gap: 4px;
+    height: max-content;
 }
 /*#endregion*/
-
 /*#region button*/
 button {
     height: 2em;
     width: 7.3em;
-
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-
     color: var(--color-text-button);
-
     font-family: inherit;
     font-size: 16px;
     font-weight: normal;
@@ -203,53 +225,12 @@ img.class {
     margin: 4px;
 }
 
-form {
-    display: inherit;
-
-    grid-template: inherit;
-    grid-template-areas: inherit;
-    grid-template-rows: inherit;
-}
-
 span.label {
     align-self: center;
 }
 
 .value {
     align-self: center;
-}
-
-div.item-types {
-    display: grid;
-
-    grid-template: 'armors weapons';
-    grid-template-columns: max-content max-content;
-
-    grid-area: item-types;
-}
-
-div.weapons {
-    grid-area: weapons;
-
-    column-count: 5;
-    column-fill: auto;
-}
-
-div.armors {
-    grid-area: armors;
-}
-
-div.static {
-    grid-area: static;
-
-    display: grid;
-    grid-template-areas: 
-        'label-max-level max-level max-level max-level'
-        'label-socket from dash to';
-    grid-column-gap: 4px;
-    grid-row-gap: 4px;
-
-    height: max-content;
 }
 
 span.max-level {
