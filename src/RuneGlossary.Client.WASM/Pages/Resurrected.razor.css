@@ -64,6 +64,8 @@ div.result {
     flex-flow: column;
     max-height: 807px;
     overflow: auto;
+
+    padding: var(--size-double);
 }
 
 div.character-data {

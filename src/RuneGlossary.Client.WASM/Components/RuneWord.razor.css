@@ -1,34 +1,61 @@
 ﻿div.container {
-    background-color: blue;
+    border-image: var(--border-top);
+    border-image-width: auto;
+    border-image-slice: 30%;
+    border-style: solid;
 
-    border-block-style: solid;
-    border-color: white;
-    border-width: 1px;
-    border-radius: 5px;
-
-    margin: 4px;
+    margin-top: var(--size-single);
+    margin-bottom: var(--size-single);
 
     text-align: center;
 
-    padding: 4px;
+    padding: var(--size-double);
 }
 
 div.runes {
-    margin-top: 8px;
-    margin-bottom: 4px;
+    margin-top: var(--size-half);
+    margin-bottom: var(--size-half);
 }
 
 div.item-types {
-    max-width: 75%;
+    margin-top: var(--size-half);
+    margin-bottom: var(--size-double);
 }
 
 div.statistics {
     display: flex;
     flex-flow: column;
 
-    margin-top: 16px;
+    margin-top: 3em;
+    margin-bottom: 2em;
 }
 
-a {
-    color: white;
+a.name {
+    color: var(--color-text-rune-word);
+
+    font-weight: bold;
+    font-size: 18px;
+}
+
+a.not-applicable {
+    color: var(--color-text-incomplete);
+}
+
+span.item-type {
+    
+}
+
+span.not-selected {
+    opacity: 0.5;
+}
+
+
+span.statistic {
+    color: var(--color-text-statistic);
+
+    font-size: 14px;
+}
+
+span.unavailable {
+    color: var(--color-text-unavailable);
 }

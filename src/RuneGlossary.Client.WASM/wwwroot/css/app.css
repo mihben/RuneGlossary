@@ -11,21 +11,22 @@
 }
 
 :root {
-    --color-background: rgba(0, 0, 0, 0.6);
-    --color-text: #A18E73;
+    --color-background: rgba(0, 0, 0, 0.8);
+    --color-text: #FCF5E3;
     --color-text-rune: #F1A801;
     --color-text-button: #FCF5E3;
-    
+    --color-text-rune-word: #C1BEAF;
+    --color-text-statistic: #7F78BE;
+    --color-text-unavailable: #B16A6E;
+    --color-text-incomplete: #868686;
     --border-top: url('../assets/border.png');
-
     --image-input: url('../assets/input.png');
     --image-button-enabled: url('../assets/button-enabled.png');
     --image-button-disabled: url('../assets/button-disabled.png');
     --image-button-plus: url('../assets/plus.png');
     --image-checkbox: url('../assets/unchecked.png');
     --image-checkbox-checked: url('../assets/checked.png');
-
-
+    --size-half: 2px;
     --size-single: 4px;
     --size-double: 8px;
 }

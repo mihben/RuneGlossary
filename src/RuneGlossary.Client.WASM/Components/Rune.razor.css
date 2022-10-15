@@ -1,12 +1,14 @@
 ﻿div {
     display: flex;
+
+    margin-left: var(--size-single);
 }
 
 img {
     height: 2em;
     width: 2em;
 
-    margin-right: 4px;
+    margin-right: var(--size-single);
 
     align-self: center;
 }

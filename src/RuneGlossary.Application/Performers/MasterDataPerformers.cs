@@ -44,7 +44,7 @@ namespace RuneGlossary.Application.Performers
         {
             _logger.LogDebug("Querying rune words");
             return (await _sender.GetAsync<Resurrected.Api.GetRuneWordsQuery, IEnumerable<Resurrected.Api.GetRuneWordsQuery.Result>>(new Resurrected.Api.GetRuneWordsQuery(query.ItemTypes, query.SocketFrom, query.SocketTo, query.MaxLevel), cancellationToken))?
-                .Select(rw => new RuneWord(rw.Id, rw.Name, rw.ItemTypes.Select(it => new ItemType(it.Id, (Api.Responses.ItemClass)it.Class, it.Name)), rw.Runes.OrderBy(r => r.Order).Select(r => new Rune(r.Id, r.Name, r.Level, r.InHelmet, r.InBodyArmor, r.InShield, r.InWeapon)), rw.Statistics.Select(s => new Statistic(s.Id, s.Description, s.Skill?.AsResponse())), rw.Url)) ?? Enumerable.Empty<RuneWord>();
+                .Select(rw => new RuneWord(rw.Id, rw.Name, rw.Level, rw.ItemTypes.Select(it => new ItemType(it.Id, (Api.Responses.ItemClass)it.Class, it.Name)), rw.Runes.OrderBy(r => r.Order).Select(r => new Rune(r.Id, r.Name, r.Level, r.InHelmet, r.InBodyArmor, r.InShield, r.InWeapon)), rw.Statistics.Select(s => new Statistic(s.Id, s.Description, s.Skill?.AsResponse())), rw.Url)) ?? Enumerable.Empty<RuneWord>();
         }
     }
 

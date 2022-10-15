@@ -50,7 +50,7 @@
                                 <div class="checkbox"/>
                                 <label for=@rune.Value.Name />
                             </div>
-                            <Rune CharacterLevel="@Character.Level" Model="rune.Value" />
+                            <Rune IsAvailable="rune.Value.Level is null || Character.Level >= rune.Value.Level" Model="rune.Value" />
                         </div>
                     }
                 </div>
@@ -111,9 +111,12 @@
     </div>
 
     <div class="panel result">
-        @foreach (var runeWord in RuneWords)
+        @foreach (var runeWord in RuneWords.OrderBy(rw => rw.Level))
         {
-            <RuneWord Model="runeWord"/>
+            <RuneWord CharacterLevel="Character.Level" 
+                      SelectedItemTypes="SelectedItemTypes" 
+                      SelectedRunes="SelectedRunes" 
+                      Model="runeWord" />
         }
     </div>
 </div>
@@ -129,6 +132,9 @@
 
     public ObservableCollection<Selector<Api.Rune>> Runes { get; set; } = new ObservableCollection<Selector<Api.Rune>>();
     public IEnumerable<Selector<ItemType>> ItemTypes { get; set; } = Enumerable.Empty<Selector<ItemType>>();
+
+    public IEnumerable<ItemType> SelectedItemTypes => ItemTypes.Where(it => it.Selected).Select(it => it.Value);
+    public IEnumerable<Api.Rune> SelectedRunes => Runes.Where(r => r.Selected).Select(r => r.Value);
 
     public IEnumerable<Api.Responses.RuneWord> RuneWords { get; set; } = Enumerable.Empty<Api.Responses.RuneWord>();
 

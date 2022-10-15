@@ -1,28 +1,62 @@
 ﻿@using RuneGlossary.Api.Responses
 <div class="container">
-    <a href="@Model.Url" target="_blank">@Model.Name</a>
+    <a class="name @IsApplicable()" href="@Model.Url" target="_blank">@Model.Name</a>
     <div class="runes">
         @foreach (var rune in Model.Runes)
         {
-            <Rune Model="rune"/>
+            <Rune IsAvailable="SelectedRunes.Any(sr => sr.Id == rune.Id)" Model="rune"/>
         }
     </div>
     <div class="item-types">
         (@foreach (var itemType in Model.ItemTypes)
         {
-            <span>@itemType.Name, </span>
+            <span class="item-type @IsSelected(itemType)">@itemType.Name</span>
+            if (itemType.Id != Model.ItemTypes.Last().Id) 
+            {
+                <span class="not-selected">, </span>
+            }
         })
     </div>
 
     <div class="statistics">
         @foreach (var statistic in Model.Statistics)
         {
-            <span>@statistic.DisplayDescription()</span>
+            <span class="statistic">@statistic.DisplayDescription()</span>
         }
     </div>
+
+    <span class="level @IsAvailable()">Required Level: @Model.Level</span>
 </div>
 
 @code {
     [Parameter]
-    public Api.Responses.RuneWord Model { get; set; }
+    public int? CharacterLevel { get; set; }
+
+    [Parameter]
+    public Api.Responses.RuneWord Model { get; set; } = null!;
+
+    [Parameter]
+    public IEnumerable<ItemType> SelectedItemTypes { get; set; }
+
+    [Parameter]
+    public IEnumerable<Api.Rune> SelectedRunes { get; set; }
+
+
+    public string IsSelected(ItemType itemType)
+    {
+        if (SelectedItemTypes.Contains(itemType)) return string.Empty;
+        return "not-selected";
+    }
+
+    public string IsAvailable()
+    {
+        if (CharacterLevel >= Model.Level) return string.Empty;
+        return "unavailable";
+    }
+
+    public string IsApplicable()
+    {
+        if (CharacterLevel >= Model.Level && Model.Runes.All(r => SelectedRunes.Any(sr => sr.Id == r.Id))) return string.Empty;
+        return "not-applicable";
+    }
 }
