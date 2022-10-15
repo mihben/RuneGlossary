@@ -23,7 +23,7 @@
             <EditForm class="edit-form" EditContext="@_editContext">
                 <div class="character-data">
                     <span class="index">@(_selected + 1)/@(Characters.Count())</span>
-                    <div class="class" style="background-image: url()">
+                    <div class="class" @onmousewheel="OnMouseWheel">
                         @if (Character is not null)
                         {
                             <button class="previous" @onclick="Previous">@("<")</button>
@@ -36,7 +36,7 @@
                         <span class="value" style="grid-area: value-name">@Character?.Name</span>
                         <span class="label" style="grid-area: label-level">Level:</span>
                         <div style="display: flex;">
-                            <InputNumber style="grid-area: value-level;" @bind-Value="Character.Level" />
+                            <InputNumber style="grid-area: value-level;" @bind-Value="Character.Level"/>
                             <button class="plus" @onclick="IncreaseLevel"/>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                 <div class="checkbox"/>
                                 <label for=@rune.Value.Name />
                             </div>
-                            <Rune Model="rune.Value" />
+                            <Rune CharacterLevel="@Character.Level" Model="rune.Value" />
                         </div>
                     }
                 </div>
@@ -221,5 +221,18 @@
     {
         RuneWords = await RequestSender.GetAsync<GetRuneWordsQuery, IEnumerable<Api.Responses.RuneWord>>(new GetRuneWordsQuery(Character.Filters.ItemTypes, Character.Filters.SocketFrom, Character.Filters.SocketTo, Character.Filters.MaxLevel), default);
         StateHasChanged();
+    }
+
+    public void OnMouseWheel(WheelEventArgs args)
+    {
+        Console.WriteLine($"MouseWheel - DeltaY: {args.DeltaY}");
+        if (args.DeltaY > 0)
+        {
+            Next();
+        }
+        if (args.DeltaY < 0)
+        {
+            Previous();
+        }
     }
 }

@@ -15,6 +15,10 @@ span {
     align-self: center;
 }
 
+div.unavailable {
+    opacity: 0.6;
+}
+
 .tooltip-wrapper {
     position: relative;
     display: inline-block;
