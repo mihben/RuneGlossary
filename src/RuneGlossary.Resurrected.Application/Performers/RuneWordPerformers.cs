@@ -27,7 +27,8 @@ namespace RuneGlossary.Resurrected.Application.Performers
                                                 .ThenInclude(s => s.ItemType)
                                                 .Include(rw => rw.Statistics)
                                                 .ThenInclude(s => s.Skill)
-                                                .Where(rw => rw.ItemTypes.Any(it => query.ItemTypes.Contains(it.Id))
+                                                .Where(rw => rw.Runes.All(r => query.Runes.Contains(r.Id))
+                                                            && rw.ItemTypes.Any(it => query.ItemTypes.Contains(it.Id))
                                                             && (rw.RuneSwitch.Count >= query.SocketFrom && rw.RuneSwitch.Count <= query.SocketTo)
                                                             && rw.Level <= query.MaxLevel)
                                             .ToListAsync(cancellationToken);

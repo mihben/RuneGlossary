@@ -225,7 +225,7 @@
 
     public async Task SearchAsync()
     {
-        RuneWords = await RequestSender.GetAsync<GetRuneWordsQuery, IEnumerable<Api.Responses.RuneWord>>(new GetRuneWordsQuery(Character.Filters.ItemTypes, Character.Filters.SocketFrom, Character.Filters.SocketTo, Character.Filters.MaxLevel), default);
+        RuneWords = await RequestSender.GetAsync<GetRuneWordsQuery, IEnumerable<Api.Responses.RuneWord>>(new GetRuneWordsQuery(Character.Runes, Character.Filters.ItemTypes, Character.Filters.SocketFrom, Character.Filters.SocketTo, Character.Filters.MaxLevel), default);
         StateHasChanged();
     }
 

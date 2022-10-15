@@ -21,7 +21,7 @@
     <div class="statistics">
         @foreach (var statistic in Model.Statistics)
         {
-            <span class="statistic">@statistic.DisplayDescription()</span>
+            <RenderedStatistic Model="statistic" Level="CharacterLevel"/>
         }
     </div>
 

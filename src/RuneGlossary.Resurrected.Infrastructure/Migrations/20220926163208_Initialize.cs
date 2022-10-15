@@ -692,7 +692,7 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                 new Statistic("+25% Faster Cast Rate", null),
                 new Statistic("+300% Enhanced Damage", null),
                 new Statistic("+200% Enhanced Defense", null),
-                new Statistic("+((8-12)*0.125*Clvl) To Life (Based on Character Level) (varies)", null),
+                new Statistic("+(8*0.125*Clvl)-(12*0.125*Clvl) To Life (Based on Character Level) (varies)", null),
                 new Statistic("All Resistances +25-30 (varies)", null),
                 new Statistic("12% Damage Taken Goes To Mana", null),
                 new Statistic("+1 To Light Radius", null),
@@ -818,10 +818,10 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
                 new Statistic("Adds 5-30 Fire Damage", null),
                 new Statistic("Adds 21-110 Lightning Damage", null),
                 new Statistic("+75 Poison Damage over 5 secs", null),
-                new Statistic("+3 to {{{SkillEnumeration.HolyShock}}} (Paladin Only)", null),
+                new Statistic("+3 to {skill} (Paladin Only)", SkillEnumeration.HolyShock),
                 new Statistic("+5% to Maximum Lightning Resist", null),
                 new Statistic("Lightning Resist +60%", null),
-                new Statistic("Level 7 {{{SkillEnumeration.ChainLightning}}} (60 charges)", null)
+                new Statistic("Level 7 {skill} (60 charges)", SkillEnumeration.ChainLightning)
             }, "https://diablo2.wiki.fextralife.com/Holy+Thunder");
 
         public static RuneWordEnumeration Honor => new(33, "Honor", 27, new List<RuneEnumeration> { RuneEnumeration.Amn, RuneEnumeration.El, RuneEnumeration.Ith, RuneEnumeration.Tir, RuneEnumeration.Sol },
@@ -960,9 +960,9 @@ namespace RuneGlossary.Resurrected.Infrastructure.Migrations
             {
                 new Statistic("+3 to Fire Skills", null),
                 new Statistic("Adds 5-30 Fire Damage", null),
-                new Statistic("+3 to {{{SkillEnumeration.Inferno}}} (Sorceress Only)", null),
-                new Statistic("+3 to {{{SkillEnumeration.Warmth}}} (Sorceress Only)", null),
-                new Statistic("+3 to {{{SkillEnumeration.FireBolt}}} (Sorceress Only)", null),
+                new Statistic("+3 to {skill} (Sorceress Only)", SkillEnumeration.Inferno),
+                new Statistic("+3 to {skill} (Sorceress Only)", SkillEnumeration.Warmth),
+                new Statistic("+3 to {skill} (Sorceress Only)", SkillEnumeration.FireBolt),
                 new Statistic("+(2*Clvl) Defence (Based on Character Level)", null),
                 new Statistic("Cold Resist +33%", null),
                 new Statistic("+2 to Mana after each Kill", null)

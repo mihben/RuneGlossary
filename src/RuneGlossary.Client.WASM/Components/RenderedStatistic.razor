@@ -1,0 +1,18 @@
+﻿@using RuneGlossary.Api.Responses
+@using System.Text
+
+<p>@((MarkupString)Model.Description.Replace("{skill}", GetSkillDescription(Model.Skill)).Calculate(Level))</p>
+
+@code {
+    [Parameter]
+    public int? Level{ get; set; }
+
+    [Parameter]
+    public Statistic? Model { get; set; }
+
+    private string GetSkillDescription(Skill? skill)
+    {
+        if (skill is null) return string.Empty;
+        return $"<a b-hwqbm4sejs class=\"skill\" href=\"{skill.Url}\" target=\"_blank\">{skill.Name}</a>";
+    }
+}
