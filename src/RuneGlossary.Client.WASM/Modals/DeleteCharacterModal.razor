@@ -1,9 +1,14 @@
 ﻿@using Blazored.Modal
 @using Blazored.Modal.Services
-<span>Do you really want to delete @Name?</span>
 
-<button @onclick="ConfirmAsync">Yes</button>
-<button @onclick="CancelAsync">No</button>
+<div class="content">
+    <span>Do you really want to delete @Name?</span>
+
+    <div class="button-row">
+        <button @onclick="ConfirmAsync">Yes</button>
+        <button @onclick="CancelAsync">No</button>
+    </div>
+</div>
 
 @code {
     [CascadingParameter]

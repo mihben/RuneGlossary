@@ -1,0 +1,12 @@
+﻿div.content {
+    margin-top: var(--size-double);
+    margin-left: var(--size-double);
+    margin-bottom: var(--size-double);
+    margin-right: var(--size-double);
+}
+
+div.button-row {
+    margin-top: 16px;
+
+    text-align: right;
+}

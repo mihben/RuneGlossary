@@ -144,30 +144,6 @@ div.static {
 }
 /*#endregion*/
 /*#region button*/
-button {
-    height: 2em;
-    width: 7.3em;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    color: var(--color-text-button);
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: normal;
-}
-
-button:enabled {
-    background-image: var(--image-button-enabled);
-}
-
-button:disabled {
-    background-image: var(--image-button-disabled);
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
 button.previous {
     grid-area: previous;
 

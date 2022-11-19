@@ -15,7 +15,6 @@
 @inject IRequestSender RequestSender;
 @inject ICharacterRepository Repository;
 
-
 <div class="panel main">
     <div class="panel character">
         @if (!_isLoading)
@@ -213,7 +212,7 @@
 
     public async Task DeleteAsync()
     {
-        var reference = ModalService.Show<DeleteCharacterModal>("Delete", new ModalParameters().Add(nameof(DeleteCharacterModal.Name), Character.Name), new ModalOptions { Position = ModalPosition.Middle });
+        var reference = ModalService.Show<DeleteCharacterModal>(null, new ModalParameters().Add(nameof(DeleteCharacterModal.Name), Character.Name), new ModalOptions { Position = ModalPosition.Middle, HideHeader = true });
         if ((await reference.Result).Confirmed)
         {
             await Repository.DeleteAsync(Character, default);

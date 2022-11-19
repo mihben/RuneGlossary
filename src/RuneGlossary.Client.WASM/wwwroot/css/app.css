@@ -22,8 +22,10 @@
     --color-text-skill: #45C73E;
     --border-top: url('../assets/border.png');
     --image-input: url('../assets/input.png');
-    --image-button-enabled: url('../assets/button-enabled.png');
+    --image-button: url('../assets/button.png');
     --image-button-disabled: url('../assets/button-disabled.png');
+    --image-button-hover: url('../assets/button-hover.png');
+    --image-button-active: url('../assets/button-active.png');
     --image-button-plus: url('../assets/plus.png');
     --image-checkbox: url('../assets/unchecked.png');
     --image-checkbox-checked: url('../assets/checked.png');
@@ -143,3 +145,43 @@ form {
     grid-template-rows: inherit;
 }
 /*#endregion*/
+
+/*#region Dialog*/
+div.modal {
+    background-color: var(--color-background);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border-image: var(--border-top);
+    border-image-width: auto;
+    border-image-slice: 30%;
+    border-style: solid;
+    padding-left: var(--size-double);
+    padding-right: var(--size-double);
+}
+/*endregion*/
+
+button {
+    height: 2em;
+    width: 7.4em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--color-text-button);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: normal;
+    background-image: var(--image-button);
+}
+
+button:disabled {
+    background-image: var(--image-button-disabled);
+}
+
+button:is(:hover) {
+    background-image: var(--image-button-hover);
+}
+
+button:active {
+    background-image: var(--image-button-active);
+}
